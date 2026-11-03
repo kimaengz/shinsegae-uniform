@@ -228,10 +228,19 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .empty { background: var(--ivory); padding: var(--space-6); border-radius: var(--radius-sm); }
 
 /* 모바일 */
-/* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 */
+/* 납품 실적: 유형별 기관 타일 · 공공 납품 */
+.ref-groups { display: flex; flex-direction: column; gap: 48px; }
+.ref-group-h { display: flex; align-items: baseline; gap: 10px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--ink); }
+.ref-group-h h2 { font-size: 20px; }
+.ref-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ref-grid li { display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 96px; padding: 20px; background: var(--ivory); border-radius: 16px; }
+.ref-grid b { font-size: 17px; line-height: 24px; }
+.ref-grid span { font-size: 14px; }
+.ref-public { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
+.ref-public p { margin-top: 12px; max-width: 30em; }
+/* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 (3칸일 때는 그대로) */
 @media (min-width: 761px) and (max-width: 960px) {
-  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .trust-3 > div:last-child { grid-column: 1 / -1; }
+  .trust:not(.trust-3) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
   .wrap { padding-left: max(var(--space-4), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-4), env(safe-area-inset-right, 0px)); }
@@ -251,6 +260,10 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .trust-band { padding-top: var(--space-4); }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
   .strengths { grid-template-columns: minmax(0, 1fr); }
+  .ref-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ref-grid li { min-height: 80px; padding: 16px; }
+  .ref-grid b { font-size: 15px; line-height: 22px; }
+  .ref-public { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .history li { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
   .cta { padding: var(--space-8) 20px; }
   .page-h h1, .opt-head h1 { font-size: 26px; line-height: 34px; }
