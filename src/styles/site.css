@@ -184,6 +184,10 @@ a.su-btn { text-decoration: none; }
 .size-table thead th { background: var(--ivory); }
 .size-table tbody th { text-align: left; font-weight: 600; }
 .scroll-x { overflow-x: auto; }
+/* 견적 접수 완료: 접수한 제품 목록 */
+.c-items { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); font-size: 14px; }
+.c-items li { display: flex; flex-direction: column; gap: 4px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.c-item-h { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
 dialog.modal { border: 0; border-radius: var(--radius-md); padding: 0; width: min(760px, calc(100% - 32px)); max-height: 90vh; box-shadow: var(--shadow-pop); background: var(--surface-raised); color: var(--ink); }
 dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .modal-in { padding: 28px; display: flex; flex-direction: column; gap: 20px; }
@@ -250,3 +254,5 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .su-toast { animation: toast-in .2s ease-out; }
   @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 }
+
+a.tel { color: inherit; text-underline-offset: 3px; }

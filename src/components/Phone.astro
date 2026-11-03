@@ -1,0 +1,7 @@
+---
+// 대표번호: 숫자가 들어 있으면 눌러서 바로 전화, 아직 [대표번호] 같은 자리표시면 글자만
+import { data } from '../lib/data.mjs';
+const { site } = data();
+const tel = /\d/.test(site.phone) ? site.phone.replace(/[^\d+]/g, '') : '';
+---
+{tel ? <a class="num tel" href={`tel:${tel}`}>{site.phone}</a> : <span class="num">{site.phone}</span>}

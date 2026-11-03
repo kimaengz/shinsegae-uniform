@@ -103,7 +103,8 @@ export function loadData() {
 
     const ownThumb = findImage(code, 'thumb');
     const raw = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v, , old]) => findImage(path.join(code, c.slug), v) ?? findImage(path.join(code, c.slug), old))]));
-    const missing = [!ownThumb && '썸네일'].concat(colors.filter((c) => raw[c.slug].some((s) => !s)).map((c) => `${c.name} 멀티뷰`)).filter(Boolean);
+    // 썸네일은 thumb 파일이 없어도 기본 색 1번 사진이 대신하므로, 둘 다 없을 때만 알림
+    const missing = [!ownThumb && !raw[colors[0]?.slug]?.[0] && '썸네일'].concat(colors.filter((c) => raw[c.slug].some((s) => !s)).map((c) => `${c.name} 사진 ${raw[c.slug].filter(Boolean).length}/5`)).filter(Boolean);
     if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 기본 사진(placeholder)으로 보입니다.`);
     // 빈 자리 채우기: 썸네일은 기본 색 앞면 → 기본 사진, 기본 색 앞면은 썸네일 → 기본 사진, 나머지는 기본 사진
     const thumb = ownThumb ?? raw[colors[0]?.slug]?.[0] ?? PLACEHOLDER;

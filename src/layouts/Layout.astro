@@ -2,8 +2,9 @@
 import '../styles/tokens.css';
 import '../styles/components.css';
 import '../styles/site.css';
-import { data } from '../lib/data.mjs';
+import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
+import Phone from '../components/Phone.astro';
 
 interface Props { title: string; description?: string; active?: string; bbar?: 'default' | 'none' | 'custom' }
 const { title, description = '병원·기관 단체 메디컬 유니폼. 스크럽, 간호복, 의사 가운, 환자복을 직접 제조하고 로고 자수까지 맞춰 납품합니다.', active = '', bbar = 'default' } = Astro.props;
@@ -23,6 +24,8 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
+  <meta property="og:image" content={new URL(u(siteImage('og')), Astro.site)} />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
   <link rel="icon" href={u('favicon.svg')} type="image/svg+xml" />
   <link rel="stylesheet" href={u('fonts/pretendard/pretendard.css')} />
@@ -61,7 +64,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       <div class="wrap">
         {nav.map(([k, label]) => <a href={u(`${k}/`)}>{label}</a>)}
         <a href={u('quote/')}>견적문의</a>
-        <p class="muted">대표번호 <span class="num">{site.phone}</span></p>
+        <p class="muted">대표번호 <Phone /></p>
       </div>
     </nav>
   </header>
@@ -78,7 +81,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       </div>
       <div>
         <b>견적 상담</b>
-        <span>T <span class="num">{site.phone}</span></span>
+        <span>T <Phone /></span>
         {site.email && <span>E {site.email}</span>}
       </div>
       <div>
@@ -92,7 +95,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
 
   {bbar === 'default' && (
     <div class="bbar">
-      <span class="su-grow" style="font-size:14px">전화 <span class="num">{site.phone}</span></span>
+      <span class="su-grow" style="font-size:14px">전화 <Phone /></span>
       <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
     </div>
   )}

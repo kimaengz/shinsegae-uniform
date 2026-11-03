@@ -2,6 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import { data } from '../../../lib/data.mjs';
 import { u } from '../../../lib/url.mjs';
+import Phone from '../../../components/Phone.astro';
 const { site } = data();
 ---
 <Layout title="견적 요청 접수" active="quote" bbar="none">
@@ -11,9 +12,7 @@ const { site } = data();
       <p class="muted" data-c-meta>담당자가 확인 후 연락드립니다.</p>
     </div>
     <p class="alert" hidden data-c-test>시범 화면입니다. 접수 서버가 아직 연결되지 않아 이 요청은 담당자에게 전달되지 않았습니다.</p>
-    <div class="scroll-x" data-c-table hidden>
-      <table class="spec" style="min-width:420px"><thead><tr><th scope="col">제품</th><th scope="col">색상</th><th scope="col" style="width:auto">수량</th></tr></thead><tbody data-c-rows></tbody></table>
-    </div>
+    <ul class="c-items" data-c-table hidden data-c-rows aria-label="접수한 제품"></ul>
     <div style="display:flex;flex-direction:column;gap:10px">
       <h2 style="font-size:18px">다음 절차</h2>
       <ol style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
@@ -22,7 +21,7 @@ const { site } = data();
         <li>작업지시서를 확정하면 생산에 들어갑니다.</li>
       </ol>
     </div>
-    <p class="muted">급한 문의 <span class="num">{site.phone}</span>{site.email && ` · ${site.email}`}</p>
+    <p class="muted">급한 문의 <Phone />{site.email && ` · ${site.email}`}</p>
     <div class="row">
       <a class="su-btn su-btn-primary" href={u('products/')}>제품 더 보기</a>
       <a class="su-btn su-btn-secondary" href={u('')}>홈으로</a>
@@ -33,15 +32,23 @@ const { site } = data();
     try { q = JSON.parse(sessionStorage.getItem('su-last-quote') || 'null'); } catch { q = null; }
     if (q) {
       const meta = document.querySelector('[data-c-meta]')!;
-      meta.textContent = `접수 번호 ${q.id} · ${q.org}` + (q.email ? ` · ${q.email}로 확인 메일을 보냈습니다.` : '');
+      meta.textContent = `접수 번호 ${q.id} · ${q.org}` + (q.email && q.sent ? ` · ${q.email}로 확인 메일을 보냈습니다.` : '');
       (document.querySelector('[data-c-test]') as HTMLElement).hidden = q.sent;
       if (q.items?.length) {
         (document.querySelector('[data-c-table]') as HTMLElement).hidden = false;
-        const tbody = document.querySelector('[data-c-rows]')!;
+        const list = document.querySelector('[data-c-rows]')!;
+        // 한 줄: 제품명 / 색상 · 사이즈별 수량 / 자수
         q.items.forEach((it: any) => {
-          const tr = document.createElement('tr');
-          [it.name, it.color, `${it.total}벌`].forEach((t) => { const td = document.createElement('td'); td.textContent = t; tr.append(td); });
-          tbody.append(tr);
+          const li = document.createElement('li');
+          const head = document.createElement('div'); head.className = 'c-item-h';
+          const name = document.createElement('b'); name.textContent = it.name;
+          const total = document.createElement('span'); total.className = 'num'; total.textContent = `${it.total}벌`;
+          head.append(name, total);
+          const sizes = Object.entries(it.qty || {}).map(([s, n]) => `${s} ${n}`).join(' · ');
+          const sub = document.createElement('span'); sub.className = 'muted'; sub.textContent = [it.color, sizes].filter(Boolean).join(' / ');
+          li.append(head, sub);
+          if (it.embroidery && it.embroidery !== '없음') { const emb = document.createElement('span'); emb.className = 'muted'; emb.textContent = `자수 ${it.embroidery}`; li.append(emb); }
+          list.append(li);
         });
       }
     }

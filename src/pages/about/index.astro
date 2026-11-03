@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Garment from '../../components/Garment.astro';
 import { data, siteImage } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
+import Phone from '../../components/Phone.astro';
 const { site } = data();
 const process = ['재단', '봉제', '자수', '검수'].map((t, i) => [t, siteImage(`about/process-${i + 1}`)]);
 const certs = ['여성기업', '직접생산확인', '나라장터 등록'].map((t, i) => [t, siteImage(`about/cert-${i + 1}`)]);
@@ -35,7 +36,7 @@ const certs = ['여성기업', '직접생산확인', '나라장터 등록'].map(
     <div class="wrap">
       <div class="sec-h"><h2 style="font-size:24px">오시는 길</h2></div>
       <p>{site.address}</p>
-      <p class="muted" style="margin-top:6px">T <span class="num">{site.phone}</span></p>
+      <p class="muted" style="margin-top:6px">T <Phone /></p>
     </div>
   </section>
 </Layout>
