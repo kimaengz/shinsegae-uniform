@@ -44,7 +44,7 @@ a.su-btn { text-decoration: none; }
 .hd-in { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
 .logo-svg { display: block; height: 34px; width: auto; color: var(--brand-text); }
-.logo-svg-ft { height: 28px; }
+.logo-svg-ft { height: 32px; }
 .nav { display: flex; align-items: center; gap: var(--space-8); font-size: 15px; font-weight: 500; }
 .nav a { color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; display: inline-flex; align-items: center; gap: 6px; }
 .nav a:hover { border-bottom-color: var(--line-strong); }
@@ -63,7 +63,8 @@ a.su-btn { text-decoration: none; }
 
 /* 푸터 */
 .ft { border-top: 1px solid var(--line); color: var(--ink-muted); font-size: 13px; line-height: 22px; }
-.ft-in { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: var(--space-8); padding-block: var(--space-12); }
+.ft-top { padding-top: var(--space-12); }
+.ft-in { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: var(--space-8); padding-block: var(--space-8) var(--space-12); }
 .ft-in > div { display: flex; flex-direction: column; gap: 6px; }
 .ft b { color: var(--ink); }
 .ft a { color: var(--ink-muted); }

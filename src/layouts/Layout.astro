@@ -72,9 +72,10 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
   <main id="main"><slot /></main>
 
   <footer class="ft">
+    <div class="wrap ft-top"><Logo class="logo-svg logo-svg-ft" /></div>
     <div class="wrap ft-in">
       <div>
-        <Logo class="logo-svg logo-svg-ft" />
+        <b>회사 정보</b>
         <span>{site.companyName} · 대표 {site.ceo}</span>
         {site.businessNumber && <span>사업자등록번호 {site.businessNumber}</span>}
         {site.address && <span>{site.address}</span>}
