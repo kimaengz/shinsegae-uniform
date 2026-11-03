@@ -120,7 +120,7 @@ const client = {
                 <input type="checkbox" role="switch" class="switch" data-emb-on checked={on} aria-label={`${title} 넣기`} />
               </label>
               <div class="emb-pos" data-emb-pos-wrap hidden={!on}>
-                <span class="su-label">{kind === 'logo' ? '로고' : '이름'} 위치</span>
+                <div class="emb-pos-h"><span class="su-label">{kind === 'logo' ? '로고' : '이름'} 위치</span>{p.isPublic && embPrice[kind] > 0 && <span class="emb-sum num" data-emb-sum></span>}</div>
                 <div class="chips">
                   {p.embroidery.map((e, i) => <label class="su-chip"><input type="checkbox" value={e} data-pos checked={kind === 'logo' && i === 0} /><span>{e}</span></label>)}
                 </div>
@@ -323,8 +323,14 @@ const client = {
     const embState = () => Object.fromEntries(embBoxes.map((box) => [box.dataset.emb,
       (box.querySelector('[data-emb-on]') as HTMLInputElement).checked
         ? Array.from(box.querySelectorAll('[data-pos]:checked')).map((i) => (i as HTMLInputElement).value) : null]));
-    embBoxes.forEach((box) => box.addEventListener('change', () => { syncEmb(); embPerPiece = embUnit(embState(), P.embPrice); renderTotals(); }));
-    syncEmb(); embPerPiece = embUnit(embState(), P.embPrice);
+    // 자수 칸마다 고른 위치 수와 1벌당 추가금 (위치를 안 고르면 위치 상담 1곳)
+    const syncEmbSum = () => embBoxes.forEach((box) => {
+      const el = box.querySelector('[data-emb-sum]'); if (!el) return;
+      const n = box.querySelectorAll('[data-pos]:checked').length;
+      el.textContent = n ? `${n}곳 선택 · 1벌당 +${won(n * P.embPrice[box.dataset.emb!])}` : `위치 상담 · 1벌당 +${won(P.embPrice[box.dataset.emb!])}`;
+    });
+    embBoxes.forEach((box) => box.addEventListener('change', () => { syncEmb(); syncEmbSum(); embPerPiece = embUnit(embState(), P.embPrice); renderTotals(); }));
+    syncEmb(); syncEmbSum(); embPerPiece = embUnit(embState(), P.embPrice);
 
     // 담기
     $$('[data-add]').forEach((b) => b.addEventListener('click', () => {
