@@ -131,7 +131,7 @@ const client = {
       <h2 id="detail-title" style="font-size:24px">상세 정보</h2>
       <div class="stack">
         {p.details.length ? p.details.map((src, i) => <img src={u(src)} alt={`${p.name} 상세 이미지 ${i + 1}`} loading="lazy" width="720" />)
-          : <div class="ph" style="aspect-ratio:720/900;display:flex;align-items:center;justify-content:center"><span class="su-caption" style="background:var(--surface);padding:4px 10px;border-radius:4px">상세페이지 이미지 자리 · 가로 720px</span></div>}
+          : <img src={u('images/placeholder.png')} alt="" width="720" loading="lazy" />}
       </div>
     </section>
 

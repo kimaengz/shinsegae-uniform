@@ -46,6 +46,14 @@ function findImage(dir, base) {
   return null;
 }
 
+// 사이트 사진(홈 상단, 카테고리 등): public/images/<base>.jpg|png|webp가 있으면 그 사진, 없으면 기본 사진
+export function siteImage(base) {
+  for (const ext of IMG_EXT) {
+    if (fs.existsSync(path.join(ROOT, 'public', 'images', base + ext))) return `images/${base}${ext}`;
+  }
+  return PLACEHOLDER;
+}
+
 function detailImages(code) {
   const dir = path.join(IMG, code);
   if (!fs.existsSync(dir)) return [];
@@ -61,7 +69,8 @@ export function loadData() {
   const warn = (msg) => warnings.push(msg);
 
   const site = JSON.parse(fs.readFileSync(path.join(DATA, 'site.json'), 'utf8'));
-  const categories = readCsv('categories.csv').sort((a, b) => Number(a.order) - Number(b.order));
+  const categories = readCsv('categories.csv').sort((a, b) => Number(a.order) - Number(b.order))
+    .map((c) => ({ ...c, image: siteImage(`categories/${c.id}`) }));
   const catIds = new Set(categories.map((c) => c.id));
   categories.forEach((c) => { if (!/^[a-z0-9-]+$/.test(c.id)) err('categories.csv', c._line, `id "${c.id}"는 영문 소문자·숫자·-만 쓸 수 있습니다.`); });
 

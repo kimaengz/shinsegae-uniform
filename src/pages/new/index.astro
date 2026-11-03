@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import { data } from '../../lib/data.mjs';
+import { data, siteImage } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
 const news = data().products.filter((p) => p.isNew);
 ---
@@ -13,12 +13,8 @@ const news = data().products.filter((p) => p.isNew);
       <p class="lead">[신제품 콘셉트 2~3줄: 무엇을 개선했고 어떤 현장에 맞는지]</p>
     </div>
     <div class="hero-photo" style="min-height:420px">
-      <div class="hero-trio" aria-hidden="true">
-        <span class="su-card-garment" style="--sw:#CFDCCF"></span>
-        <span class="su-card-garment" style="--sw:#F2F2EE"></span>
-        <span class="su-card-garment" style="--sw:#C5D6E8"></span>
-      </div>
-      <span class="ph-label" style="left:auto;right:20px;bottom:20px">신제품 착용 사진 자리</span>
+      <!-- 신제품 착용 사진: public/images/new-hero.jpg (2880×1440) -->
+      <img src={u(siteImage('new-hero'))} alt="" />
     </div>
   </section>
   <section class="sec">

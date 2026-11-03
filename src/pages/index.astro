@@ -2,11 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Garment from '../components/Garment.astro';
-import { data } from '../lib/data.mjs';
+import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 const { site, categories, products } = data();
 const news = products.filter((p) => p.isNew).slice(0, 3);
-const catColor = { scrubs: '#2F3B57', clinic: '#C5D6E8', office: '#F2F2EE', gown: '#FFFFFF', patient: '#EBC8CF', knit: '#6E2236' };
 const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상담 · 샘플', '원단·색상·사이즈 확정'], ['작업지시서 확정', '자수 위치·배색·납기 협의'], ['직접 생산 · 검수', '자체 공장 제작과 품질 검수'], ['납품', '병원별 분류 포장 후 납품']];
 ---
 <Layout title="홈">
@@ -21,13 +20,8 @@ const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상�
       </div>
     </div>
     <div class="hero-photo">
-      <!-- 모델 착용 사진(2880×1440, 모바일 1080×1350)을 public/images/hero.jpg에 넣으면 교체 -->
-      <div class="hero-trio" aria-hidden="true">
-        <span class="su-card-garment" style="--sw:#2F3B57"></span>
-        <span class="su-card-garment" style="--sw:#6E2236"></span>
-        <span class="su-card-garment" style="--sw:#C5D6E8"></span>
-      </div>
-      <span class="ph-label" style="left:auto;right:20px;bottom:20px">모델 착용 사진 자리</span>
+      <!-- 모델 착용 사진: public/images/hero.jpg (2880×1440) -->
+      <img src={u(siteImage('hero'))} alt="" />
     </div>
   </section>
 
@@ -58,7 +52,7 @@ const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상�
       <div class="cards cards-3">
         {categories.map((c) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
-            <Garment hex={catColor[c.id] ?? '#F2F2EE'} ratio="43" />
+            <Garment hex="#F2F2EE" src={c.image} ratio="43" />
             <span class="row" style="gap:8px;align-items:baseline"><span class="su-caption">{c.code}</span><b>{c.name}</b></span>
             <span class="muted" style="font-size:14px">{c.summary}</span>
           </a>
