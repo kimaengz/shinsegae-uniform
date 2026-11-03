@@ -130,7 +130,17 @@ a.su-btn { text-decoration: none; }
 .thumbs { display: flex; flex-direction: column; gap: var(--space-2); }
 .thumbs button { padding: 0; border: 2px solid transparent; background: none; cursor: pointer; }
 .thumbs button[aria-pressed="true"] { border-color: var(--ink); }
-.gal-main { border-radius: var(--radius-sm); }
+.gal-main { position: relative; border-radius: var(--radius-sm); overflow: hidden; }
+.gal-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.gal-track::-webkit-scrollbar { display: none; }
+.gal-slide { flex: 0 0 100%; scroll-snap-align: start; }
+.gal-slide img { -webkit-user-drag: none; }
+.gal-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,.12); cursor: pointer; opacity: 0; transition: opacity .2s; }
+.gal-arrow.prev { left: 12px; } .gal-arrow.next { right: 12px; }
+.gal-main:hover .gal-arrow:not(:disabled), .gal-arrow:focus-visible { opacity: 1; }
+.gal-arrow:disabled { pointer-events: none; }
+.gal-count { position: absolute; right: 12px; bottom: 12px; padding: 2px 10px; border-radius: 999px; background: rgba(43,39,37,.55); color: #fff; font-size: 12px; line-height: 20px; }
+@media (hover: none) { .gal-arrow { display: none; } }
 .opt { display: flex; flex-direction: column; gap: 28px; }
 .opt-head { display: flex; flex-direction: column; gap: 8px; }
 .opt-head h1 { font-size: 34px; line-height: 44px; letter-spacing: -.02em; }
