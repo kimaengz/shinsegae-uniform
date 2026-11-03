@@ -13,7 +13,8 @@ const EMBROIDERY = ['왼가슴', '오른가슴', '소매', '등'];
 export function parseCsv(text) {
   const rows = [];
   let row = [], cell = '', quoted = false;
-  text = text.replace(/^﻿/, '');
+  // BOM 제거, Mac에서 입력한 분리형 한글(NFD)을 완성형(NFC)으로 통일
+  text = text.replace(/^﻿/, '').normalize('NFC');
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
     if (quoted) {
