@@ -111,9 +111,6 @@ a.su-btn { text-decoration: none; }
 .cat-card .ph img:not([src*="placeholder"]) { object-position: center 10%; } /* 4:3으로 잘릴 때 머리가 안 잘리게 위쪽 기준 */
 .cat-card b { font-size: 18px; }
 .cat-card:hover b { text-decoration: underline; text-underline-offset: 4px; }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--ink); counter-reset: step; }
-.steps li { padding: 20px 20px 0 0; display: flex; flex-direction: column; gap: 6px; counter-increment: step; }
-.steps li::before { content: counter(step, decimal-leading-zero); font-size: 12px; font-weight: 600; color: var(--brand-text); }
 .cta { background: var(--ivory); padding: var(--space-12); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6); border-radius: 16px; }
 .cta p { color: var(--ink-muted); margin-top: 8px; max-width: 34em; }
 
@@ -231,7 +228,6 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .trust-3 > div:last-child { grid-column: 1 / -1; }
   .trust-band { padding-top: var(--space-4); }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
-  .steps { grid-template-columns: minmax(0, 1fr); }
   .cta { padding: var(--space-8) 20px; }
   .page-h h1, .opt-head h1 { font-size: 26px; line-height: 34px; }
   .pd, .qw { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }

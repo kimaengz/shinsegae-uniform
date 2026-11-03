@@ -6,7 +6,6 @@ import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 const { site, categories, products } = data();
 const news = products.filter((p) => p.isNew).slice(0, 3);
-const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상담 · 샘플', '원단·색상·사이즈 확정'], ['작업지시서 확정', '자수 위치·배색·납기 협의'], ['직접 생산 · 검수', '자체 공장 제작과 품질 검수'], ['납품', '병원별 분류 포장 후 납품']];
 ---
 <Layout title="홈">
   <section class="hero">
@@ -58,13 +57,6 @@ const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상�
           </a>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="sec-h"><h2 style="font-size:24px">견적부터 납품까지</h2></div>
-      <ol class="steps">{steps.map(([t, d]) => <li><b style="font-size:18px">{t}</b><span class="muted" style="font-size:14px">{d}</span></li>)}</ol>
     </div>
   </section>
 
