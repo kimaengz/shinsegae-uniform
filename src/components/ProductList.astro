@@ -6,7 +6,8 @@ interface Props { current: string }
 const { current } = Astro.props;
 const { categories, products } = data();
 const cat = categories.find((c) => c.id === current);
-const list = cat ? products.filter((p) => p.category === cat.id) : products;
+// 배지(NEW 등)가 붙은 제품을 맨 앞에, 그 안에서는 order 순서
+const list = (cat ? products.filter((p) => p.category === cat.id) : products).slice().sort((a, b) => Number(!a.badge) - Number(!b.badge));
 ---
 <div class="wrap">
   <nav class="crumb su-caption" aria-label="현재 위치">
@@ -19,7 +20,7 @@ const list = cat ? products.filter((p) => p.category === cat.id) : products;
   </div>
   <nav class="tabs" aria-label="카테고리">
     <a href={u('products/')} aria-current={!cat ? 'page' : undefined}>전체</a>
-    {categories.map((c) => <a href={u(`products/${c.id}/`)} aria-current={cat?.id === c.id ? 'page' : undefined}>{c.code} {c.name}</a>)}
+    {categories.map((c) => <a href={u(`products/${c.id}/`)} aria-current={cat?.id === c.id ? 'page' : undefined}>{c.name}</a>)}
   </nav>
   <p class="su-caption" style="margin-bottom:20px">{list.length}개 제품</p>
   <div class="cards">{list.map((p) => <ProductCard p={p} />)}</div>

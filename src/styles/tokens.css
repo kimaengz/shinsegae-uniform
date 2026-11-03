@@ -1,7 +1,7 @@
 /* 신세계유니폼 디자인 시스템 토큰 (디자인 시스템 tokens.json에서 옮김) */
 :root, [data-theme="light"] {
   --surface: #ffffff; --surface-raised: #ffffff; --ivory: #f7f2ec; --line: #e6e1dd; --line-strong: #8f8783;
-  --ink: #1a1717; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
+  --ink: #2b2725; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
   --brand-soft: #f6e6e9; --danger: #b42318; --focus: var(--brand-text);
   --surface-muted: #f4f3f1;
   --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);

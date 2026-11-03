@@ -23,6 +23,8 @@ h1, h2, h3 { text-wrap: balance; }
 .crumb a:hover { color: var(--ink); text-decoration: underline; }
 .crumb [aria-current] { color: var(--ink); }
 .link-more { font-size: 14px; font-weight: 600; }
+.su-btn-secondary { border-color: transparent; }
+.su-btn-secondary:hover { background: var(--surface-muted); }
 .card-color { font-size: 14px; color: var(--ink-muted); margin-top: 4px; }
 .badge { display: inline-flex; align-self: flex-start; align-items: center; background: var(--surface-muted); color: var(--brand-text); font-size: 13px; line-height: 18px; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; margin-top: 4px; }
 a.su-btn { text-decoration: none; }
@@ -89,7 +91,7 @@ a.su-btn { text-decoration: none; }
 .trust-band { padding-top: var(--space-6); }
 .trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
 .trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.trust > div { padding: 24px; display: flex; flex-direction: column; gap: 4px; background: var(--surface-muted); border-radius: 16px; }
+.trust > div { padding: 24px; display: flex; flex-direction: column; gap: 4px; background: var(--ivory); border-radius: 16px; }
 .trust strong { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.01em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
