@@ -85,6 +85,9 @@ dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) var(--ease); }
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-3) var(--ease), transform 600ms var(--ease-out); transition-delay: var(--delay, 0ms); }
 .reveal.is-in { opacity: 1; transform: none; }
 
+/* 인쇄할 때는 아직 안 나타난 요소도 모두 보이게 */
+@media print { .reveal { opacity: 1 !important; transform: none !important; } .hd { box-shadow: none; } }
+
 /* 움직임을 줄이는 설정이면 모션을 끈다 */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }

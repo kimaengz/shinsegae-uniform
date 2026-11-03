@@ -1,8 +1,10 @@
 // 견적함: 브라우저에 저장. 한 줄 = 제품 + 색상.
 const KEY = 'su-quote-cart-v1';
 
+// 저장된 줄 중 모양이 맞는 것만 쓴다 (예전 형식이나 깨진 값 때문에 견적 페이지가 멈추지 않게)
+const isLine = (l) => l && typeof l === 'object' && typeof l.code === 'string' && Array.isArray(l.sizes) && l.qty && typeof l.qty === 'object' && Array.isArray(l.prices);
 export function getCart() {
-  try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch { return []; }
+  try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v.filter(isLine) : []; } catch { return []; }
 }
 export function saveCart(cart) {
   try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch { /* 저장 불가(사생활 보호 모드 등)면 이 페이지 안에서만 유지 */ }

@@ -20,12 +20,3 @@
   --container-max: 1200px; --breakpoint-mobile: 760px; --control-height: 52px;
   --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
-.display { font-family: var(--font-sans); font-size: 48px; line-height: 58px; font-weight: 700; letter-spacing: -0.02em; }
-.h1 { font-family: var(--font-sans); font-size: 34px; line-height: 44px; font-weight: 700; letter-spacing: -0.02em; }
-.h2 { font-family: var(--font-sans); font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -0.01em; }
-.h3 { font-family: var(--font-sans); font-size: 18px; line-height: 26px; font-weight: 700; }
-.body { font-family: var(--font-sans); font-size: 16px; line-height: 26px; font-weight: 400; }
-.body-sm { font-family: var(--font-sans); font-size: 14px; line-height: 22px; font-weight: 400; }
-.label { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; }
-.caption { font-family: var(--font-sans); font-size: 12px; line-height: 18px; font-weight: 500; }
-.figure { font-family: var(--font-sans); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em; }

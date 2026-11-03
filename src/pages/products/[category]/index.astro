@@ -5,6 +5,7 @@ import { data } from '../../../lib/data.mjs';
 export function getStaticPaths() {
   return data().categories.map((c) => ({ params: { category: c.id }, props: { cat: c } }));
 }
+interface Props { cat: any }
 const { cat } = Astro.props;
 ---
 <Layout title={cat.name} active="products" description={`${cat.name}: ${cat.summary}. 병원 로고 자수와 색상 맞춤 단체 제작.`}>

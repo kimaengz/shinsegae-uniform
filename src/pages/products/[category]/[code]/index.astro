@@ -9,19 +9,26 @@ export function getStaticPaths() {
   const { products } = data();
   return products.map((p) => ({ params: { category: p.category, code: p.slug }, props: { p } }));
 }
+interface Props { p: any }
 const { p } = Astro.props;
 const { categories, products, sizeTables, site } = data();
-const embPrice = site.embroideryPrice ?? { logo: 0, name: 0 };
+const embPrice: Record<'logo' | 'name', number> = site.embroideryPrice ?? { logo: 0, name: 0 };
 const cat = categories.find((c) => c.id === p.category);
 const related = products.filter((x) => x.category === p.category && x.code !== p.code).slice(0, 4);
 const c0 = p.colors[0];
 const g0 = p.gallery[c0.slug];
 const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 이상', p.prices[2]]];
 const sizeTable = sizeTables[p.code];
+const sizeParts = sizeTable ? Object.entries(sizeTable as Record<string, any[]>) : null;
+// 자수 종류: [종류, 제목, 안내, 처음에 켜 둘지]
+const embKinds: ['logo' | 'name', string, string, boolean][] = [
+  ['logo', '병원 로고 자수', '로고 파일은 견적함에서 한 번만 첨부합니다.', true],
+  ['name', '이름 자수', '이름 목록은 상담 때 받습니다.', false]
+];
 const client = {
   code: p.code, name: p.name, category: p.category, slug: p.slug, colors: p.colors, sizes: p.sizes,
   prices: p.prices, isPublic: p.isPublic, embroidery: p.embroidery, embPrice,
-  gallery: Object.fromEntries(Object.entries(p.gallery).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
+  gallery: Object.fromEntries(Object.entries(p.gallery as Record<string, any[]>).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
 ---
@@ -113,7 +120,7 @@ const client = {
 
         <div class="blk">
           <div class="blk-h"><h2>로고 · 자수</h2><span class="su-hint">필요한 것만 켜세요</span></div>
-          {[['logo', '병원 로고 자수', '로고 파일은 견적함에서 한 번만 첨부합니다.', true], ['name', '이름 자수', '이름 목록은 상담 때 받습니다.', false]].map(([kind, title, hint, on]) => (
+          {embKinds.map(([kind, title, hint, on]) => (
             <fieldset class="emb" data-emb={kind}>
               <legend class="su-sr">{title}</legend>
               <label class="emb-toggle">
@@ -173,7 +180,7 @@ const client = {
         <h2 id="size-title">사이즈 안내</h2>
         <button type="button" class="icon-btn" aria-label="닫기" data-size-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
       </div>
-      {sizeTable ? Object.entries(sizeTable).map(([part, rows]) => (
+      {sizeParts ? sizeParts.map(([part, rows]) => (
         <div class="scroll-x">
           <table class="size-table">
             <thead><tr><th scope="col" style="text-align:left">{part} (cm)</th>{p.sizes.map((s) => <th scope="col">{s}</th>)}</tr></thead>

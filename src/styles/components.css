@@ -15,8 +15,6 @@
 
 /* Tag */
 .su-tag { display: inline-flex; align-items: center; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: var(--radius-sm); }
-.su-tag-new { background: var(--brand); color: var(--on-brand); outline: 1px dashed var(--on-brand); outline-offset: -3px; }
-.su-tag-neutral { background: var(--ivory); color: var(--ink); }
 .su-tag-count { background: var(--ink); color: var(--surface); border-radius: var(--radius-full); min-width: 18px; justify-content: center; padding: 1px 6px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
 
 /* Field */
@@ -38,11 +36,10 @@ input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 
 /* Chip */
 .su-chip { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 14px; border: 1.5px solid transparent; border-radius: var(--radius-md); font-size: 14px; cursor: pointer; background: var(--surface-muted); }
-.su-chip input[type="checkbox"], .su-check { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid var(--line-strong); border-radius: 6px; background: var(--surface) center / 14px no-repeat; cursor: pointer; transition: background-color .15s, border-color .15s; }
-.su-chip input[type="checkbox"]:checked, .su-check:checked { background-color: var(--brand); border-color: var(--brand); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.su-chip input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid var(--line-strong); border-radius: 6px; background: var(--surface) center / 14px no-repeat; cursor: pointer; transition: background-color .15s, border-color .15s; }
+.su-chip input[type="checkbox"]:checked { background-color: var(--brand); border-color: var(--brand); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
 .su-chip input[type="checkbox"]:focus-visible { outline: none; }
 .su-chip.is-on, .su-chip:has(input:checked) { background: var(--brand-soft); border-color: var(--brand-text); color: var(--ink); font-weight: 600; }
-.su-chip.is-disabled { opacity: .45; cursor: not-allowed; }
 .su-chip:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* SwatchDots */
@@ -94,7 +91,6 @@ input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 .su-card-garment::before { left: -26%; transform: rotate(18deg); }
 .su-card-garment::after { right: -26%; transform: rotate(-18deg); }
 .su-card-img .su-card-garment { left: 18%; right: 18%; top: 26%; bottom: 24%; }
-.su-card-tag { position: absolute; top: var(--space-3); left: var(--space-3); }
 .su-card-name { margin: 0; font-size: 16px; line-height: 22px; font-weight: 700; }
 .su-card-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .su-card-price { font-size: 14px; color: var(--ink); font-variant-numeric: tabular-nums; }
