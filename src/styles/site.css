@@ -2,7 +2,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; font-family: var(--font-sans); background: var(--surface); color: var(--ink); font-size: 16px; line-height: 1.6; }
+body { margin: 0; font-family: var(--font-sans); background: var(--surface); color: var(--ink); font-size: 16px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
 img { max-width: 100%; display: block; }
 a { color: var(--brand-text); }
 h1, h2, h3, p { margin: 0; }
