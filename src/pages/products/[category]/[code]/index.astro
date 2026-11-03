@@ -44,7 +44,7 @@ const client = {
             ))}
           </div>
           <div class="gal-main" id="gal-main">
-            <Garment hex={c0.hex} src={g0[0].src} alt={`${p.name} ${c0.name} 앞면`} label={g0[0].src ? undefined : `앞면 · ${c0.name}`} />
+            <Garment hex={c0.hex} src={g0[0].src} alt={`${p.name} ${c0.name} ${g0[0].label}`} label={g0[0].src ? undefined : `${g0[0].label} · ${c0.name}`} />
           </div>
         </div>
       </div>

@@ -6,7 +6,8 @@ const ROOT = process.cwd();
 const DATA = path.join(ROOT, 'data');
 const IMG = path.join(ROOT, 'public', 'images', 'products');
 const IMG_EXT = ['.jpg', '.jpeg', '.png', '.webp'];
-export const VIEWS = [['front', '앞면'], ['back', '뒷면'], ['neck', '목뒤'], ['left', '왼팔'], ['right', '오른팔']];
+// 색상별 사진 5칸: 파일 이름 1~5 (예전 이름 front·back·neck·left·right도 읽음)
+export const VIEWS = [['1', '사진 1', 'front'], ['2', '사진 2', 'back'], ['3', '사진 3', 'neck'], ['4', '사진 4', 'left'], ['5', '사진 5', 'right']];
 const EMBROIDERY = ['왼가슴', '오른가슴', '소매', '등'];
 // 제품 사진이 아직 없는 자리에 보여줄 기본 사진 (720×1080)
 const PLACEHOLDER = fs.existsSync(path.join(ROOT, 'public', 'images', 'placeholder.png')) ? 'images/placeholder.png' : null;
@@ -101,7 +102,7 @@ export function loadData() {
     embroidery.forEach((e) => { if (!EMBROIDERY.includes(e)) err(F, L, `자수 위치 "${e}"는 쓸 수 없습니다. (${EMBROIDERY.join(', ')})`); });
 
     const ownThumb = findImage(code, 'thumb');
-    const raw = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v]) => findImage(path.join(code, c.slug), v))]));
+    const raw = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v, , old]) => findImage(path.join(code, c.slug), v) ?? findImage(path.join(code, c.slug), old))]));
     const missing = [!ownThumb && '썸네일'].concat(colors.filter((c) => raw[c.slug].some((s) => !s)).map((c) => `${c.name} 멀티뷰`)).filter(Boolean);
     if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 기본 사진(placeholder)으로 보입니다.`);
     // 빈 자리 채우기: 썸네일은 기본 색 앞면 → 기본 사진, 기본 색 앞면은 썸네일 → 기본 사진, 나머지는 기본 사진
