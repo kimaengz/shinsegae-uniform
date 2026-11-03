@@ -37,7 +37,7 @@ const news = products.filter((p) => p.isNew).slice(0, 3);
     <section class="sec">
       <div class="wrap">
         <div class="sec-h">
-          <div><h2 style="font-size:24px">신제품</h2><p>새로 디자인한 {news.length}종입니다.</p></div>
+          <div><h2>신제품</h2><p>새로 디자인한 {news.length}종입니다.</p></div>
           <a class="link-more" href={u('new/')}>신제품 전체 보기</a>
         </div>
         <div class="cards cards-3">{news.map((p) => <ProductCard p={p} />)}</div>
@@ -47,7 +47,7 @@ const news = products.filter((p) => p.isNew).slice(0, 3);
 
   <section class="sec sec-tight">
     <div class="wrap">
-      <div class="sec-h"><h2 style="font-size:24px">현장별 유니폼</h2><a class="link-more" href={u('products/')}>전체 제품 보기</a></div>
+      <div class="sec-h"><h2>현장별 유니폼</h2><a class="link-more" href={u('products/')}>전체 제품 보기</a></div>
       <div class="cards cards-3">
         {categories.map((c) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
@@ -63,7 +63,7 @@ const news = products.filter((p) => p.isNew).slice(0, 3);
   <section style="padding-bottom:72px">
     <div class="wrap">
       <div class="cta">
-        <div><h2 style="font-size:24px">병원 로고와 색상까지 맞춘 단체 견적</h2><p>제품을 골라 견적함에 담거나, 담은 제품 없이 일반 문의로 바로 보내실 수 있습니다.</p></div>
+        <div><h2>병원 로고와 색상까지 맞춘 단체 견적</h2><p>제품을 골라 견적함에 담거나, 담은 제품 없이 일반 문의로 바로 보내실 수 있습니다.</p></div>
         <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
       </div>
     </div>

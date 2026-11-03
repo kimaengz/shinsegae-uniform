@@ -140,7 +140,7 @@ const client = {
     </div>
 
     <section class="detail-imgs" aria-labelledby="detail-title">
-      <h2 id="detail-title" style="font-size:24px">상세 정보</h2>
+      <h2 id="detail-title">상세 정보</h2>
       <div class="stack">
         {p.details.length ? p.details.map((src, i) => <img src={u(src)} alt={`${p.name} 상세 이미지 ${i + 1}`} loading="lazy" width="720" />)
           : <img src={u('images/placeholder.png')} alt="" width="720" loading="lazy" />}
@@ -148,7 +148,7 @@ const client = {
     </section>
 
     <section class="sec" style="padding-bottom:0">
-      <div class="sec-h"><h2 style="font-size:24px">제품 정보</h2></div>
+      <div class="sec-h"><h2>제품 정보</h2></div>
       <table class="spec"><tbody>
         <tr><th scope="row">구성</th><td>{p.type}</td></tr>
         <tr><th scope="row">사이즈</th><td>{p.sizes.join(' · ')}</td></tr>
@@ -161,7 +161,7 @@ const client = {
 
     {related.length > 0 && (
       <section class="sec">
-        <div class="sec-h"><h2 style="font-size:24px">같은 카테고리 제품</h2><a class="link-more" href={u(`products/${cat.id}/`)}>{cat.name} 전체</a></div>
+        <div class="sec-h"><h2>같은 카테고리 제품</h2><a class="link-more" href={u(`products/${cat.id}/`)}>{cat.name} 전체</a></div>
         <div class="cards">{related.map((x) => <ProductCard p={x} />)}</div>
       </section>
     )}
@@ -170,7 +170,7 @@ const client = {
   <dialog class="modal" aria-labelledby="size-title" data-size-dialog>
     <div class="modal-in">
       <div class="modal-h">
-        <h2 id="size-title" style="font-size:24px">사이즈 안내</h2>
+        <h2 id="size-title">사이즈 안내</h2>
         <button type="button" class="icon-btn" aria-label="닫기" data-size-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
       </div>
       {sizeTable ? Object.entries(sizeTable).map(([part, rows]) => (
@@ -192,7 +192,7 @@ const client = {
   <div class="bbar" slot="bbar">
     <div class="su-grow" style="display:flex;flex-direction:column">
       <span class="su-caption" data-total>총 0벌</span>
-      <b class="num" style="font-size:15px" data-est>{p.isPublic ? '—' : '견적 후 안내'}</b>
+      <b class="num" style="font-size:16px" data-est>{p.isPublic ? '—' : '견적 후 안내'}</b>
     </div>
     <button type="button" class="su-btn su-btn-primary" data-add disabled>견적함 담기</button>
   </div>

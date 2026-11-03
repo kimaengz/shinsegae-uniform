@@ -30,7 +30,7 @@ const client = {
 
 
         <form class="form" novalidate data-q-form aria-labelledby="org-title">
-          <h2 id="org-title" class="full" style="font-size:24px">기관 정보</h2>
+          <h2 id="org-title" class="full">기관 정보</h2>
           <div class="alert full" role="alert" hidden data-q-alert></div>
           <fieldset class="full" data-general hidden style="border:0;margin:0;padding:0">
             <legend class="su-label" style="margin-bottom:8px">관심 카테고리</legend>
@@ -47,8 +47,14 @@ const client = {
           <div class="su-field"><label class="su-label" for="f-due">희망 납기</label><input class="su-input" id="f-due" name="due" type="date" /></div>
           <div class="su-field">
             <span class="su-label" id="files-label">파일 첨부</span>
-            <div class="file-row"><label for="f-logo" class="su-hint" style="min-width:64px">로고</label><input id="f-logo" name="logo" type="file" accept=".pdf,.ai,.eps,.svg,.png,.jpg,.jpeg" /></div>
-            <div class="file-row"><label for="f-doc" class="su-hint" style="min-width:64px">작업지시서</label><input id="f-doc" name="doc" type="file" accept=".pdf,.xlsx,.xls,.png,.jpg,.jpeg,.hwp,.docx" /></div>
+            <div class="file-list">
+              {[['f-logo', 'logo', '로고', '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg'], ['f-doc', 'doc', '작업지시서', '.pdf,.xlsx,.xls,.png,.jpg,.jpeg,.hwp,.docx']].map(([id, name, label, accept]) => (
+                <div class="file-pick" data-file-pick>
+                  <span class="file-pick-name" data-file-name><b>{label}</b>선택한 파일 없음</span>
+                  <label class="file-pick-btn" for={id}>파일 올리기<input id={id} name={name} type="file" accept={accept} /></label>
+                </div>
+              ))}
+            </div>
             <span class="su-hint">각 10MB 이하</span>
           </div>
           <div class="su-field full"><label class="su-label" for="f-msg">요청사항</label><textarea class="su-input" id="f-msg" name="message" rows="4" placeholder="다른 색상(병원 로고 색 등), 배색, 납기 등 요청사항을 적어 주세요"></textarea></div>
@@ -177,6 +183,20 @@ const client = {
       ['f-org', 'f-name', 'f-tel', 'f-mail', 'f-logo', 'f-doc', 'f-agree'].forEach((id) => setErr(id, errs.find((e) => e[0] === id)?.[1] ?? ''));
       return errs;
     }
+    // 파일 첨부: 고른 파일 이름을 칸에 보여 준다
+    document.querySelectorAll<HTMLElement>('[data-file-pick]').forEach((box) => {
+      const input = box.querySelector('input[type="file"]') as HTMLInputElement;
+      const name = box.querySelector('[data-file-name]')!;
+      const label = name.querySelector('b')!.textContent;
+      input.addEventListener('change', () => {
+        const f = input.files?.[0];
+        box.classList.toggle('has-file', !!f);
+        name.innerHTML = '';
+        const b = document.createElement('b'); b.textContent = label;
+        name.append(b, f ? `${f.name} (${(f.size / 1024 / 1024).toFixed(1)}MB)` : '선택한 파일 없음');
+        (box.querySelector('.file-pick-btn')!.firstChild as Text).textContent = f ? '바꾸기' : '파일 올리기';
+      });
+    });
     const readFile = (input: HTMLInputElement) => new Promise<any>((resolve, reject) => {
       const f = input.files?.[0];
       if (!f) return resolve(null);

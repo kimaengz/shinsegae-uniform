@@ -16,8 +16,8 @@
 }
 :root {
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px;
-  --radius-sm: 4px; --radius-md: 8px; --radius-full: 9999px;
-  --container-max: 1200px; --breakpoint-mobile: 760px; --control-height: 48px;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 20px; --radius-full: 9999px; /* 칩·뱃지 / 버튼·입력·사진 / 박스·카드 */
+  --container-max: 1200px; --breakpoint-mobile: 760px; --control-height: 52px;
   --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 .display { font-family: var(--font-sans); font-size: 48px; line-height: 58px; font-weight: 700; letter-spacing: -0.02em; }
