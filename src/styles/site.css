@@ -23,6 +23,8 @@ h1, h2, h3 { text-wrap: balance; }
 .crumb a:hover { color: var(--ink); text-decoration: underline; }
 .crumb [aria-current] { color: var(--ink); }
 .link-more { font-size: 14px; font-weight: 600; }
+.card-color { font-size: 14px; color: var(--ink-muted); margin-top: 4px; }
+.badge { display: inline-flex; align-self: flex-start; align-items: center; background: var(--surface-muted); color: var(--brand-text); font-size: 13px; line-height: 18px; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; margin-top: 4px; }
 a.su-btn { text-decoration: none; }
 
 /* 헤더 */
@@ -84,12 +86,10 @@ a.su-btn { text-decoration: none; }
 .hero-trio .su-card-garment:nth-child(2) { left: 41%; right: 39%; top: 16%; bottom: 14%; }
 .hero-trio .su-card-garment:nth-child(3) { left: 68%; right: 12%; top: 26%; bottom: 20%; }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-.trust-band { border-bottom: 1px dashed var(--line-strong); }
-.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.trust-band { padding-top: var(--space-6); }
+.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
 .trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.trust > div { padding: 28px 24px; display: flex; flex-direction: column; gap: 4px; }
-.trust > div:first-child { padding-left: 0; }
-.trust > div + div { border-left: 1px solid var(--line); }
+.trust > div { padding: 24px; display: flex; flex-direction: column; gap: 4px; background: var(--surface-muted); border-radius: 16px; }
 .trust strong { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.01em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -100,7 +100,7 @@ a.su-btn { text-decoration: none; }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--ink); counter-reset: step; }
 .steps li { padding: 20px 20px 0 0; display: flex; flex-direction: column; gap: 6px; counter-increment: step; }
 .steps li::before { content: counter(step, decimal-leading-zero); font-size: 12px; font-weight: 600; color: var(--brand-text); }
-.cta { background: var(--ivory); padding: var(--space-12); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6); outline: 1px dashed var(--line-strong); outline-offset: -10px; border-radius: var(--radius-sm); }
+.cta { background: var(--ivory); padding: var(--space-12); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6); border-radius: 16px; }
 .cta p { color: var(--ink-muted); margin-top: 8px; max-width: 34em; }
 
 /* 페이지 머리 */
@@ -175,15 +175,15 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .nav { display: none; }
   .m-only { display: inline-flex !important; }
   .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .hero-photo { order: -1; min-height: 360px; }
+  .hero-photo { min-height: 360px; }
   .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
   .hero-copy h1 { font-size: 32px; line-height: 40px; }
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .trust > div { padding: 20px 16px; }
-  .trust > div:nth-child(odd) { padding-left: 0; border-left: 0; }
-  .trust > div:nth-child(-n+2) { border-bottom: 1px dashed var(--line-strong); }
-  .trust strong { font-size: 22px; line-height: 28px; }
-  .trust-3 > div:last-child { grid-column: 1 / -1; padding-left: 0; border-left: 0; }
+  .trust { gap: var(--space-2); }
+  .trust > div { padding: 18px 16px; border-radius: 14px; }
+  .trust strong { font-size: 20px; line-height: 26px; }
+  .trust-3 > div:last-child { grid-column: 1 / -1; }
+  .trust-band { padding-top: var(--space-4); }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .cta { padding: var(--space-8) 20px; }

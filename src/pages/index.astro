@@ -53,7 +53,7 @@ const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상�
         {categories.map((c) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
             <Garment hex="#F2F2EE" src={c.image} ratio="43" />
-            <span class="row" style="gap:8px;align-items:baseline"><span class="su-caption">{c.code}</span><b>{c.name}</b></span>
+            <b>{c.name}</b>
             <span class="muted" style="font-size:14px">{c.summary}</span>
           </a>
         ))}

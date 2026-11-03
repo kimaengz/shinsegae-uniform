@@ -113,7 +113,7 @@ export function loadData() {
     return {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: r.summary,
       colors, sizes: split(r.sizes), prices, isPublic: isPublic && site.showPrices !== false, embroidery,
-      isNew: r.is_new.toUpperCase() === 'Y', material: r.material, function: r.function, care: r.care,
+      isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: r.material, function: r.function, care: r.care,
       order: Number(r.order) || 999, thumb, gallery, details: detailImages(code)
     };
   }).sort((a, b) => a.order - b.order);

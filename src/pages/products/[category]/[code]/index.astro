@@ -52,7 +52,7 @@ const client = {
       <div class="opt">
         <div class="opt-head">
           <div class="row" style="justify-content:space-between">
-            <span class="su-caption">{p.code} · {cat.name}{p.isNew && <> · <span class="su-tag su-tag-new">NEW</span></>}</span>
+            <span class="row" style="gap:8px"><span class="su-caption">{p.code} · {cat.name}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
             <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
           </div>
           <h1>{p.name}</h1>

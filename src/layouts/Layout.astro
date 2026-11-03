@@ -115,6 +115,8 @@ const nav = [['about', '회사소개'], ['products', '제품'], ['new', '신제�
       if (!dot) return;
       const card = dot.closest('[data-card]')!;
       card.querySelectorAll('.su-dot').forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
+      const name = card.querySelector('[data-card-color]');
+      if (name) name.textContent = dot.dataset.name ?? '';
       const ph = card.querySelector('[data-ph]')!;
       const src = dot.dataset.src;
       if (src) ph.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
