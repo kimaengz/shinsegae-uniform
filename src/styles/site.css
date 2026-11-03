@@ -165,7 +165,7 @@ a.su-btn { text-decoration: none; }
 .emb-text b { font-size: 15px; }
 /* 상세: 표시된 색 외 맞춤 색상 안내 */
 .color-note { margin: -16px 0 0; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface-muted); font-size: 13px; line-height: 20px; color: var(--ink-muted); }
-.color-note b { color: var(--ink); font-weight: 600; }
+.color-note b { display: block; margin-bottom: 2px; color: var(--ink); font-weight: 600; }
 .emb-price { font-weight: 500; color: var(--brand-text); }
 .emb-pos-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .emb-sum { font-size: 13px; font-weight: 600; color: var(--brand-text); }
