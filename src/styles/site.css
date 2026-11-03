@@ -28,7 +28,7 @@ h1, h2, h3 { text-wrap: balance; }
 /* 카드: 사진과 색상 점 사이 여백, 점끼리 간격, 선택 링이 왼쪽 끝에서 잘리지 않게 */
 .su-card .su-dots { margin-top: 10px; gap: 10px; padding-left: 3px; }
 /* 카드 사진 옆으로 넘기기 */
-.card-track { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.card-track { cursor: grab; display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
 .card-track::-webkit-scrollbar { display: none; }
 .card-slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
 .card-slide img { width: 100%; height: 100%; object-fit: contain; -webkit-user-drag: none; }
@@ -131,7 +131,7 @@ a.su-btn { text-decoration: none; }
 .thumbs button { padding: 0; border: 2px solid transparent; background: none; cursor: pointer; }
 .thumbs button[aria-pressed="true"] { border-color: var(--ink); }
 .gal-main { position: relative; border-radius: var(--radius-sm); overflow: hidden; }
-.gal-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.gal-track { cursor: grab; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
 .gal-track::-webkit-scrollbar { display: none; }
 .gal-slide { flex: 0 0 100%; scroll-snap-align: start; }
 .gal-slide img { -webkit-user-drag: none; }

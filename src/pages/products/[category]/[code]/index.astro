@@ -197,6 +197,7 @@ const client = {
   <script is:inline type="application/json" id="pd-data" set:html={JSON.stringify(client)} />
   <script>
     import { addLine, toast } from '../../../../scripts/cart.js';
+    import { dragScroll } from '../../../../scripts/drag.js';
     const P = JSON.parse(document.getElementById('pd-data')!.textContent!);
     const $ = (s: string) => document.querySelector(s) as HTMLElement;
     const $$ = (s: string) => Array.from(document.querySelectorAll(s)) as HTMLElement[];
@@ -211,6 +212,7 @@ const client = {
 
     // 큰 사진은 옆으로 넘기는 띠(track). 작은 사진·화살표·스와이프 모두 같은 자리로 이동
     const track = $('[data-gal-track]');
+    dragScroll(track);
     function markView() {
       const n = track.children.length;
       $$('[data-view]').forEach((b, i) => b.setAttribute('aria-pressed', String(i === view)));

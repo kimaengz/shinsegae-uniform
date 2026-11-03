@@ -101,6 +101,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
 
   <script>
     import { renderCount } from '../scripts/cart.js';
+    import { dragScroll } from '../scripts/drag.js';
     renderCount();
     const btn = document.querySelector('[data-menu-btn]');
     const menu = document.getElementById('m-menu');
@@ -115,7 +116,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       const i = Math.round(track.scrollLeft / (track.clientWidth || 1));
       track.parentElement!.querySelectorAll('[data-pager] i').forEach((d, j) => d.classList.toggle('on', j === i));
     };
-    document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => t.addEventListener('scroll', () => setPager(t), { passive: true }));
+    document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => { t.addEventListener('scroll', () => setPager(t), { passive: true }); dragScroll(t); });
     document.addEventListener('click', (e) => {
       const dot = (e.target as HTMLElement).closest('.su-card .su-dot') as HTMLElement | null;
       if (!dot) return;
