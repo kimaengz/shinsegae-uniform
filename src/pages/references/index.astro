@@ -11,7 +11,7 @@ const groups = [...new Set(references.map((r) => r.type))].map((t) => [t, refere
     <div class="page-h"><h1>납품 실적</h1><p>대학병원부터 공공기관까지, 현장에 맞춘 유니폼을 직접 만들어 납품합니다.</p></div>
   </div>
   {site.referenceCount && (
-    <section class="trust-band" style="border-top:1px dashed var(--line-strong)" aria-label="납품 지표">
+    <section class="trust-band" aria-label="납품 지표">
       <div class="wrap trust trust-3">
         <div><span class="su-caption">납품 기관</span><strong class="num">{site.referenceCount}곳</strong></div>
         <div><span class="su-caption">공공 조달</span><strong>나라장터 등록</strong></div>

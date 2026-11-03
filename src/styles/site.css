@@ -103,7 +103,7 @@ a.su-btn { text-decoration: none; }
 .trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); }
 .trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .trust > div { padding: 24px; display: flex; flex-direction: column; gap: 4px; background: var(--ivory); border-radius: 16px; }
-.trust strong { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.01em; }
+.trust strong { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.25; font-weight: 700; letter-spacing: -.01em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 회사소개: 핵심 경쟁력 · 연혁 */
@@ -228,6 +228,11 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .empty { background: var(--ivory); padding: var(--space-6); border-radius: var(--radius-sm); }
 
 /* 모바일 */
+/* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 */
+@media (min-width: 761px) and (max-width: 960px) {
+  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust-3 > div:last-child { grid-column: 1 / -1; }
+}
 @media (max-width: 760px) {
   .wrap { padding-left: max(var(--space-4), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-4), env(safe-area-inset-right, 0px)); }
   .sec { padding-block: var(--space-12); }
