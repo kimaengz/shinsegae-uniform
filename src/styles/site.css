@@ -25,7 +25,9 @@ h1, h2, h3 { text-wrap: balance; }
 .link-more { font-size: 14px; font-weight: 600; }
 .su-btn-secondary { border-color: transparent; }
 .su-btn-secondary:hover { background: var(--surface-muted); }
-.card-color { font-size: 14px; color: var(--ink-muted); margin-top: 4px; }
+/* 카드: 사진과 색상 점 사이 여백, 점끼리 간격, 선택 링이 왼쪽 끝에서 잘리지 않게 */
+.su-card .su-dots { margin-top: 10px; gap: 10px; padding-left: 3px; }
+.card-color { font-size: 14px; color: var(--ink-muted); margin-top: 6px; }
 .badge { display: inline-flex; align-self: flex-start; align-items: center; background: var(--surface-muted); color: var(--brand-text); font-size: 13px; line-height: 18px; font-weight: 700; padding: 5px 10px; border-radius: 6px; white-space: nowrap; margin-top: 4px; }
 a.su-btn { text-decoration: none; }
 
