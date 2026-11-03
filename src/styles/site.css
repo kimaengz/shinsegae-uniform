@@ -106,6 +106,13 @@ a.su-btn { text-decoration: none; }
 .trust strong { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.01em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* 회사소개: 핵심 경쟁력 · 연혁 */
+.strengths > div { display: flex; flex-direction: column; gap: 8px; padding-top: 16px; border-top: 1px solid var(--ink); }
+.strengths b { font-size: 17px; }
+.strengths p { font-size: 14px; line-height: 22px; }
+.history { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.history li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.history li > span:first-child { font-weight: 600; color: var(--brand-text); }
 .cat-card { display: flex; flex-direction: column; gap: 10px; color: var(--ink); text-decoration: none; }
 .cat-card .ph { border-radius: var(--radius-sm); }
 .cat-card .ph img:not([src*="placeholder"]) { object-position: center 10%; } /* 4:3으로 잘릴 때 머리가 안 잘리게 위쪽 기준 */
@@ -238,6 +245,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .trust-3 > div:last-child { grid-column: 1 / -1; }
   .trust-band { padding-top: var(--space-4); }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
+  .strengths { grid-template-columns: minmax(0, 1fr); }
+  .history li { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
   .cta { padding: var(--space-8) 20px; }
   .page-h h1, .opt-head h1 { font-size: 26px; line-height: 34px; }
   .pd, .qw { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
