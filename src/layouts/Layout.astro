@@ -5,6 +5,7 @@ import '../styles/site.css';
 import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 import Phone from '../components/Phone.astro';
+import Logo from '../components/Logo.astro';
 
 interface Props { title: string; description?: string; active?: string; bbar?: 'default' | 'none' | 'custom' }
 const { title, description = '병원·기관 단체 메디컬 유니폼. 스크럽, 간호복, 의사 가운, 환자복을 직접 제조하고 로고 자수까지 맞춰 납품합니다.', active = '', bbar = 'default' } = Astro.props;
@@ -37,8 +38,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
   <header class="hd">
     <div class="wrap hd-in">
       <a class="logo" href={u('')} aria-label={`${site.companyName} 홈`}>
-        <span class="logo-mark" aria-hidden="true">S</span>
-        <span class="logo-word" aria-hidden="true"><b>SHINSEGAE</b><span>UNIFORM</span></span>
+        <Logo class="logo-svg" />
       </a>
       <nav class="nav" aria-label="주 메뉴">
         {nav.map(([k, label]) => k === 'products' ? (
@@ -74,7 +74,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
   <footer class="ft">
     <div class="wrap ft-in">
       <div>
-        <b style="letter-spacing:.24em">SHINSEGAE UNIFORM</b>
+        <Logo class="logo-svg logo-svg-ft" />
         <span>{site.companyName} · 대표 {site.ceo}</span>
         {site.businessNumber && <span>사업자등록번호 {site.businessNumber}</span>}
         {site.address && <span>{site.address}</span>}

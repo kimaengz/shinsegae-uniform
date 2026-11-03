@@ -43,10 +43,8 @@ a.su-btn { text-decoration: none; }
 .hd { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
 .hd-in { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
-.logo-mark { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 18px; border-radius: 2px; }
-.logo-word { display: flex; flex-direction: column; line-height: 1; }
-.logo-word b { font-size: 16px; letter-spacing: .24em; }
-.logo-word span { font-size: 9px; letter-spacing: .5em; color: var(--ink-muted); margin-top: 4px; }
+.logo-svg { display: block; height: 34px; width: auto; color: var(--brand-text); }
+.logo-svg-ft { height: 28px; }
 .nav { display: flex; align-items: center; gap: var(--space-8); font-size: 15px; font-weight: 500; }
 .nav a { color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; display: inline-flex; align-items: center; gap: 6px; }
 .nav a:hover { border-bottom-color: var(--line-strong); }
