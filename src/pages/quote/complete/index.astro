@@ -1,0 +1,49 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { data } from '../../../lib/data.mjs';
+import { u } from '../../../lib/url.mjs';
+const { site } = data();
+---
+<Layout title="견적 요청 접수" active="quote" bbar="none">
+  <div class="wrap" style="max-width:760px;padding-block:72px;display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h1 style="font-size:34px;line-height:44px">견적 요청이 접수되었습니다</h1>
+      <p class="muted" data-c-meta>담당자가 확인 후 연락드립니다.</p>
+    </div>
+    <p class="alert" hidden data-c-test>시범 화면입니다. 접수 서버가 아직 연결되지 않아 이 요청은 담당자에게 전달되지 않았습니다.</p>
+    <div class="scroll-x" data-c-table hidden>
+      <table class="spec" style="min-width:420px"><thead><tr><th scope="col">제품</th><th scope="col">색상</th><th scope="col" style="width:auto">수량</th></tr></thead><tbody data-c-rows></tbody></table>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <h2 style="font-size:18px">다음 절차</h2>
+      <ol style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+        <li>담당자가 내용을 확인하고 {site.replyDays} 안에 연락드립니다.</li>
+        <li>상담과 샘플로 원단·색상·사이즈를 확정합니다.</li>
+        <li>작업지시서를 확정하면 생산에 들어갑니다.</li>
+      </ol>
+    </div>
+    <p class="muted">급한 문의 <span class="num">{site.phone}</span> · {site.email}</p>
+    <div class="row">
+      <a class="su-btn su-btn-primary" href={u('products/')}>제품 더 보기</a>
+      <a class="su-btn su-btn-secondary" href={u('')}>홈으로</a>
+    </div>
+  </div>
+  <script>
+    let q: any = null;
+    try { q = JSON.parse(sessionStorage.getItem('su-last-quote') || 'null'); } catch { q = null; }
+    if (q) {
+      const meta = document.querySelector('[data-c-meta]')!;
+      meta.textContent = `접수 번호 ${q.id} · ${q.org}` + (q.email ? ` · ${q.email}로 확인 메일을 보냈습니다.` : '');
+      (document.querySelector('[data-c-test]') as HTMLElement).hidden = q.sent;
+      if (q.items?.length) {
+        (document.querySelector('[data-c-table]') as HTMLElement).hidden = false;
+        const tbody = document.querySelector('[data-c-rows]')!;
+        q.items.forEach((it: any) => {
+          const tr = document.createElement('tr');
+          [`${it.code} ${it.name}`, it.color, `${it.total}벌`].forEach((t) => { const td = document.createElement('td'); td.textContent = t; tr.append(td); });
+          tbody.append(tr);
+        });
+      }
+    }
+  </script>
+</Layout>

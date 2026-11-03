@@ -1,0 +1,15 @@
+{
+  "companyName": "신세계유니폼",
+  "ceo": "[대표자명]",
+  "businessNumber": "[000-00-00000]",
+  "address": "[대구 본사 주소]",
+  "phone": "[대표번호]",
+  "email": "[이메일]",
+  "hours": "평일 [09:00–18:00]",
+  "founded": "2015",
+  "referenceCount": "[○]",
+  "referenceHeadline": "세브란스병원",
+  "showPrices": true,
+  "quoteEndpoint": "",
+  "replyDays": "[영업일 기준 1일]"
+}

@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Garment from '../components/Garment.astro';
+import { data } from '../lib/data.mjs';
+import { u } from '../lib/url.mjs';
+const { site, categories, products } = data();
+const news = products.filter((p) => p.isNew).slice(0, 3);
+const catColor = { scrubs: '#2F3B57', clinic: '#C5D6E8', office: '#F2F2EE', gown: '#FFFFFF', patient: '#EBC8CF', knit: '#6E2236' };
+const steps = [['견적 문의', '품목·수량·로고 정보 접수'], ['상담 · 샘플', '원단·색상·사이즈 확정'], ['작업지시서 확정', '자수 위치·배색·납기 협의'], ['직접 생산 · 검수', '자체 공장 제작과 품질 검수'], ['납품', '병원별 분류 포장 후 납품']];
+---
+<Layout title="홈">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="su-caption">{site.founded}년부터 대구에서 직접 만듭니다</p>
+      <h1 style="font-size:48px;line-height:58px;letter-spacing:-.02em">병원 현장을 위한<br />메디컬 유니폼</h1>
+      <p class="lead">스크럽부터 가운, 환자복까지. 병원 로고 자수와 색상을 맞춰 단체로 납품합니다.</p>
+      <div class="row" style="margin-top:8px">
+        <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
+        <a class="su-btn su-btn-secondary" href={u('products/')}>제품 보기</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <!-- 모델 착용 사진(2880×1440, 모바일 1080×1350)을 public/images/hero.jpg에 넣으면 교체 -->
+      <div class="hero-trio" aria-hidden="true">
+        <span class="su-card-garment" style="--sw:#2F3B57"></span>
+        <span class="su-card-garment" style="--sw:#6E2236"></span>
+        <span class="su-card-garment" style="--sw:#C5D6E8"></span>
+      </div>
+      <span class="ph-label" style="left:auto;right:20px;bottom:20px">모델 착용 사진 자리</span>
+    </div>
+  </section>
+
+  <section class="trust-band" aria-label="회사 신뢰 정보">
+    <div class="wrap trust">
+      <div><span class="su-caption">설립</span><strong class="num">{site.founded}</strong><span class="muted" style="font-size:14px">메디컬 유니폼 한 분야</span></div>
+      <div><span class="su-caption">생산</span><strong>100% 직접 제조</strong><span class="muted" style="font-size:14px">기획 · 생산 · 검수</span></div>
+      <div><span class="su-caption">공공 조달</span><strong>나라장터 등록</strong><span class="muted" style="font-size:14px">여성기업 · 직접생산확인</span></div>
+      <div><span class="su-caption">납품</span><strong class="num">{site.referenceCount}곳</strong><a href={u('references/')} style="font-size:14px">{site.referenceHeadline} 외 납품 실적</a></div>
+    </div>
+  </section>
+
+  {news.length > 0 && (
+    <section class="sec">
+      <div class="wrap">
+        <div class="sec-h">
+          <div><h2 style="font-size:24px">신제품</h2><p>새로 디자인한 {news.length}종입니다.</p></div>
+          <a class="link-more" href={u('new/')}>신제품 전체 보기</a>
+        </div>
+        <div class="cards cards-3">{news.map((p) => <ProductCard p={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <section class="sec sec-tight">
+    <div class="wrap">
+      <div class="sec-h"><h2 style="font-size:24px">현장별 유니폼</h2><a class="link-more" href={u('products/')}>전체 제품 보기</a></div>
+      <div class="cards cards-3">
+        {categories.map((c) => (
+          <a class="cat-card" href={u(`products/${c.id}/`)}>
+            <Garment hex={catColor[c.id] ?? '#F2F2EE'} ratio="43" />
+            <span class="row" style="gap:8px;align-items:baseline"><span class="su-caption">{c.code}</span><b>{c.name}</b></span>
+            <span class="muted" style="font-size:14px">{c.summary}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-tight">
+    <div class="wrap">
+      <div class="sec-h"><h2 style="font-size:24px">견적부터 납품까지</h2></div>
+      <ol class="steps">{steps.map(([t, d]) => <li><b style="font-size:18px">{t}</b><span class="muted" style="font-size:14px">{d}</span></li>)}</ol>
+    </div>
+  </section>
+
+  <section style="padding-bottom:72px">
+    <div class="wrap">
+      <div class="cta">
+        <div><h2 style="font-size:24px">병원 로고와 색상까지 맞춘 단체 견적</h2><p>제품을 골라 견적함에 담거나, 담은 제품 없이 일반 문의로 바로 보내실 수 있습니다.</p></div>
+        <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
+      </div>
+    </div>
+  </section>
+</Layout>

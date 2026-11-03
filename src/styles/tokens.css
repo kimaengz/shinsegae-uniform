@@ -1,0 +1,28 @@
+/* 신세계유니폼 디자인 시스템 토큰 (디자인 시스템 tokens.json에서 옮김) */
+:root, [data-theme="light"] {
+  --surface: #ffffff; --surface-raised: #ffffff; --ivory: #f7f2ec; --line: #e6e1dd; --line-strong: #8f8783;
+  --ink: #1a1717; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
+  --brand-soft: #f6e6e9; --danger: #b42318; --focus: var(--brand-text);
+  --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);
+}
+[data-theme="dark"] {
+  --surface: #141213; --surface-raised: #1c1918; --ivory: #231e1c; --line: #3a3432; --line-strong: #7a726e;
+  --ink: #f2eeec; --ink-muted: #ada6a2; --brand: #a11c33; --on-brand: #ffffff; --brand-text: #f08a9c;
+  --brand-soft: #4a1d26; --danger: #ff8a80; --focus: var(--brand-text);
+  --shadow-pop: 0 8px 24px rgba(0,0,0,0.5);
+}
+:root {
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-full: 9999px;
+  --container-max: 1200px; --breakpoint-mobile: 760px; --control-height: 48px;
+  --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+.display { font-family: var(--font-sans); font-size: 48px; line-height: 58px; font-weight: 700; letter-spacing: -0.02em; }
+.h1 { font-family: var(--font-sans); font-size: 34px; line-height: 44px; font-weight: 700; letter-spacing: -0.02em; }
+.h2 { font-family: var(--font-sans); font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -0.01em; }
+.h3 { font-family: var(--font-sans); font-size: 18px; line-height: 26px; font-weight: 700; }
+.body { font-family: var(--font-sans); font-size: 16px; line-height: 26px; font-weight: 400; }
+.body-sm { font-family: var(--font-sans); font-size: 14px; line-height: 22px; font-weight: 400; }
+.label { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; }
+.caption { font-family: var(--font-sans); font-size: 12px; line-height: 18px; font-weight: 500; }
+.figure { font-family: var(--font-sans); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em; }

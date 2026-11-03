@@ -1,0 +1,323 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import ProductCard from '../../../../components/ProductCard.astro';
+import Garment from '../../../../components/Garment.astro';
+import { data, VIEWS } from '../../../../lib/data.mjs';
+import { u, won } from '../../../../lib/url.mjs';
+
+export function getStaticPaths() {
+  const { products } = data();
+  return products.map((p) => ({ params: { category: p.category, code: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const { categories, products, sizeTables } = data();
+const cat = categories.find((c) => c.id === p.category);
+const related = products.filter((x) => x.category === p.category && x.code !== p.code).slice(0, 4);
+const c0 = p.colors[0];
+const g0 = p.gallery[c0.slug];
+const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 이상', p.prices[2]]];
+const sizeTable = sizeTables[p.code];
+const client = {
+  code: p.code, name: p.name, category: p.category, slug: p.slug, colors: p.colors, sizes: p.sizes,
+  prices: p.prices, isPublic: p.isPublic, embroidery: p.embroidery,
+  gallery: Object.fromEntries(Object.entries(p.gallery).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
+  thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
+};
+---
+<Layout title={`${p.name} (${p.code})`} active="products" bbar="custom" description={`${p.name} · ${p.summary}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
+  <div class="wrap">
+    <nav class="crumb su-caption" aria-label="현재 위치">
+      <a href={u('')}>홈</a><span aria-hidden="true">/</span>
+      <a href={u('products/')}>제품</a><span aria-hidden="true">/</span>
+      <a href={u(`products/${cat.id}/`)}>{cat.name}</a><span aria-hidden="true">/</span>
+      <span aria-current="page">{p.code}</span>
+    </nav>
+
+    <div class="pd">
+      <div class="gal-wrap">
+        <div class="gal">
+          <div class="thumbs" role="group" aria-label="이미지 보기">
+            {VIEWS.map(([v, label], i) => (
+              <button type="button" aria-label={label} aria-pressed={i === 0 ? 'true' : 'false'} data-view={i}>
+                <Garment hex={c0.hex} src={g0[i].src} />
+              </button>
+            ))}
+          </div>
+          <div class="gal-main" id="gal-main">
+            <Garment hex={c0.hex} src={g0[0].src} alt={`${p.name} ${c0.name} 앞면`} label={g0[0].src ? undefined : `앞면 · ${c0.name}`} />
+          </div>
+        </div>
+      </div>
+
+      <div class="opt">
+        <div class="opt-head">
+          <div class="row" style="justify-content:space-between">
+            <span class="su-caption">{p.code} · {cat.name}{p.isNew && <> · <span class="su-tag su-tag-new">NEW</span></>}</span>
+            <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
+          </div>
+          <h1>{p.name}</h1>
+          <p class="muted">{p.summary}</p>
+        </div>
+
+        <div class="su-select" data-color-select>
+          <div class="su-select-label">색상 - <b data-color-name>{c0.name}</b></div>
+          <button type="button" class="su-select-btn" aria-haspopup="listbox" aria-expanded="false" data-color-btn>
+            <span class="su-thumb" style={`--sw:${c0.hex}`} data-color-thumb></span><span class="su-grow" data-color-name>{c0.name}</span><span class="su-caret" aria-hidden="true"></span>
+          </button>
+          <div class="su-select-list" role="listbox" aria-label="색상" hidden data-color-list>
+            {p.colors.map((c, i) => (
+              <button type="button" role="option" aria-selected={i === 0 ? 'true' : 'false'} data-color={c.slug}><span class="su-thumb" style={`--sw:${c.hex}`}></span>{c.name}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="blk">
+          <div class="blk-h">
+            <h2>참고 단가 <span class="su-caption" style="font-weight:500">1벌</span></h2>
+            <button type="button" class="su-btn su-btn-ghost su-btn-sm" style="color:var(--brand-text);padding:0" data-size-open>사이즈 안내</button>
+          </div>
+          {p.isPublic ? (
+            <div class="su-tiers">
+              <table><caption class="su-sr">수량 구간별 참고 단가</caption><tbody>
+                {tiers.map(([label, price], i) => <tr data-tier={i}><th scope="row">{label}<span class="su-tiers-now" hidden>현재 수량</span></th><td>{won(price)}</td></tr>)}
+              </tbody></table>
+              <p class="su-hint">자수·배색 등 옵션에 따라 달라지는 참고 단가입니다.</p>
+            </div>
+          ) : <p class="su-tiers-hidden">이 제품은 견적 후 단가를 안내합니다.</p>}
+        </div>
+
+        <div class="blk">
+          <div class="blk-h"><h2>사이즈별 수량</h2><span class="su-label num" data-total>총 0벌</span></div>
+          <div class="qty-grid">
+            {p.sizes.map((s) => (
+              <div class="su-qty" data-qty={s}>
+                <span class="su-qty-label">{s}</span>
+                <div class="su-qty-ctrl">
+                  <button type="button" data-dec aria-label={`${s} 1벌 빼기`} disabled>−</button>
+                  <input type="number" inputmode="numeric" min="0" max="9999" value="0" aria-label={`${s} 수량`} />
+                  <button type="button" data-inc aria-label={`${s} 1벌 더하기`}>+</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="blk">
+          <div class="blk-h"><h2>로고 · 자수</h2></div>
+          <div class="su-field">
+            <label class="su-label" for="emb-type">자수 종류</label>
+            <select id="emb-type" class="su-input" data-emb-type>
+              <option>없음</option><option selected>로고</option><option>이름</option><option>로고 + 이름</option>
+            </select>
+          </div>
+          <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
+            <legend class="su-label" style="margin-bottom:8px">자수 위치</legend>
+            <div class="chips">
+              {p.embroidery.map((e) => <label class="su-chip"><input type="checkbox" value={e} data-emb-pos /><span>{e}</span></label>)}
+            </div>
+          </fieldset>
+          <span class="su-hint">로고 파일은 견적함에서 한 번만 첨부합니다.</span>
+        </div>
+
+        <div class="add-box desk-only">
+          <div class="sum"><span class="muted" style="font-size:14px">예상 금액 (참고)</span><strong data-est>{p.isPublic ? '—' : '견적 후 안내'}</strong></div>
+          <button type="button" class="su-btn su-btn-primary su-btn-full" data-add disabled>견적함 담기</button>
+          <span class="su-hint" data-add-hint>수량을 1벌 이상 입력하면 담을 수 있습니다.</span>
+        </div>
+      </div>
+    </div>
+
+    <section class="detail-imgs" aria-labelledby="detail-title">
+      <h2 id="detail-title" style="font-size:24px">상세 정보</h2>
+      <div class="stack">
+        {p.details.length ? p.details.map((src, i) => <img src={u(src)} alt={`${p.name} 상세 이미지 ${i + 1}`} loading="lazy" width="720" />)
+          : <div class="ph" style="aspect-ratio:720/900;display:flex;align-items:center;justify-content:center"><span class="su-caption" style="background:var(--surface);padding:4px 10px;border-radius:4px">상세페이지 이미지 자리 · 가로 720px</span></div>}
+      </div>
+    </section>
+
+    <section class="sec" style="padding-bottom:0">
+      <div class="sec-h"><h2 style="font-size:24px">제품 정보</h2></div>
+      <table class="spec"><tbody>
+        <tr><th scope="row">구성</th><td>{p.type}</td></tr>
+        <tr><th scope="row">사이즈</th><td>{p.sizes.join(' · ')}</td></tr>
+        <tr><th scope="row">소재</th><td>{p.material}</td></tr>
+        <tr><th scope="row">기능</th><td>{p.function}</td></tr>
+        <tr><th scope="row">세탁</th><td>{p.care}</td></tr>
+        <tr><th scope="row">맞춤</th><td>로고 자수 · 이름 자수 ({p.embroidery.join(', ')}) · 색상 변경 상담</td></tr>
+      </tbody></table>
+    </section>
+
+    {related.length > 0 && (
+      <section class="sec">
+        <div class="sec-h"><h2 style="font-size:24px">같은 카테고리 제품</h2><a class="link-more" href={u(`products/${cat.id}/`)}>{cat.name} 전체</a></div>
+        <div class="cards">{related.map((x) => <ProductCard p={x} />)}</div>
+      </section>
+    )}
+  </div>
+
+  <dialog class="modal" aria-labelledby="size-title" data-size-dialog>
+    <div class="modal-in">
+      <div class="modal-h">
+        <h2 id="size-title" style="font-size:24px">사이즈 안내</h2>
+        <button type="button" class="icon-btn" aria-label="닫기" data-size-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
+      </div>
+      {sizeTable ? Object.entries(sizeTable).map(([part, rows]) => (
+        <div class="scroll-x">
+          <table class="size-table">
+            <thead><tr><th scope="col" style="text-align:left">{part} (cm)</th>{p.sizes.map((s) => <th scope="col">{s}</th>)}</tr></thead>
+            <tbody>{rows.map((r) => <tr><th scope="row">{r.measure}</th>{p.sizes.map((s) => <td>{r.values[s] || '-'}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      )) : <p class="empty">이 제품의 사이즈 표를 준비하고 있습니다. 급하시면 견적 요청서에 적어 주세요.</p>}
+      <ul class="muted" style="margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:6px">
+        <li>평평하게 펼쳐 끝선에서 끝선까지 잰 값입니다.</li>
+        <li>측정 방법에 따라 1~3cm 차이가 날 수 있습니다.</li>
+        <li>사이즈 샘플이 필요하면 견적 요청서에 적어 주세요.</li>
+      </ul>
+    </div>
+  </dialog>
+
+  <div class="bbar" slot="bbar">
+    <div class="su-grow" style="display:flex;flex-direction:column">
+      <span class="su-caption" data-total>총 0벌</span>
+      <b class="num" style="font-size:15px" data-est>{p.isPublic ? '—' : '견적 후 안내'}</b>
+    </div>
+    <button type="button" class="su-btn su-btn-primary" data-add disabled>견적함 담기</button>
+  </div>
+
+  <script is:inline type="application/json" id="pd-data" set:html={JSON.stringify(client)} />
+  <script>
+    import { addLine, toast } from '../../../../scripts/cart.js';
+    const P = JSON.parse(document.getElementById('pd-data')!.textContent!);
+    const $ = (s: string) => document.querySelector(s) as HTMLElement;
+    const $$ = (s: string) => Array.from(document.querySelectorAll(s)) as HTMLElement[];
+    const won = (n: number) => n.toLocaleString('ko-KR') + '원';
+    const fromUrl = new URLSearchParams(location.search).get('color');
+    let color = P.colors.find((c: any) => c.slug === fromUrl) ?? P.colors[0];
+    let view = 0;
+    const qty: Record<string, number> = {};
+
+    const phHtml = (src: string | null, hex: string, label?: string) =>
+      (src ? `<img src="${src}" alt="">` : `<span class="su-card-garment" style="--sw:${hex}" aria-hidden="true"></span>`) + (label && !src ? `<span class="ph-label">${label}</span>` : '');
+
+    function renderGallery() {
+      const list = P.gallery[color.slug];
+      $$('[data-view]').forEach((b, i) => {
+        b.setAttribute('aria-pressed', String(i === view));
+        b.querySelector('[data-ph]')!.innerHTML = phHtml(list[i].src, color.hex);
+      });
+      const main = $('#gal-main [data-ph]');
+      main.innerHTML = phHtml(list[view].src, color.hex, `${list[view].label} · ${color.name}`);
+      const img = main.querySelector('img'); if (img) img.alt = `${P.name} ${color.name} ${list[view].label}`;
+    }
+    function renderColor() {
+      $$('[data-color-name]').forEach((el) => (el.textContent = color.name));
+      ($('[data-color-thumb]')).style.setProperty('--sw', color.hex);
+      $$('[data-color]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.color === color.slug)));
+      renderGallery();
+    }
+    function total() { return Object.values(qty).reduce((a, n) => a + n, 0); }
+    function renderTotals() {
+      const t = total();
+      const tier = t >= 100 ? 2 : t >= 50 ? 1 : 0;
+      $$('[data-total]').forEach((el) => (el.textContent = `총 ${t}벌`));
+      const est = P.isPublic ? (t > 0 ? won(P.prices[tier] * t) : '—') : '견적 후 안내';
+      $$('[data-est]').forEach((el) => (el.textContent = est));
+      $$('[data-tier]').forEach((tr) => {
+        const on = t > 0 && Number(tr.dataset.tier) === tier;
+        tr.classList.toggle('is-on', on);
+        (tr.querySelector('.su-tiers-now') as HTMLElement).hidden = !on;
+      });
+      $$('[data-add]').forEach((b) => ((b as HTMLButtonElement).disabled = t < 1));
+      const hint = $('[data-add-hint]');
+      if (hint) hint.textContent = t < 1 ? '수량을 1벌 이상 입력하면 담을 수 있습니다.' : '담은 뒤에도 견적함에서 수량을 고칠 수 있습니다.';
+    }
+    function setQty(size: string, v: number) {
+      v = Math.max(0, Math.min(9999, Math.floor(v) || 0));
+      qty[size] = v;
+      const box = document.querySelector(`[data-qty="${size}"]`)!;
+      (box.querySelector('input') as HTMLInputElement).value = String(v);
+      (box.querySelector('[data-dec]') as HTMLButtonElement).disabled = v <= 0;
+      box.classList.toggle('has-value', v > 0);
+      renderTotals();
+    }
+
+    // 색상 선택
+    const btn = $('[data-color-btn]'), list = $('[data-color-list]');
+    const closeList = () => { list.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+    btn.addEventListener('click', () => {
+      const open = list.hidden; list.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+      if (open) (list.querySelector('[aria-selected="true"]') as HTMLElement)?.focus();
+    });
+    list.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest('[data-color]') as HTMLElement | null;
+      if (!b) return;
+      color = P.colors.find((c: any) => c.slug === b.dataset.color); closeList(); renderColor(); btn.focus();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !list.hidden) { closeList(); btn.focus(); } });
+    document.addEventListener('click', (e) => { if (!list.hidden && !(e.target as HTMLElement).closest('[data-color-select]')) closeList(); });
+
+    // 멀티뷰
+    $$('[data-view]').forEach((b) => b.addEventListener('click', () => { view = Number(b.dataset.view); renderGallery(); }));
+    $('.thumbs').addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      view = (view + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : 4)) % 5;
+      renderGallery(); ($$('[data-view]')[view]).focus();
+    });
+
+    // 수량
+    $$('[data-qty]').forEach((box) => {
+      const size = box.dataset.qty!; qty[size] = 0;
+      box.querySelector('[data-inc]')!.addEventListener('click', () => setQty(size, qty[size] + 1));
+      box.querySelector('[data-dec]')!.addEventListener('click', () => setQty(size, qty[size] - 1));
+      box.querySelector('input')!.addEventListener('input', (e) => {
+        const v = Math.max(0, Math.min(9999, parseInt((e.target as HTMLInputElement).value, 10) || 0));
+        qty[size] = v; box.classList.toggle('has-value', v > 0);
+        (box.querySelector('[data-dec]') as HTMLButtonElement).disabled = v <= 0; renderTotals();
+      });
+      box.querySelector('input')!.addEventListener('blur', () => setQty(size, qty[size]));
+    });
+
+    // 자수
+    const embType = $('[data-emb-type]') as HTMLSelectElement;
+    const posInputs = $$('[data-emb-pos]') as HTMLInputElement[];
+    const syncChips = () => posInputs.forEach((i) => {
+      i.disabled = embType.value === '없음';
+      i.closest('.su-chip')!.classList.toggle('is-on', i.checked && !i.disabled);
+      i.closest('.su-chip')!.classList.toggle('is-disabled', i.disabled);
+    });
+    embType.addEventListener('change', syncChips);
+    posInputs.forEach((i) => i.addEventListener('change', syncChips));
+    if (posInputs[0]) posInputs[0].checked = true;
+    syncChips();
+
+    // 담기
+    $$('[data-add]').forEach((b) => b.addEventListener('click', () => {
+      if (total() < 1) return;
+      const lineQty = Object.fromEntries(Object.entries(qty).filter(([, n]) => n > 0));
+      const merged = addLine({
+        code: P.code, name: P.name, category: P.category, slug: P.slug, color: color.slug, colorName: color.name, hex: color.hex,
+        thumb: P.gallery[color.slug][0].src ?? P.thumb, sizes: P.sizes, prices: P.prices, isPublic: P.isPublic, embOptions: P.embroidery,
+        qty: lineQty, emb: { type: embType.value, pos: embType.value === '없음' ? [] : posInputs.filter((i) => i.checked).map((i) => i.value) }
+      });
+      P.sizes.forEach((s: string) => setQty(s, 0));
+      toast(merged ? '같은 제품·색상이 있어 수량을 더했습니다' : '견적함에 담았습니다', { label: '견적함 보기', href: P.quoteUrl });
+    }));
+
+    // 링크 복사 (선택한 색상 포함)
+    $('[data-share]').addEventListener('click', async () => {
+      const url = new URL(location.href); url.searchParams.set('color', color.slug); url.hash = '';
+      try { await navigator.clipboard.writeText(url.toString()); toast('링크를 복사했습니다 (선택한 색상 포함)'); }
+      catch { toast('복사하지 못했습니다. 주소창의 주소를 복사해 주세요.'); history.replaceState(null, '', url); }
+    });
+
+    // 사이즈 안내
+    const dlg = $('[data-size-dialog]') as HTMLDialogElement;
+    $('[data-size-open]').addEventListener('click', () => dlg.showModal());
+    $('[data-size-close]').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+    renderColor(); renderTotals();
+  </script>
+</Layout>

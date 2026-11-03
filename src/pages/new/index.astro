@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { data } from '../../lib/data.mjs';
+import { u } from '../../lib/url.mjs';
+const news = data().products.filter((p) => p.isNew);
+---
+<Layout title="신제품" active="new" description="신세계유니폼이 새로 디자인한 메디컬 유니폼입니다.">
+  <section class="hero" style="min-height:420px">
+    <div class="hero-copy">
+      <p class="su-caption">[시즌명]</p>
+      <h1 style="font-size:40px;line-height:50px;letter-spacing:-.02em">새로 디자인한<br />메디컬 유니폼</h1>
+      <p class="lead">[신제품 콘셉트 2~3줄: 무엇을 개선했고 어떤 현장에 맞는지]</p>
+    </div>
+    <div class="hero-photo" style="min-height:420px">
+      <div class="hero-trio" aria-hidden="true">
+        <span class="su-card-garment" style="--sw:#CFDCCF"></span>
+        <span class="su-card-garment" style="--sw:#F2F2EE"></span>
+        <span class="su-card-garment" style="--sw:#C5D6E8"></span>
+      </div>
+      <span class="ph-label" style="left:auto;right:20px;bottom:20px">신제품 착용 사진 자리</span>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-h"><h2 style="font-size:24px">신제품 {news.length}종</h2><a class="link-more" href={u('products/')}>전체 제품 보기</a></div>
+      {news.length ? <div class="cards cards-3">{news.map((p) => <ProductCard p={p} />)}</div> : <p class="empty">곧 새로운 제품을 소개합니다.</p>}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,126 @@
+---
+import '../styles/tokens.css';
+import '../styles/components.css';
+import '../styles/site.css';
+import { data } from '../lib/data.mjs';
+import { u } from '../lib/url.mjs';
+
+interface Props { title: string; description?: string; active?: string; bbar?: 'default' | 'none' | 'custom' }
+const { title, description = '병원·기관 단체 메디컬 유니폼. 스크럽, 간호복, 의사 가운, 환자복을 직접 제조하고 로고 자수까지 맞춰 납품합니다.', active = '', bbar = 'default' } = Astro.props;
+const { site, categories } = data();
+const fullTitle = title === '홈' ? `${site.companyName} | 병원 단체 메디컬 유니폼` : `${title} | ${site.companyName}`;
+const nav = [['about', '회사소개'], ['products', '제품'], ['new', '신제품'], ['references', '납품 실적']];
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  <link rel="icon" href={u('favicon.svg')} type="image/svg+xml" />
+  <link rel="stylesheet" href={u('fonts/pretendard/pretendard.css')} />
+  <meta name="theme-color" content="#ffffff" />
+  <slot name="head" />
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="hd">
+    <div class="wrap hd-in">
+      <a class="logo" href={u('')} aria-label={`${site.companyName} 홈`}>
+        <span class="logo-mark" aria-hidden="true">S</span>
+        <span class="logo-word" aria-hidden="true"><b>SHINSEGAE</b><span>UNIFORM</span></span>
+      </a>
+      <nav class="nav" aria-label="주 메뉴">
+        {nav.map(([k, label]) => k === 'products' ? (
+          <span class="nav-sub">
+            <a href={u('products/')} aria-current={active === k ? 'page' : undefined}>{label}</a>
+            <span class="nav-sub-list">
+              {categories.map((c) => <a href={u(`products/${c.id}/`)}>{c.name}</a>)}
+            </span>
+          </span>
+        ) : (
+          <a href={u(`${k}/`)} aria-current={active === k ? 'page' : undefined}>{label}</a>
+        ))}
+        <a href={u('quote/')} aria-current={active === 'quote' ? 'page' : undefined}>견적문의<span class="su-tag su-tag-count cart-count" data-cart-count hidden>0</span></a>
+      </nav>
+      <div class="m-only row" style="gap:4px">
+        <a href={u('quote/')} class="row" style="gap:6px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;height:44px">견적문의<span class="su-tag su-tag-count cart-count" data-cart-count hidden>0</span></a>
+        <button type="button" class="menu-btn" aria-expanded="false" aria-controls="m-menu" aria-label="전체 메뉴 열기" data-menu-btn>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="m-menu" id="m-menu" aria-label="전체 메뉴" hidden>
+      <div class="wrap">
+        {nav.map(([k, label]) => <a href={u(`${k}/`)}>{label}</a>)}
+        <a href={u('quote/')}>견적문의</a>
+        <p class="muted">대표번호 <span class="num">{site.phone}</span></p>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main"><slot /></main>
+
+  <footer class="ft">
+    <div class="wrap ft-in">
+      <div>
+        <b style="letter-spacing:.24em">SHINSEGAE UNIFORM</b>
+        <span>{site.companyName} · 대표 {site.ceo}</span>
+        <span>사업자등록번호 {site.businessNumber}</span>
+        <span>{site.address}</span>
+      </div>
+      <div>
+        <b>견적 상담</b>
+        <span>T <span class="num">{site.phone}</span></span>
+        <span>E {site.email}</span>
+        <span>{site.hours}</span>
+      </div>
+      <div>
+        <b>인증</b>
+        <span>여성기업 · 직접생산확인 · 나라장터 등록</span>
+        <a href={u('privacy/')}>개인정보처리방침</a>
+        <span>© {site.companyName}</span>
+      </div>
+    </div>
+  </footer>
+
+  {bbar === 'default' && (
+    <div class="bbar">
+      <span class="su-grow" style="font-size:14px">전화 <span class="num">{site.phone}</span></span>
+      <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
+    </div>
+  )}
+  <slot name="bbar" />
+  <div class="toast-host" id="toast-host" role="status" aria-live="polite"></div>
+
+  <script>
+    import { renderCount } from '../scripts/cart.js';
+    renderCount();
+    const btn = document.querySelector('[data-menu-btn]');
+    const menu = document.getElementById('m-menu');
+    btn?.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '전체 메뉴 닫기' : '전체 메뉴 열기');
+      if (menu) menu.hidden = !open;
+    });
+    // 제품 카드의 색상 점: 카드 이미지만 그 색으로 바꾼다
+    document.addEventListener('click', (e) => {
+      const dot = (e.target as HTMLElement).closest('.su-card .su-dot') as HTMLElement | null;
+      if (!dot) return;
+      const card = dot.closest('[data-card]')!;
+      card.querySelectorAll('.su-dot').forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
+      const ph = card.querySelector('[data-ph]')!;
+      const src = dot.dataset.src;
+      if (src) ph.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
+      else ph.innerHTML = `<span class="su-card-garment" style="--sw:${dot.dataset.hex}" aria-hidden="true"></span>`;
+    });
+  </script>
+</body>
+</html>
