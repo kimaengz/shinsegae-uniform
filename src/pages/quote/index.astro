@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import { data } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
-import Phone from '../../components/Phone.astro';
 const { site, categories, products } = data();
 const client = {
   endpoint: site.quoteEndpoint || '',
@@ -48,7 +47,7 @@ const client = {
           <div class="su-field">
             <span class="su-label" id="files-label">파일 첨부</span>
             <div class="file-list">
-              {[['f-logo', 'logo', '로고', '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg'], ['f-doc', 'doc', '작업지시서', '.pdf,.xlsx,.xls,.png,.jpg,.jpeg,.hwp,.docx']].map(([id, name, label, accept]) => (
+              {[['f-logo', 'logo', '로고', '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg']].map(([id, name, label, accept]) => (
                 <div class="file-pick" data-file-pick>
                   <span class="file-pick-name" data-file-name><b>{label}</b>선택한 파일 없음</span>
                   <label class="file-pick-btn" for={id}>파일 올리기<input id={id} name={name} type="file" accept={accept} /></label>
@@ -77,7 +76,6 @@ const client = {
         </div>
         <button type="button" class="su-btn su-btn-primary su-btn-full" data-submit>견적 요청 보내기</button>
         <a href={u('products/')} style="text-align:center;font-size:14px;font-weight:600">제품 더 담기</a>
-        <p class="su-caption">급한 문의 <Phone /></p>
       </aside>
     </div>
   </div>
@@ -175,12 +173,12 @@ const client = {
       else if (!/^[0-9-]{9,14}$/.test(tel)) errs.push(['f-tel', '숫자와 -만 입력해 주세요. 예: 010-1234-5678']);
       const mail = val('f-mail');
       if (mail && !/^\S+@\S+\.\S+$/.test(mail)) errs.push(['f-mail', '이메일 형식을 확인해 주세요. 예: name@hospital.or.kr']);
-      for (const id of ['f-logo', 'f-doc']) {
+      for (const id of ['f-logo']) {
         const f = (document.getElementById(id) as HTMLInputElement).files?.[0];
         if (f && f.size > 10 * 1024 * 1024) errs.push([id, '10MB 이하 파일만 보낼 수 있습니다.']);
       }
       if (!(document.getElementById('f-agree') as HTMLInputElement).checked) errs.push(['f-agree', '개인정보 수집·이용에 동의해야 보낼 수 있습니다.']);
-      ['f-org', 'f-name', 'f-tel', 'f-mail', 'f-logo', 'f-doc', 'f-agree'].forEach((id) => setErr(id, errs.find((e) => e[0] === id)?.[1] ?? ''));
+      ['f-org', 'f-name', 'f-tel', 'f-mail', 'f-logo', 'f-agree'].forEach((id) => setErr(id, errs.find((e) => e[0] === id)?.[1] ?? ''));
       return errs;
     }
     // 파일 첨부: 고른 파일 이름을 칸에 보여 준다
@@ -221,12 +219,11 @@ const client = {
         due: val('f-due'), message: val('f-msg'),
         interest: $$('[name="interest"]').filter((i) => (i as HTMLInputElement).checked).map((i) => (i as HTMLInputElement).value), expectedQty: val('f-qty'),
         items: cart.map((l) => ({ code: l.code, name: l.name, color: l.colorName, qty: Object.fromEntries(Object.entries(l.qty).filter(([, n]) => Number(n) > 0)), total: lineTotal(l), embroidery: embText(l.emb), estimate: tierPrice(l, lineTotal(l)) })),
-        logo: null as any, doc: null as any
+        logo: null as any
       };
       let sent = false;
       try {
         payload.logo = await readFile(document.getElementById('f-logo') as HTMLInputElement);
-        payload.doc = await readFile(document.getElementById('f-doc') as HTMLInputElement);
         if (Q.endpoint) {
           await fetch(Q.endpoint, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
           sent = true;
