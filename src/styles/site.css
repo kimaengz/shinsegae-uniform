@@ -91,8 +91,9 @@ a.su-btn { text-decoration: none; }
 .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--ivory); min-height: 600px; }
 .hero-copy { display: flex; flex-direction: column; justify-content: center; gap: var(--space-6); padding: var(--space-18) var(--space-12) var(--space-18) max(var(--space-8), calc((100vw - var(--container-max)) / 2 + var(--space-8))); }
 .hero-copy .lead { color: var(--ink-muted); max-width: 26em; }
-.hero-photo { position: relative; background: #ece4da; min-height: 600px; overflow: hidden; }
-.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-photo { position: relative; background: var(--ivory); min-height: 600px; overflow: hidden; }
+/* 사진 배경이 아이보리와 같아서, 잘리지 않게 통째로 넣고 아래쪽에 붙인다 */
+.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .hero-trio { position: absolute; inset: 0; }
 .hero-trio .su-card-garment:nth-child(1) { left: 14%; right: 66%; top: 24%; bottom: 20%; }
 .hero-trio .su-card-garment:nth-child(2) { left: 41%; right: 39%; top: 16%; bottom: 14%; }
@@ -219,7 +220,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .nav { display: none; }
   .m-only { display: inline-flex !important; }
   .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .hero-photo { min-height: 360px; }
+  .hero-photo { min-height: 0; aspect-ratio: 5 / 6; }
   .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
   .hero-copy h1 { font-size: 32px; line-height: 40px; }
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
