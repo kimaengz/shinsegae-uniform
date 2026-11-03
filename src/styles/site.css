@@ -108,7 +108,7 @@ a.su-btn { text-decoration: none; }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .cat-card { display: flex; flex-direction: column; gap: 10px; color: var(--ink); text-decoration: none; }
 .cat-card .ph { border-radius: var(--radius-sm); }
-.cat-card .ph img:not([src*="placeholder"]) { object-position: center 15%; } /* 4:3으로 잘릴 때 머리가 안 잘리게 위쪽 기준 */
+.cat-card .ph img:not([src*="placeholder"]) { object-position: center 10%; } /* 4:3으로 잘릴 때 머리가 안 잘리게 위쪽 기준 */
 .cat-card b { font-size: 18px; }
 .cat-card:hover b { text-decoration: underline; text-underline-offset: 4px; }
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--ink); counter-reset: step; }
