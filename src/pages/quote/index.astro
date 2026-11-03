@@ -46,15 +46,13 @@ const client = {
           <div class="su-field"><label class="su-label" for="f-due">희망 납기</label><input class="su-input" id="f-due" name="due" type="date" /></div>
           <div class="su-field">
             <span class="su-label" id="files-label">로고 파일 <span class="muted" style="font-weight:400">(선택)</span></span>
-            <div class="file-list">
-              {[['f-logo', 'logo', '로고', '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg']].map(([id, name, label, accept]) => (
-                <div class="file-pick" data-file-pick>
-                  <span class="file-pick-name" data-file-name><b>{label}</b>선택한 파일 없음</span>
-                  <label class="file-pick-btn" for={id}>파일 올리기<input id={id} name={name} type="file" accept={accept} /></label>
-                </div>
-              ))}
+            <!-- accept: 확장자와 MIME을 함께 적어야 iOS에서 .ai · .eps 파일도 고를 수 있다 -->
+            <div class="file-pick" data-file-pick>
+              <span class="file-pick-name" data-file-name>선택한 파일 없음</span>
+              <button type="button" class="file-pick-clear" data-file-clear aria-label="고른 로고 파일 빼기" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+              <label class="file-pick-btn" for="f-logo"><span data-file-btn>파일 올리기</span><input id="f-logo" name="logo" type="file" aria-describedby="f-logo-hint" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg,application/postscript,application/illustrator,application/pdf,image/svg+xml,image/png,image/jpeg" /></label>
             </div>
-            <span class="su-hint"><b style="color:var(--ink);font-weight:600">AI · EPS · PDF(벡터) 파일이 가장 좋아요.</b> 없으면 PNG · JPG도 괜찮습니다. 자수 도안 작업 때 맞춰 다시 그려 드립니다. 지금 파일이 없으면 비워 두고 상담 때 보내 주셔도 됩니다. (20MB 이하)</span>
+            <span class="su-hint" id="f-logo-hint">AI · EPS · PDF 같은 벡터 파일이 가장 좋고, PNG · JPG도 받아요. 20MB 이하, 없으면 비워 두세요.</span>
           </div>
           <div class="su-field full"><label class="su-label" for="f-msg">요청사항</label><textarea class="su-input" id="f-msg" name="message" rows="4" placeholder="다른 색상(병원 로고 색 등), 배색, 납기 등 요청사항을 적어 주세요"></textarea></div>
           <div class="full" style="display:flex;flex-direction:column;gap:6px">
@@ -181,19 +179,21 @@ const client = {
       ['f-org', 'f-name', 'f-tel', 'f-mail', 'f-logo', 'f-agree'].forEach((id) => setErr(id, errs.find((e) => e[0] === id)?.[1] ?? ''));
       return errs;
     }
-    // 파일 첨부: 고른 파일 이름을 칸에 보여 준다
+    // 로고 파일: 고른 파일 이름을 보여 주고, × 로 뺄 수 있게
     document.querySelectorAll<HTMLElement>('[data-file-pick]').forEach((box) => {
       const input = box.querySelector('input[type="file"]') as HTMLInputElement;
       const name = box.querySelector('[data-file-name]')!;
-      const label = name.querySelector('b')!.textContent;
-      input.addEventListener('change', () => {
+      const clear = box.querySelector('[data-file-clear]') as HTMLButtonElement;
+      const btn = box.querySelector('[data-file-btn]')!;
+      const show = () => {
         const f = input.files?.[0];
         box.classList.toggle('has-file', !!f);
-        name.innerHTML = '';
-        const b = document.createElement('b'); b.textContent = label;
-        name.append(b, f ? `${f.name} (${(f.size / 1024 / 1024).toFixed(1)}MB)` : '선택한 파일 없음');
-        (box.querySelector('.file-pick-btn')!.firstChild as Text).textContent = f ? '바꾸기' : '파일 올리기';
-      });
+        name.textContent = f ? `${f.name} · ${(f.size / 1024 / 1024).toFixed(1)}MB` : '선택한 파일 없음';
+        btn.textContent = f ? '바꾸기' : '파일 올리기';
+        clear.hidden = !f;
+      };
+      input.addEventListener('change', () => { show(); setErr(input.id, ''); });
+      clear.addEventListener('click', () => { input.value = ''; show(); setErr(input.id, ''); input.focus(); });
     });
     const readFile = (input: HTMLInputElement) => new Promise<any>((resolve, reject) => {
       const f = input.files?.[0];

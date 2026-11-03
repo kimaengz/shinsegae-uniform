@@ -221,15 +221,14 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .line-f select { width: auto; min-height: 40px; padding: 6px 10px; }
 .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .form .full { grid-column: 1 / -1; }
-.file-list { display: flex; flex-direction: column; gap: 8px; }
 .file-pick { display: flex; align-items: center; gap: 12px; min-height: var(--control-height); padding: 6px 6px 6px 16px; border-radius: var(--radius-md); background: var(--surface-muted); border: 1.5px solid transparent; }
 .file-pick:focus-within { border-color: var(--brand-text); background: var(--surface); }
 .file-pick-name { flex: 1; min-width: 0; font-size: 14px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.file-pick-name b { color: var(--ink); font-weight: 600; margin-right: 6px; }
 .file-pick.has-file .file-pick-name { color: var(--ink); }
 .file-pick input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .file-pick-btn { flex: none; position: relative; display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border-radius: var(--radius-sm); background: var(--surface); font-size: 14px; font-weight: 600; cursor: pointer; }
 .file-pick.has-file .file-pick-btn { color: var(--ink-muted); }
+.file-pick-clear { flex: none; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: var(--radius-sm); background: none; color: var(--ink-muted); cursor: pointer; }
 .alert { border: 1px solid var(--danger); color: var(--danger); padding: 12px 14px; border-radius: var(--radius-sm); }
 .empty { background: var(--ivory); padding: var(--space-6); border-radius: var(--radius-sm); }
 
