@@ -40,7 +40,7 @@ const { site } = data();
         const tbody = document.querySelector('[data-c-rows]')!;
         q.items.forEach((it: any) => {
           const tr = document.createElement('tr');
-          [`${it.code} ${it.name}`, it.color, `${it.total}벌`].forEach((t) => { const td = document.createElement('td'); td.textContent = t; tr.append(td); });
+          [it.name, it.color, `${it.total}벌`].forEach((t) => { const td = document.createElement('td'); td.textContent = t; tr.append(td); });
           tbody.append(tr);
         });
       }

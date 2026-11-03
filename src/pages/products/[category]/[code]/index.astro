@@ -24,13 +24,13 @@ const client = {
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
 ---
-<Layout title={`${p.name} (${p.code})`} active="products" bbar="custom" description={`${p.name} · ${p.summary}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
+<Layout title={p.name} active="products" bbar="custom" description={`${p.name} · ${p.summary}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
   <div class="wrap">
     <nav class="crumb su-caption" aria-label="현재 위치">
       <a href={u('')}>홈</a><span aria-hidden="true">/</span>
       <a href={u('products/')}>제품</a><span aria-hidden="true">/</span>
       <a href={u(`products/${cat.id}/`)}>{cat.name}</a><span aria-hidden="true">/</span>
-      <span aria-current="page">{p.code}</span>
+      <span aria-current="page">{p.name}</span>
     </nav>
 
     <div class="pd">
@@ -52,7 +52,7 @@ const client = {
       <div class="opt">
         <div class="opt-head">
           <div class="row" style="justify-content:space-between">
-            <span class="row" style="gap:8px"><span class="su-caption">{cat.name}<span aria-hidden="true">&nbsp;&nbsp;|&nbsp;&nbsp;</span>상품 코드 {p.code}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
+            <span class="row" style="gap:8px"><span class="su-caption">{cat.name}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
             <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
           </div>
           <h1>{p.name}</h1>

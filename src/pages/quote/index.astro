@@ -27,14 +27,6 @@ const client = {
           <p><b>담은 제품이 없습니다.</b> <a href={u('products/')}>제품을 둘러보고 담거나</a>, 아래 일반 문의로 바로 보내 주세요.</p>
         </div>
 
-        <div class="row" style="align-items:flex-end;gap:8px">
-          <div class="su-field" style="flex:1 1 220px;max-width:320px">
-            <label class="su-label" for="code-add">상품 코드로 추가</label>
-            <input class="su-input" id="code-add" placeholder="예: A01" autocomplete="off" aria-describedby="code-add-hint" />
-            <span class="su-hint" id="code-add-hint" data-code-msg>재주문이라면 상품 코드를 입력하세요.</span>
-          </div>
-          <button type="button" class="su-btn su-btn-secondary" style="margin-bottom:26px" data-code-add>추가</button>
-        </div>
 
         <form class="form" novalidate data-q-form aria-labelledby="org-title">
           <h2 id="org-title" class="full" style="font-size:24px">기관 정보</h2>
@@ -108,13 +100,12 @@ const client = {
           <div style="min-width:0">
             <div class="line-h">
               <div style="display:flex;flex-direction:column;gap:2px">
-                <span class="su-caption">${esc(l.code)}</span>
                 <b style="font-size:18px">${esc(l.name)}</b>
                 <span style="font-size:14px">${esc(l.colorName)} · <a href="${esc(Q.products[l.code] ?? Q.productsUrl)}?color=${esc(l.color)}">색상 바꾸기</a></span>
               </div>
               <button type="button" class="su-btn su-btn-ghost su-btn-sm" data-del="${i}" aria-label="${esc(l.name)} ${esc(l.colorName)} 삭제">삭제</button>
             </div>
-            <div class="cq">${l.sizes.map((s: string) => `<label>${esc(s)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.code)} ${esc(s)} 수량"></label>`).join('')}</div>
+            <div class="cq">${l.sizes.map((s: string) => `<label>${esc(s)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.name)} ${esc(s)} 수량"></label>`).join('')}</div>
             <div class="line-f">
               <span>자수 <span class="muted">${esc(embText(l.emb))}</span></span>
               <span class="num"><span data-l-qty>${lineTotal(l)}</span>벌 · <b data-l-est>${l.isPublic ? won(tierPrice(l, lineTotal(l))!) : '견적 후 안내'}</b></span>
@@ -153,16 +144,6 @@ const client = {
       toast(`${removed.name}을(를) 뺐습니다`, { label: '되돌리기', onClick: () => { cart.splice(i, 0, removed); saveCart(cart); renderLines(); } });
     });
 
-    // 상품 코드로 추가
-    const codeInput = $('#code-add') as HTMLInputElement, codeMsg = $('[data-code-msg]');
-    const addCode = () => {
-      const c = codeInput.value.trim().toUpperCase();
-      const url = Q.products[c];
-      if (url) location.href = url;
-      else { codeMsg.textContent = '없는 상품 코드입니다. 예: A01'; codeMsg.className = 'su-error'; codeInput.focus(); }
-    };
-    $('[data-code-add]').addEventListener('click', addCode);
-    codeInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addCode(); } });
 
     // 검증
     const form = $('[data-q-form]') as HTMLFormElement;
