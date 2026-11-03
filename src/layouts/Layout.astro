@@ -2,6 +2,7 @@
 import '../styles/tokens.css';
 import '../styles/components.css';
 import '../styles/site.css';
+import '../styles/motion.css';
 import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 import Phone from '../components/Phone.astro';
@@ -106,6 +107,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
   <script>
     import { renderCount } from '../scripts/cart.js';
     import { dragScroll } from '../scripts/drag.js';
+    import '../scripts/motion.js';
     renderCount();
     const btn = document.querySelector('[data-menu-btn]');
     const menu = document.getElementById('m-menu');
