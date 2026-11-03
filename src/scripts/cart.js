@@ -51,3 +51,11 @@ export function toast(message, action) {
   host.append(box);
   timer = setTimeout(() => { host.innerHTML = ''; }, 5000);
 }
+
+// 자수 요약: { logo: ['왼가슴'] | [] | null, name: ... } → "로고(왼가슴) · 이름(위치 상담)"
+export function embText(e) {
+  if (!e) return '없음';
+  if ('type' in e) return e.type === '없음' ? '없음' : `${e.type} (${(e.pos || []).join(', ') || '위치 상담'})`; // 예전 형식
+  const part = (label, pos) => (pos ? `${label}(${pos.join(', ') || '위치 상담'})` : '');
+  return [part('로고', e.logo), part('이름', e.name)].filter(Boolean).join(' · ') || '없음';
+}

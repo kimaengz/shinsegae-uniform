@@ -52,7 +52,7 @@ const client = {
       <div class="opt">
         <div class="opt-head">
           <div class="row" style="justify-content:space-between">
-            <span class="row" style="gap:8px"><span class="su-caption">{p.code} · {cat.name}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
+            <span class="row" style="gap:8px"><span class="su-caption">{cat.name}<span aria-hidden="true">&nbsp;&nbsp;|&nbsp;&nbsp;</span>상품 코드 {p.code}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
             <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
           </div>
           <h1>{p.name}</h1>
@@ -103,20 +103,22 @@ const client = {
         </div>
 
         <div class="blk">
-          <div class="blk-h"><h2>로고 · 자수</h2></div>
-          <div class="su-field">
-            <label class="su-label" for="emb-type">자수 종류</label>
-            <select id="emb-type" class="su-input" data-emb-type>
-              <option>없음</option><option selected>로고</option><option>이름</option><option>로고 + 이름</option>
-            </select>
-          </div>
-          <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
-            <legend class="su-label" style="margin-bottom:8px">자수 위치</legend>
-            <div class="chips">
-              {p.embroidery.map((e) => <label class="su-chip"><input type="checkbox" value={e} data-emb-pos /><span>{e}</span></label>)}
-            </div>
-          </fieldset>
-          <span class="su-hint">로고 파일은 견적함에서 한 번만 첨부합니다.</span>
+          <div class="blk-h"><h2>로고 · 자수</h2><span class="su-hint">필요한 것만 켜세요</span></div>
+          {[['logo', '병원 로고 자수', '로고 파일은 견적함에서 한 번만 첨부합니다.', true], ['name', '이름 자수', '이름 목록은 상담 때 받습니다.', false]].map(([kind, title, hint, on]) => (
+            <fieldset class="emb" data-emb={kind}>
+              <legend class="su-sr">{title}</legend>
+              <label class="emb-toggle">
+                <span class="emb-text"><b>{title}</b><span class="su-hint">{hint}</span></span>
+                <input type="checkbox" role="switch" class="switch" data-emb-on checked={on} aria-label={`${title} 넣기`} />
+              </label>
+              <div class="emb-pos" data-emb-pos-wrap hidden={!on}>
+                <span class="su-label">{kind === 'logo' ? '로고' : '이름'} 위치</span>
+                <div class="chips">
+                  {p.embroidery.map((e, i) => <label class="su-chip"><input type="checkbox" value={e} data-pos checked={kind === 'logo' && i === 0} /><span>{e}</span></label>)}
+                </div>
+              </div>
+            </fieldset>
+          ))}
         </div>
 
         <div class="add-box desk-only">
@@ -277,20 +279,23 @@ const client = {
         (box.querySelector('[data-dec]') as HTMLButtonElement).disabled = v <= 0; renderTotals();
       });
       box.querySelector('input')!.addEventListener('blur', () => setQty(size, qty[size]));
+      box.querySelector('input')!.addEventListener('focus', (e) => (e.target as HTMLInputElement).select());
     });
 
     // 자수
-    const embType = $('[data-emb-type]') as HTMLSelectElement;
-    const posInputs = $$('[data-emb-pos]') as HTMLInputElement[];
-    const syncChips = () => posInputs.forEach((i) => {
-      i.disabled = embType.value === '없음';
-      i.closest('.su-chip')!.classList.toggle('is-on', i.checked && !i.disabled);
-      i.closest('.su-chip')!.classList.toggle('is-disabled', i.disabled);
+    // 로고와 이름은 따로 켜고, 각각 위치를 고른다. 꺼져 있으면 null, 켜고 위치를 안 고르면 [] (위치 상담)
+    const embBoxes = $$('[data-emb]');
+    const syncEmb = () => embBoxes.forEach((box) => {
+      const on = (box.querySelector('[data-emb-on]') as HTMLInputElement).checked;
+      box.classList.toggle('is-on', on);
+      (box.querySelector('[data-emb-pos-wrap]') as HTMLElement).hidden = !on;
+      box.querySelectorAll('[data-pos]').forEach((i) => i.closest('.su-chip')!.classList.toggle('is-on', (i as HTMLInputElement).checked));
     });
-    embType.addEventListener('change', syncChips);
-    posInputs.forEach((i) => i.addEventListener('change', syncChips));
-    if (posInputs[0]) posInputs[0].checked = true;
-    syncChips();
+    const embState = () => Object.fromEntries(embBoxes.map((box) => [box.dataset.emb,
+      (box.querySelector('[data-emb-on]') as HTMLInputElement).checked
+        ? Array.from(box.querySelectorAll('[data-pos]:checked')).map((i) => (i as HTMLInputElement).value) : null]));
+    embBoxes.forEach((box) => box.addEventListener('change', syncEmb));
+    syncEmb();
 
     // 담기
     $$('[data-add]').forEach((b) => b.addEventListener('click', () => {
@@ -299,7 +304,7 @@ const client = {
       const merged = addLine({
         code: P.code, name: P.name, category: P.category, slug: P.slug, color: color.slug, colorName: color.name, hex: color.hex,
         thumb: P.gallery[color.slug][0].src ?? P.thumb, sizes: P.sizes, prices: P.prices, isPublic: P.isPublic, embOptions: P.embroidery,
-        qty: lineQty, emb: { type: embType.value, pos: embType.value === '없음' ? [] : posInputs.filter((i) => i.checked).map((i) => i.value) }
+        qty: lineQty, emb: embState()
       });
       P.sizes.forEach((s: string) => setQty(s, 0));
       toast(merged ? '같은 제품·색상이 있어 수량을 더했습니다' : '견적함에 담았습니다', { label: '견적함 보기', href: P.quoteUrl });

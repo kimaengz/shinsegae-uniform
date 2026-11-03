@@ -85,7 +85,7 @@ const client = {
 
   <script is:inline type="application/json" id="q-data" set:html={JSON.stringify(client)} />
   <script>
-    import { getCart, saveCart, lineTotal, toast } from '../../scripts/cart.js';
+    import { getCart, saveCart, lineTotal, toast, embText } from '../../scripts/cart.js';
     const Q = JSON.parse(document.getElementById('q-data')!.textContent!);
     const $ = (s: string) => document.querySelector(s) as HTMLElement;
     const $$ = (s: string) => Array.from(document.querySelectorAll(s)) as HTMLElement[];
@@ -116,10 +116,7 @@ const client = {
             </div>
             <div class="cq">${l.sizes.map((s: string) => `<label>${esc(s)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.code)} ${esc(s)} 수량"></label>`).join('')}</div>
             <div class="line-f">
-              <label class="row" style="gap:8px">자수
-                <select class="su-input" data-emb="${i}">${['없음', '로고', '이름', '로고 + 이름'].map((t) => `<option ${l.emb.type === t ? 'selected' : ''}>${t}</option>`).join('')}</select>
-                <span class="muted">${l.emb.type === '없음' ? '' : esc(l.emb.pos.join(', ') || '위치 상담')}</span>
-              </label>
+              <span>자수 <span class="muted">${esc(embText(l.emb))}</span></span>
               <span class="num"><span data-l-qty>${lineTotal(l)}</span>벌 · <b data-l-est>${l.isPublic ? won(tierPrice(l, lineTotal(l))!) : '견적 후 안내'}</b></span>
             </div>
           </div>
@@ -147,13 +144,6 @@ const client = {
       art.querySelector('[data-l-est]')!.textContent = cart[i].isPublic ? won(tierPrice(cart[i], n)!) : '견적 후 안내';
       $('[data-q-sub]').textContent = `${cart.length}개 제품 · ${cart.reduce((a, l) => a + lineTotal(l), 0)}벌`;
       renderSummary();
-    });
-    lines.addEventListener('change', (e) => {
-      const t = e.target as HTMLSelectElement;
-      if (t.dataset.emb === undefined) return;
-      const l = cart[Number(t.dataset.emb)];
-      l.emb = { type: t.value, pos: t.value === '없음' ? [] : (l.emb.pos.length ? l.emb.pos : [l.embOptions[0]]) };
-      saveCart(cart); renderLines();
     });
     lines.addEventListener('click', (e) => {
       const b = (e.target as HTMLElement).closest('[data-del]') as HTMLElement | null;
@@ -227,7 +217,7 @@ const client = {
         id, sentAt: now.toISOString(), org: val('f-org'), name: val('f-name'), tel: val('f-tel'), email: val('f-mail'),
         due: val('f-due'), message: val('f-msg'),
         interest: $$('[name="interest"]').filter((i) => (i as HTMLInputElement).checked).map((i) => (i as HTMLInputElement).value), expectedQty: val('f-qty'),
-        items: cart.map((l) => ({ code: l.code, name: l.name, color: l.colorName, qty: Object.fromEntries(Object.entries(l.qty).filter(([, n]) => Number(n) > 0)), total: lineTotal(l), embroidery: l.emb.type === '없음' ? '없음' : `${l.emb.type} (${l.emb.pos.join(', ') || '위치 상담'})`, estimate: tierPrice(l, lineTotal(l)) })),
+        items: cart.map((l) => ({ code: l.code, name: l.name, color: l.colorName, qty: Object.fromEntries(Object.entries(l.qty).filter(([, n]) => Number(n) > 0)), total: lineTotal(l), embroidery: embText(l.emb), estimate: tierPrice(l, lineTotal(l)) })),
         logo: null as any, doc: null as any
       };
       let sent = false;

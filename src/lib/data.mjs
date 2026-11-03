@@ -118,14 +118,17 @@ export function loadData() {
     };
   }).sort((a, b) => a.order - b.order);
 
+  // code 칸에 상품 코드(A01)를 쓰면 그 제품, 카테고리 id(scrubs)를 쓰면 그 카테고리 전체의 기본 사이즈표
   const sizeRows = readCsv('sizes.csv');
-  const sizeTables = {};
+  const own = {}, byCat = {};
   sizeRows.forEach((r) => {
-    const code = r.code.toUpperCase();
-    if (!seen.has(code)) err('sizes.csv', r._line, `상품 코드 ${code}가 products.csv에 없습니다.`);
-    const t = (sizeTables[code] ??= {});
+    const key = r.code.trim();
+    const isCat = catIds.has(key);
+    if (!isCat && !seen.has(key.toUpperCase())) err('sizes.csv', r._line, `"${key}"는 products.csv의 상품 코드도, categories.csv의 id도 아닙니다.`);
+    const t = isCat ? (byCat[key] ??= {}) : (own[key.toUpperCase()] ??= {});
     (t[r.part] ??= []).push({ measure: r.measure, values: Object.fromEntries(Object.entries(r).filter(([k]) => !['code', 'part', 'measure', '_line'].includes(k))) });
   });
+  const sizeTables = Object.fromEntries(products.map((p) => [p.code, own[p.code] ?? byCat[p.category]]).filter(([, t]) => t));
 
   const references = readCsv('references.csv').sort((a, b) => Number(a.order) - Number(b.order));
   return { site, categories, products, sizeTables, references, errors, warnings };
