@@ -22,6 +22,7 @@ const list = (cat ? products.filter((p) => p.category === cat.id) : products).sl
     <a href={u('products/')} aria-current={!cat ? 'page' : undefined}>전체</a>
     {categories.map((c) => <a href={u(`products/${c.id}/`)} aria-current={cat?.id === c.id ? 'page' : undefined}>{c.name}</a>)}
   </nav>
+  <h2 class="su-sr">제품 목록</h2>
   <p class="su-caption" style="margin-bottom:20px">{list.length}개 제품</p>
   <div class="cards">{list.map((p) => <ProductCard p={p} />)}</div>
 </div>
