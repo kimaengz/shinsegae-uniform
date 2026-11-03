@@ -4,6 +4,7 @@
   --ink: #2b2725; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
   --brand-soft: #f6e6e9; --danger: #b42318; --focus: var(--brand-text);
   --surface-muted: #f4f3f1;
+  --img-bg: #f6f6f6; /* 제품 사진 바탕 (사진 배경색과 같게) */
   --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);
 }
 [data-theme="dark"] {

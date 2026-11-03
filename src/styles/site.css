@@ -79,7 +79,7 @@ a.su-btn { text-decoration: none; }
 .toast-host .su-toast a { color: inherit; font-weight: 700; }
 
 /* 옷 실루엣 자리표시 (실제 이미지가 없을 때) */
-.ph { display: block; position: relative; background: var(--ivory); overflow: hidden; }
+.ph { display: block; position: relative; background: var(--img-bg); overflow: hidden; }
 .ph-23 { aspect-ratio: 2 / 3; }
 .ph-43 { aspect-ratio: 4 / 3; }
 .ph .su-card-garment { left: 24%; right: 24%; top: 30%; bottom: 28%; }
