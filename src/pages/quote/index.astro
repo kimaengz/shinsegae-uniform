@@ -78,13 +78,14 @@ const client = {
 
   <script is:inline type="application/json" id="q-data" set:html={JSON.stringify(client)} />
   <script>
-    import { getCart, saveCart, lineTotal, toast, embText } from '../../scripts/cart.js';
+    import { getCart, saveCart, lineTotal, toast, embText, embUnit } from '../../scripts/cart.js';
     const Q = JSON.parse(document.getElementById('q-data')!.textContent!);
     const $ = (s: string) => document.querySelector(s) as HTMLElement;
     const $$ = (s: string) => Array.from(document.querySelectorAll(s)) as HTMLElement[];
     const won = (n: number) => n.toLocaleString('ko-KR') + '원';
     const esc = (s: string) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
-    const tierPrice = (l: any, n: number) => l.isPublic ? l.prices[n >= 100 ? 2 : n >= 50 ? 1 : 0] * n : null;
+    // 수량 구간 단가 + 자수 추가금(담을 때의 자수 단가 기준)
+    const tierPrice = (l: any, n: number) => l.isPublic ? (l.prices[n >= 100 ? 2 : n >= 50 ? 1 : 0] + embUnit(l.emb, l.embPrice)) * n : null;
     let cart = getCart();
 
     function renderLines() {
@@ -108,7 +109,7 @@ const client = {
             </div>
             <div class="cq">${l.sizes.map((s: string) => `<label>${esc(s)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.name)} ${esc(s)} 수량"></label>`).join('')}</div>
             <div class="line-f">
-              <span>자수 <span class="muted">${esc(embText(l.emb))}</span></span>
+              <span>자수 <span class="muted">${esc(embText(l.emb))}${l.isPublic && embUnit(l.emb, l.embPrice) ? ` · 1벌당 +${won(embUnit(l.emb, l.embPrice))}` : ''}</span></span>
               <span class="num"><span data-l-qty>${lineTotal(l)}</span>벌 · <b data-l-est>${l.isPublic ? won(tierPrice(l, lineTotal(l))!) : '견적 후 안내'}</b></span>
             </div>
           </div>

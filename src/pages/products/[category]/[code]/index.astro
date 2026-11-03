@@ -10,7 +10,8 @@ export function getStaticPaths() {
   return products.map((p) => ({ params: { category: p.category, code: p.slug }, props: { p } }));
 }
 const { p } = Astro.props;
-const { categories, products, sizeTables } = data();
+const { categories, products, sizeTables, site } = data();
+const embPrice = site.embroideryPrice ?? { logo: 0, name: 0 };
 const cat = categories.find((c) => c.id === p.category);
 const related = products.filter((x) => x.category === p.category && x.code !== p.code).slice(0, 4);
 const c0 = p.colors[0];
@@ -19,7 +20,7 @@ const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 �
 const sizeTable = sizeTables[p.code];
 const client = {
   code: p.code, name: p.name, category: p.category, slug: p.slug, colors: p.colors, sizes: p.sizes,
-  prices: p.prices, isPublic: p.isPublic, embroidery: p.embroidery,
+  prices: p.prices, isPublic: p.isPublic, embroidery: p.embroidery, embPrice,
   gallery: Object.fromEntries(Object.entries(p.gallery).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
@@ -88,7 +89,7 @@ const client = {
               <table><caption class="su-sr">수량 구간별 참고 단가</caption><tbody>
                 {tiers.map(([label, price], i) => <tr data-tier={i}><th scope="row">{label}<span class="su-tiers-now" hidden>현재 수량</span></th><td>{won(price)}</td></tr>)}
               </tbody></table>
-              <p class="su-hint">자수·배색 등 옵션에 따라 달라지는 참고 단가입니다.</p>
+              <p class="su-hint">자수를 넣으면 예상 금액에 자수 추가금이 더해집니다. 배색 등 옵션에 따라 달라지는 참고 단가입니다.</p>
             </div>
           ) : <p class="su-tiers-hidden">이 제품은 견적 후 단가를 안내합니다.</p>}
         </div>
@@ -115,7 +116,7 @@ const client = {
             <fieldset class="emb" data-emb={kind}>
               <legend class="su-sr">{title}</legend>
               <label class="emb-toggle">
-                <span class="emb-text"><b>{title}</b><span class="su-hint">{hint}</span></span>
+                <span class="emb-text"><b>{title}{p.isPublic && embPrice[kind] > 0 && <span class="emb-price num"> +{won(embPrice[kind])}</span>}</b><span class="su-hint">{p.isPublic && embPrice[kind] > 0 ? `1벌·위치 1곳당. ${hint}` : hint}</span></span>
                 <input type="checkbox" role="switch" class="switch" data-emb-on checked={on} aria-label={`${title} 넣기`} />
               </label>
               <div class="emb-pos" data-emb-pos-wrap hidden={!on}>
@@ -130,6 +131,7 @@ const client = {
 
         <div class="add-box desk-only">
           <div class="sum"><span class="muted" style="font-size:14px">예상 금액 (참고)</span><strong data-est>{p.isPublic ? '—' : '견적 후 안내'}</strong></div>
+          {p.isPublic && <span class="su-hint" data-emb-note hidden></span>}
           <button type="button" class="su-btn su-btn-primary su-btn-full" data-add disabled>견적함 담기</button>
           <span class="su-hint" data-add-hint>수량을 1벌 이상 입력하면 담을 수 있습니다.</span>
         </div>
@@ -196,7 +198,7 @@ const client = {
 
   <script is:inline type="application/json" id="pd-data" set:html={JSON.stringify(client)} />
   <script>
-    import { addLine, toast } from '../../../../scripts/cart.js';
+    import { addLine, toast, embUnit } from '../../../../scripts/cart.js';
     import { dragScroll } from '../../../../scripts/drag.js';
     const P = JSON.parse(document.getElementById('pd-data')!.textContent!);
     const $ = (s: string) => document.querySelector(s) as HTMLElement;
@@ -243,12 +245,15 @@ const client = {
       $$('[data-color]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.color === color.slug)));
       renderGallery();
     }
+    let embPerPiece = 0; // 자수 추가금(1벌당), 자수 선택이 바뀔 때 다시 계산
     function total() { return Object.values(qty).reduce((a, n) => a + n, 0); }
     function renderTotals() {
       const t = total();
       const tier = t >= 100 ? 2 : t >= 50 ? 1 : 0;
       $$('[data-total]').forEach((el) => (el.textContent = `총 ${t}벌`));
-      const est = P.isPublic ? (t > 0 ? won(P.prices[tier] * t) : '—') : '견적 후 안내';
+      const est = P.isPublic ? (t > 0 ? won((P.prices[tier] + embPerPiece) * t) : '—') : '견적 후 안내';
+      const note = $('[data-emb-note]');
+      if (note) { note.hidden = !(t > 0 && embPerPiece > 0); note.textContent = `자수 추가금 1벌당 ${won(embPerPiece)} 포함`; }
       $$('[data-est]').forEach((el) => (el.textContent = est));
       $$('[data-tier]').forEach((tr) => {
         const on = t > 0 && Number(tr.dataset.tier) === tier;
@@ -318,8 +323,8 @@ const client = {
     const embState = () => Object.fromEntries(embBoxes.map((box) => [box.dataset.emb,
       (box.querySelector('[data-emb-on]') as HTMLInputElement).checked
         ? Array.from(box.querySelectorAll('[data-pos]:checked')).map((i) => (i as HTMLInputElement).value) : null]));
-    embBoxes.forEach((box) => box.addEventListener('change', syncEmb));
-    syncEmb();
+    embBoxes.forEach((box) => box.addEventListener('change', () => { syncEmb(); embPerPiece = embUnit(embState(), P.embPrice); renderTotals(); }));
+    syncEmb(); embPerPiece = embUnit(embState(), P.embPrice);
 
     // 담기
     $$('[data-add]').forEach((b) => b.addEventListener('click', () => {
@@ -328,7 +333,7 @@ const client = {
       const merged = addLine({
         code: P.code, name: P.name, category: P.category, slug: P.slug, color: color.slug, colorName: color.name, hex: color.hex,
         thumb: P.gallery[color.slug][0].src ?? P.thumb, sizes: P.sizes, prices: P.prices, isPublic: P.isPublic, embOptions: P.embroidery,
-        qty: lineQty, emb: embState()
+        qty: lineQty, emb: embState(), embPrice: P.embPrice
       });
       P.sizes.forEach((s: string) => setQty(s, 0));
       toast(merged ? '같은 제품·색상이 있어 수량을 더했습니다' : '견적함에 담았습니다', { label: '견적함 보기', href: P.quoteUrl });

@@ -9,6 +9,10 @@
   "referenceCount": "",
   "referenceHeadline": "",
   "showPrices": true,
+  "embroideryPrice": {
+    "logo": 5000,
+    "name": 3000
+  },
   "quoteEndpoint": "",
   "replyDays": "[영업일 기준 1일]"
 }

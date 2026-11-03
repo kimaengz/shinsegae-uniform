@@ -16,7 +16,7 @@ export function addLine(line) {
   const ex = cart.find((l) => l.code === line.code && l.color === line.color);
   if (ex) {
     for (const [k, v] of Object.entries(line.qty)) ex.qty[k] = (Number(ex.qty[k]) || 0) + (Number(v) || 0);
-    ex.emb = line.emb;
+    ex.emb = line.emb; ex.embPrice = line.embPrice;
   } else cart.push(line);
   saveCart(cart);
   return !!ex;
@@ -50,6 +50,13 @@ export function toast(message, action) {
   }
   host.append(box);
   timer = setTimeout(() => { host.innerHTML = ''; }, 5000);
+}
+
+// 자수 추가금(1벌당): 켠 자수마다 위치 수만큼 더한다. 위치를 안 고르면(위치 상담) 1곳으로 계산
+export function embUnit(e, price) {
+  if (!e || !price || 'type' in e) return 0;
+  const n = (pos) => (pos ? Math.max(1, pos.length) : 0);
+  return n(e.logo) * (Number(price.logo) || 0) + n(e.name) * (Number(price.name) || 0);
 }
 
 // 자수 요약: { logo: ['왼가슴'] | [] | null, name: ... } → "로고(왼가슴) · 이름(위치 상담)"
