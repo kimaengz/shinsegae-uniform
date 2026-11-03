@@ -27,6 +27,11 @@
 .su-input::placeholder { color: #a39b97; }
 .su-input:hover { background: color-mix(in srgb, var(--surface-muted) 92%, var(--ink)); }
 textarea.su-input { min-height: 112px; resize: vertical; }
+/* 날짜 칸: iOS 사파리는 기본 날짜 칸이 자기 폭을 고집해 옆으로 길어진다 → 다른 칸과 같은 폭·높이로 */
+input.su-input { height: 56px; } /* 한 줄 입력칸은 모두 같은 높이 */
+input[type="date"].su-input { -webkit-appearance: none; appearance: none; display: block; min-width: 0; max-width: 100%; }
+input[type="date"].su-input::-webkit-date-and-time-value { text-align: left; margin: 0; }
+input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 .su-input:focus, .su-input:focus-visible { outline: none; border-color: var(--brand-text); background: var(--surface); }
 .su-field.is-error .su-input { border-color: var(--danger); background: var(--surface); }
 .su-error { font-size: 14px; line-height: 18px; color: var(--danger); }
