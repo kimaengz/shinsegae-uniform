@@ -8,6 +8,8 @@ const IMG = path.join(ROOT, 'public', 'images', 'products');
 const IMG_EXT = ['.jpg', '.jpeg', '.png', '.webp'];
 export const VIEWS = [['front', '앞면'], ['back', '뒷면'], ['neck', '목뒤'], ['left', '왼팔'], ['right', '오른팔']];
 const EMBROIDERY = ['왼가슴', '오른가슴', '소매', '등'];
+// 제품 사진이 아직 없는 자리에 보여줄 기본 사진 (720×1080)
+const PLACEHOLDER = fs.existsSync(path.join(ROOT, 'public', 'images', 'placeholder.png')) ? 'images/placeholder.png' : null;
 
 // 따옴표·쉼표·줄바꿈이 든 칸까지 읽는 CSV 파서
 export function parseCsv(text) {
@@ -89,10 +91,15 @@ export function loadData() {
     const embroidery = split(r.embroidery);
     embroidery.forEach((e) => { if (!EMBROIDERY.includes(e)) err(F, L, `자수 위치 "${e}"는 쓸 수 없습니다. (${EMBROIDERY.join(', ')})`); });
 
-    const thumb = findImage(code, 'thumb');
-    const gallery = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v, label]) => ({ view: v, label, src: findImage(path.join(code, c.slug), v) }))]));
-    const missing = [!thumb && '썸네일'].concat(colors.filter((c) => gallery[c.slug].some((g) => !g.src)).map((c) => `${c.name} 멀티뷰`)).filter(Boolean);
-    if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 자리표시로 보입니다.`);
+    const ownThumb = findImage(code, 'thumb');
+    const raw = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v]) => findImage(path.join(code, c.slug), v))]));
+    const missing = [!ownThumb && '썸네일'].concat(colors.filter((c) => raw[c.slug].some((s) => !s)).map((c) => `${c.name} 멀티뷰`)).filter(Boolean);
+    if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 기본 사진(placeholder)으로 보입니다.`);
+    // 빈 자리 채우기: 썸네일은 기본 색 앞면 → 기본 사진, 기본 색 앞면은 썸네일 → 기본 사진, 나머지는 기본 사진
+    const thumb = ownThumb ?? raw[colors[0]?.slug]?.[0] ?? PLACEHOLDER;
+    const gallery = Object.fromEntries(colors.map((c, ci) => [c.slug, VIEWS.map(([v, label], vi) => ({
+      view: v, label, src: raw[c.slug][vi] ?? ((ci === 0 && vi === 0 && ownThumb) || PLACEHOLDER)
+    }))]));
 
     return {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: r.summary,
