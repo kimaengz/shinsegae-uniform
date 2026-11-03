@@ -110,12 +110,17 @@ export function loadData() {
     const gallery = Object.fromEntries(colors.map((c, ci) => [c.slug, VIEWS.map(([v, label], vi) => ({
       view: v, label, src: raw[c.slug][vi] ?? ((ci === 0 && vi === 0 && ownThumb) || PLACEHOLDER)
     }))]));
+    // 카드에서 옆으로 넘겨 볼 사진: 실제로 올린 사진만 (기본 색은 썸네일이 맨 앞), 하나도 없으면 썸네일 한 장
+    const cardImages = Object.fromEntries(colors.map((c, ci) => {
+      const list = [...new Set([ci === 0 && ownThumb, ...raw[c.slug]].filter(Boolean))];
+      return [c.slug, list.length ? list : [ci === 0 ? thumb : gallery[c.slug][0].src].filter(Boolean)];
+    }));
 
     return {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: r.summary,
       colors, sizes: split(r.sizes), prices, isPublic: isPublic && site.showPrices !== false, embroidery,
       isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: r.material, function: r.function, care: r.care,
-      order: Number(r.order) || 999, thumb, gallery, details: detailImages(code)
+      order: Number(r.order) || 999, thumb, gallery, cardImages, details: detailImages(code)
     };
   }).sort((a, b) => a.order - b.order);
 

@@ -5,15 +5,19 @@ interface Props { p: any }
 const { p } = Astro.props;
 const href = u(`products/${p.category}/${p.slug}/`);
 const first = p.colors[0];
+const imgs = p.cardImages[first.slug].map(u);
 ---
 <article class="su-card" data-card>
   <a class="su-card-img" href={href} aria-label={p.name} style="aspect-ratio:2/3">
-    <Garment hex={first.hex} src={p.thumb} alt="" class="card-ph" />
+    {imgs.length ? (
+      <span class="card-track" data-track>{imgs.map((src: string) => <span class="card-slide"><img src={src} alt="" loading="lazy" draggable="false" /></span>)}</span>
+    ) : <Garment hex={first.hex} alt="" class="card-ph" />}
+    <span class="card-pager" data-pager aria-hidden="true" hidden={imgs.length < 2}>{imgs.map((_: string, i: number) => <i class={i === 0 ? 'on' : ''}></i>)}</span>
   </a>
   <div class="su-dots" role="group" aria-label={`${p.name} 색상`}>
     {p.colors.map((c: any, i: number) => (
       <button type="button" class="su-dot" style={`--sw:${c.hex}`} aria-label={c.name} aria-pressed={i === 0 ? 'true' : 'false'}
-        data-hex={c.hex} data-name={c.name} data-src={i === 0 ? u(p.thumb) : u(p.gallery[c.slug][0].src)}></button>
+        data-hex={c.hex} data-name={c.name} data-srcs={JSON.stringify(p.cardImages[c.slug].map(u))}></button>
     ))}
   </div>
   <span class="card-color" data-card-color>{first.name}</span>

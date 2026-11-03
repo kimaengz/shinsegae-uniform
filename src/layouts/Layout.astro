@@ -110,7 +110,12 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       btn.setAttribute('aria-label', open ? '전체 메뉴 닫기' : '전체 메뉴 열기');
       if (menu) menu.hidden = !open;
     });
-    // 제품 카드의 색상 점: 카드 이미지만 그 색으로 바꾼다
+    // 제품 카드: 사진을 옆으로 넘기면 아래 점이 따라가고, 색상 점을 누르면 그 색 사진들로 바꾼다
+    const setPager = (track: HTMLElement) => {
+      const i = Math.round(track.scrollLeft / (track.clientWidth || 1));
+      track.parentElement!.querySelectorAll('[data-pager] i').forEach((d, j) => d.classList.toggle('on', j === i));
+    };
+    document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => t.addEventListener('scroll', () => setPager(t), { passive: true }));
     document.addEventListener('click', (e) => {
       const dot = (e.target as HTMLElement).closest('.su-card .su-dot') as HTMLElement | null;
       if (!dot) return;
@@ -118,10 +123,13 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       card.querySelectorAll('.su-dot').forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
       const name = card.querySelector('[data-card-color]');
       if (name) name.textContent = dot.dataset.name ?? '';
-      const ph = card.querySelector('[data-ph]')!;
-      const src = dot.dataset.src;
-      if (src) ph.innerHTML = `<img src="${src}" alt="" loading="lazy">`;
-      else ph.innerHTML = `<span class="su-card-garment" style="--sw:${dot.dataset.hex}" aria-hidden="true"></span>`;
+      const srcs: string[] = JSON.parse(dot.dataset.srcs || '[]');
+      const track = card.querySelector<HTMLElement>('[data-track]');
+      const pager = card.querySelector<HTMLElement>('[data-pager]');
+      if (!track || !srcs.length) return;
+      track.innerHTML = srcs.map((s) => `<span class="card-slide"><img src="${s}" alt="" draggable="false"></span>`).join('');
+      track.scrollLeft = 0;
+      if (pager) { pager.innerHTML = srcs.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join(''); pager.hidden = srcs.length < 2; }
     });
   </script>
 </body>
