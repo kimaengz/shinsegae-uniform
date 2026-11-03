@@ -55,6 +55,29 @@ export function siteImage(base) {
   return PLACEHOLDER;
 }
 
+// 사진 크기(가로·세로)를 파일 머리에서 읽는다: 화면이 사진 자리를 미리 잡아 밀리지 않게 (png · jpg · webp)
+export function imageSize(rel) {
+  try {
+    const b = fs.readFileSync(path.join(ROOT, 'public', rel));
+    if (b.readUInt32BE(0) === 0x89504e47) return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+    if (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') {
+      const t = b.toString('ascii', 12, 16);
+      if (t === 'VP8X') return { w: 1 + b.readUIntLE(24, 3), h: 1 + b.readUIntLE(27, 3) };
+      if (t === 'VP8L') { const n = b.readUInt32LE(21); return { w: (n & 0x3fff) + 1, h: ((n >> 14) & 0x3fff) + 1 }; }
+      if (t === 'VP8 ') return { w: b.readUInt16LE(26) & 0x3fff, h: b.readUInt16LE(28) & 0x3fff };
+    }
+    if (b[0] === 0xff && b[1] === 0xd8) {
+      for (let i = 2; i < b.length;) {
+        if (b[i] !== 0xff) { i++; continue; }
+        const m = b[i + 1], len = b.readUInt16BE(i + 2);
+        if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) return { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) };
+        i += 2 + len;
+      }
+    }
+  } catch { /* 크기를 모르면 비워 둔다 */ }
+  return null;
+}
+
 function detailImages(code) {
   const dir = path.join(IMG, code);
   if (!fs.existsSync(dir)) return [];

@@ -6,8 +6,16 @@ import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 const { site, categories, products } = data();
 const news = products.filter((p) => p.isNew).slice(0, 3);
+const org = {
+  '@context': 'https://schema.org', '@type': 'Organization', name: site.companyName, alternateName: 'SHINSEGAE UNIFORM',
+  url: new URL(u(''), Astro.site).href, logo: new URL(u('logo.svg'), Astro.site).href, foundingDate: site.founded,
+  founder: site.ceo, address: { '@type': 'PostalAddress', streetAddress: site.address, addressCountry: 'KR' },
+  ...(/\d/.test(site.phone) ? { telephone: site.phone } : {})
+};
+
 ---
 <Layout title="홈">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(org)} />
   <section class="hero">
     <div class="hero-copy">
       <p class="su-caption">{site.founded}년부터 대구에서 직접 만듭니다</p>
@@ -20,7 +28,7 @@ const news = products.filter((p) => p.isNew).slice(0, 3);
     </div>
     <div class="hero-photo">
       <!-- 모델 착용 사진: public/images/hero.jpg|png|webp (세로형 5:6, 배경 아이보리 #F7F2EC) -->
-      <img src={u(siteImage('hero'))} alt="" />
+      <img src={u(siteImage('hero'))} alt="" fetchpriority="high" />
     </div>
   </section>
 

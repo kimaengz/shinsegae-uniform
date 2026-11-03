@@ -143,7 +143,7 @@ a.su-btn { text-decoration: none; }
 .gal-arrow.prev { left: 12px; } .gal-arrow.next { right: 12px; }
 .gal-main:hover .gal-arrow:not(:disabled), .gal-arrow:focus-visible { opacity: 1; }
 .gal-arrow:disabled { pointer-events: none; }
-.gal-count { position: absolute; right: 12px; bottom: 12px; padding: 2px 10px; border-radius: 999px; background: rgba(43,39,37,.55); color: #fff; font-size: 12px; line-height: 20px; }
+.gal-count { position: absolute; right: 12px; bottom: 12px; padding: 2px 10px; border-radius: 999px; background: rgba(43,39,37,.78); color: #fff; font-size: 12px; line-height: 20px; }
 @media (hover: none) { .gal-arrow { display: none; } }
 .opt { display: flex; flex-direction: column; gap: 28px; }
 .opt-head { display: flex; flex-direction: column; gap: 8px; }
@@ -221,6 +221,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .line-f select { width: auto; min-height: 40px; padding: 6px 10px; }
 .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .form .full { grid-column: 1 / -1; }
+/* 견적함에 제품이 있으면(첫 화면 전에 판단) 빈 안내 · 일반 문의 칸을 처음부터 숨김 */
+.q-has-cart [data-q-empty], .q-has-cart [data-general] { display: none; }
 .file-pick { display: flex; align-items: center; gap: 12px; min-height: var(--control-height); padding: 6px 6px 6px 16px; border-radius: var(--radius-md); background: var(--surface-muted); border: 1.5px solid transparent; }
 .file-pick:focus-within { border-color: var(--brand-text); background: var(--surface); }
 .file-pick-name { flex: 1; min-width: 0; font-size: 14px; color: var(--ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

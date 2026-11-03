@@ -5,12 +5,12 @@ interface Props { p: any }
 const { p } = Astro.props;
 const href = u(`products/${p.category}/${p.slug}/`);
 const first = p.colors[0];
-const imgs = p.cardImages[first.slug].map(u);
+const imgs = p.cardImages[first.slug].map(u); // 2번째 사진부터는 넘기려 할 때 불러온다 (data-src)
 ---
 <article class="su-card" data-card>
   <a class="su-card-img" href={href} aria-label={p.name} style="aspect-ratio:2/3">
     {imgs.length ? (
-      <span class="card-track" data-track>{imgs.map((src: string) => <span class="card-slide"><img src={src} alt="" loading="lazy" draggable="false" /></span>)}</span>
+      <span class="card-track" data-track>{imgs.map((src: string, i: number) => <span class="card-slide"><img src={i ? undefined : src} data-src={i ? src : undefined} alt="" loading="lazy" draggable="false" /></span>)}</span>
     ) : <Garment hex={first.hex} alt="" class="card-ph" />}
     <span class="card-pager" data-pager aria-hidden="true" hidden={imgs.length < 2}>{imgs.map((_: string, i: number) => <i class={i === 0 ? 'on' : ''}></i>)}</span>
   </a>

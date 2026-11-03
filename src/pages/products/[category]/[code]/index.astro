@@ -2,7 +2,7 @@
 import Layout from '../../../../layouts/Layout.astro';
 import ProductCard from '../../../../components/ProductCard.astro';
 import Garment from '../../../../components/Garment.astro';
-import { data, VIEWS } from '../../../../lib/data.mjs';
+import { data, VIEWS, imageSize } from '../../../../lib/data.mjs';
 import { u, won } from '../../../../lib/url.mjs';
 
 export function getStaticPaths() {
@@ -19,6 +19,8 @@ const c0 = p.colors[0];
 const g0 = p.gallery[c0.slug];
 const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 이상', p.prices[2]]];
 const sizeTable = sizeTables[p.code];
+// 상세 이미지: 크기를 미리 알려 줘서 불러오는 동안 화면이 밀리지 않게. 없으면 기본 사진 한 장
+const detailImgs = (p.details.length ? p.details : ['images/placeholder.png']).map((src: string) => ({ src, w: 720, ...imageSize(src) }));
 const sizeParts = sizeTable ? Object.entries(sizeTable as Record<string, any[]>) : null;
 // 자수 종류: [종류, 제목, 안내, 처음에 켜 둘지]
 const embKinds: ['logo' | 'name', string, string, boolean][] = [
@@ -149,8 +151,7 @@ const client = {
     <section class="detail-imgs" aria-labelledby="detail-title">
       <h2 id="detail-title">상세 정보</h2>
       <div class="stack">
-        {p.details.length ? p.details.map((src, i) => <img src={u(src)} alt={`${p.name} 상세 이미지 ${i + 1}`} loading="lazy" width="720" />)
-          : <img src={u('images/placeholder.png')} alt="" width="720" loading="lazy" />}
+        {detailImgs.map((d, i) => <img src={u(d.src)} alt={p.details.length ? `${p.name} 상세 이미지 ${i + 1}` : ''} loading="lazy" width={d.w} height={d.h} />)}
       </div>
     </section>
 

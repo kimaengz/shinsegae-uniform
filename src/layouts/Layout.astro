@@ -123,7 +123,13 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       const i = Math.round(track.scrollLeft / (track.clientWidth || 1));
       track.parentElement!.querySelectorAll('[data-pager] i').forEach((d, j) => d.classList.toggle('on', j === i));
     };
-    document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => { t.addEventListener('scroll', () => setPager(t), { passive: true }); dragScroll(t); });
+    // 카드의 2번째 사진부터는 마우스를 올리거나 만지거나 넘길 때 불러온다 (처음 화면을 가볍게)
+    const hydrate = (track: HTMLElement) => track.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => { img.src = img.dataset.src!; img.removeAttribute('data-src'); });
+    document.querySelectorAll<HTMLElement>('[data-track]').forEach((t) => {
+      t.addEventListener('scroll', () => { hydrate(t); setPager(t); }, { passive: true });
+      ['pointerenter', 'touchstart', 'focusin'].forEach((ev) => t.addEventListener(ev, () => hydrate(t), { once: true, passive: true }));
+      dragScroll(t);
+    });
     document.addEventListener('click', (e) => {
       const dot = (e.target as HTMLElement).closest('.su-card .su-dot') as HTMLElement | null;
       if (!dot) return;
@@ -136,6 +142,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '납�
       const pager = card.querySelector<HTMLElement>('[data-pager]');
       if (!track || !srcs.length) return;
       track.innerHTML = srcs.map((s) => `<span class="card-slide"><img src="${s}" alt="" draggable="false"></span>`).join('');
+      hydrate(track);
       track.scrollLeft = 0;
       if (pager) { pager.innerHTML = srcs.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join(''); pager.hidden = srcs.length < 2; }
     });

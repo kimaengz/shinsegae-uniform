@@ -12,10 +12,13 @@ const client = {
 };
 ---
 <Layout title="견적문의" active="quote" bbar="none" description="품목, 수량, 로고 자수 정보를 남기시면 담당자가 확인 후 연락드립니다.">
+  <script is:inline>
+    try { var c = JSON.parse(localStorage.getItem('su-quote-cart-v1') || '[]'); if (Array.isArray(c) && c.length) document.documentElement.classList.add('q-has-cart'); } catch (e) {}
+  </script>
   <div class="wrap" style="padding-bottom:72px">
     <nav class="crumb su-caption" aria-label="현재 위치"><a href={u('')}>홈</a><span aria-hidden="true">/</span><span aria-current="page">견적문의</span></nav>
     <div class="page-h row" style="align-items:baseline;gap:12px">
-      <h1 data-q-title>견적함</h1>
+      <h1 data-q-title>견적문의</h1>
       <span class="muted" data-q-sub></span>
     </div>
 
@@ -23,7 +26,7 @@ const client = {
       <div style="display:flex;flex-direction:column;gap:40px;min-width:0">
         <div data-q-lines></div>
 
-        <div class="empty" data-q-empty hidden>
+        <div class="empty" data-q-empty>
           <p><b>담은 제품이 없습니다.</b> <a href={u('products/')}>제품을 둘러보고 담거나</a>, 아래 일반 문의로 바로 보내 주세요.</p>
         </div>
 
@@ -31,11 +34,11 @@ const client = {
         <form class="form" novalidate data-q-form aria-labelledby="org-title">
           <h2 id="org-title" class="full">기관 정보</h2>
           <div class="alert full" role="alert" hidden data-q-alert></div>
-          <fieldset class="full" data-general hidden style="border:0;margin:0;padding:0">
+          <fieldset class="full" data-general style="border:0;margin:0;padding:0">
             <legend class="su-label" style="margin-bottom:8px">관심 카테고리</legend>
             <div class="chips">{categories.map((c) => <label class="su-chip"><input type="checkbox" name="interest" value={c.name} /><span>{c.name}</span></label>)}</div>
           </fieldset>
-          <div class="su-field" data-general hidden>
+          <div class="su-field" data-general>
             <label class="su-label" for="f-qty">예상 수량 (벌)</label>
             <input class="su-input" id="f-qty" name="qty" inputmode="numeric" placeholder="예: 120" />
           </div>
@@ -52,7 +55,7 @@ const client = {
               <button type="button" class="file-pick-clear" data-file-clear aria-label="고른 로고 파일 빼기" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
               <label class="file-pick-btn" for="f-logo"><span data-file-btn>파일 올리기</span><input id="f-logo" name="logo" type="file" aria-describedby="f-logo-hint" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg,application/postscript,application/illustrator,application/pdf,image/svg+xml,image/png,image/jpeg" /></label>
             </div>
-            <span class="su-hint" id="f-logo-hint">AI · EPS · PDF 같은 벡터 파일이 가장 좋고, PNG · JPG도 받아요. 20MB 이하, 없으면 비워 두세요.</span>
+            <span class="su-hint" id="f-logo-hint">벡터(AI · EPS · PDF) 권장 · 20MB 이하</span>
           </div>
           <div class="su-field full"><label class="su-label" for="f-msg">요청사항</label><textarea class="su-input" id="f-msg" name="message" rows="4" placeholder="다른 색상(병원 로고 색 등), 배색, 납기 등 요청사항을 적어 주세요"></textarea></div>
           <div class="full" style="display:flex;flex-direction:column;gap:6px">
@@ -93,6 +96,7 @@ const client = {
     function renderLines() {
       const box = $('[data-q-lines]');
       const empty = cart.length === 0;
+      document.documentElement.classList.toggle('q-has-cart', !empty);
       $('[data-q-empty]').hidden = !empty;
       $$('[data-general]').forEach((el) => (el.hidden = !empty));
       $('[data-q-title]').textContent = empty ? '견적문의' : '견적함';

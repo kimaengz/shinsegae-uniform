@@ -6,6 +6,7 @@ import Phone from '../../../components/Phone.astro';
 const { site } = data();
 ---
 <Layout title="견적 요청 접수" active="quote" bbar="none">
+  <meta name="robots" content="noindex" slot="head" />
   <div class="wrap" style="max-width:760px;padding-block:72px;display:flex;flex-direction:column;gap:28px">
     <div style="display:flex;flex-direction:column;gap:10px">
       <h1 class="t-page">견적 요청이 접수되었습니다</h1>
