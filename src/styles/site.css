@@ -86,6 +86,7 @@ a.su-btn { text-decoration: none; }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 .trust-band { border-bottom: 1px dashed var(--line-strong); }
 .trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .trust > div { padding: 28px 24px; display: flex; flex-direction: column; gap: 4px; }
 .trust > div:first-child { padding-left: 0; }
 .trust > div + div { border-left: 1px solid var(--line); }
@@ -182,6 +183,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .trust > div:nth-child(odd) { padding-left: 0; border-left: 0; }
   .trust > div:nth-child(-n+2) { border-bottom: 1px dashed var(--line-strong); }
   .trust strong { font-size: 22px; line-height: 28px; }
+  .trust-3 > div:last-child { grid-column: 1 / -1; padding-left: 0; border-left: 0; }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .cta { padding: var(--space-8) 20px; }

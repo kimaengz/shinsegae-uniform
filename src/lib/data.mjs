@@ -133,5 +133,7 @@ export function loadData() {
 
 let cache;
 export function data() {
+  // 미리보기(dev)에서는 CSV 수정이 바로 보이도록 매번 다시 읽는다
+  if (import.meta.env?.DEV) return loadData();
   return (cache ??= loadData());
 }

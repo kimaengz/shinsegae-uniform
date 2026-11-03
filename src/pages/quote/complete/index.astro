@@ -22,7 +22,7 @@ const { site } = data();
         <li>작업지시서를 확정하면 생산에 들어갑니다.</li>
       </ol>
     </div>
-    <p class="muted">급한 문의 <span class="num">{site.phone}</span> · {site.email}</p>
+    <p class="muted">급한 문의 <span class="num">{site.phone}</span>{site.email && ` · ${site.email}`}</p>
     <div class="row">
       <a class="su-btn su-btn-primary" href={u('products/')}>제품 더 보기</a>
       <a class="su-btn su-btn-secondary" href={u('')}>홈으로</a>

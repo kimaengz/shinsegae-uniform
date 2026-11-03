@@ -72,14 +72,13 @@ const nav = [['about', '회사소개'], ['products', '제품'], ['new', '신제�
       <div>
         <b style="letter-spacing:.24em">SHINSEGAE UNIFORM</b>
         <span>{site.companyName} · 대표 {site.ceo}</span>
-        <span>사업자등록번호 {site.businessNumber}</span>
-        <span>{site.address}</span>
+        {site.businessNumber && <span>사업자등록번호 {site.businessNumber}</span>}
+        {site.address && <span>{site.address}</span>}
       </div>
       <div>
         <b>견적 상담</b>
         <span>T <span class="num">{site.phone}</span></span>
-        <span>E {site.email}</span>
-        <span>{site.hours}</span>
+        {site.email && <span>E {site.email}</span>}
       </div>
       <div>
         <b>인증</b>
