@@ -6,6 +6,7 @@ import { data, siteImage } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 const { site, categories, products } = data();
 const news = products.filter((p) => p.isNew).slice(0, 3);
+const countOf = (id: string) => products.filter((p) => p.category === id).length;
 const org = {
   '@context': 'https://schema.org', '@type': 'Organization', name: site.companyName, alternateName: 'SHINSEGAE UNIFORM',
   url: new URL(u(''), Astro.site).href, logo: new URL(u('logo.svg'), Astro.site).href, foundingDate: site.founded,
@@ -21,9 +22,9 @@ const org = {
       <p class="eyebrow"><span>{site.founded}년부터 대구에서 직접 만듭니다</span></p>
       <h1 class="hero-title">병원 현장을 위한<br />메디컬 유니폼</h1>
       <p class="lead">스크럽부터 가운, 환자복까지. 병원 로고 자수와 색상을 맞춰 단체로 납품합니다.</p>
-      <div class="row" style="margin-top:8px">
+      <div class="row hero-actions">
         <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
-        <a class="su-btn su-btn-secondary" href={u('products/')}>제품 보기</a>
+        <a class="link-more link-lg" href={u('products/')}>제품 둘러보기</a>
       </div>
     </div>
     <div class="hero-photo">
@@ -44,8 +45,9 @@ const org = {
   {news.length > 0 && (
     <section class="sec">
       <div class="wrap">
-        <div class="sec-h">
-          <div><h2>신제품</h2><p>새로 디자인한 {news.length}종입니다.</p></div>
+        <div class="sec-h sec-h-ed">
+          <h2>신제품</h2>
+          <p>새로 디자인한 {news.length}종입니다.</p>
           <a class="link-more" href={u('new/')}>신제품 전체 보기</a>
         </div>
         <div class="cards cards-3">{news.map((p) => <ProductCard p={p} />)}</div>
@@ -55,20 +57,24 @@ const org = {
 
   <section class="sec sec-tight">
     <div class="wrap">
-      <div class="sec-h"><h2>현장별 유니폼</h2><a class="link-more" href={u('products/')}>전체 제품 보기</a></div>
+      <div class="sec-h sec-h-ed">
+        <h2>현장별 유니폼</h2>
+        <p>수술실부터 외래, 상담 데스크까지 일하는 자리에 맞춰 나눴습니다.</p>
+        <a class="link-more" href={u('products/')}>전체 제품 보기</a>
+      </div>
       <div class="cards cards-3">
-        {categories.map((c) => (
+        {categories.map((c, i) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
             <Garment hex="#F2F2EE" src={c.image} ratio="43" />
-            <b>{c.name}</b>
-            <span class="muted" style="font-size:14px">{c.summary}</span>
+            <span class="cat-row"><span class="cat-no num">{String(i + 1).padStart(2, '0')}</span><b>{c.name}</b>{countOf(c.id) > 0 && <span class="cat-count num">{countOf(c.id)}종</span>}</span>
+            <span class="muted cat-sum">{c.summary}</span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <section style="padding-bottom:72px">
+  <section class="cta-sec">
     <div class="wrap">
       <div class="cta">
         <div><h2>병원 로고와 색상까지 맞춘 단체 견적</h2><p>제품을 골라 견적함에 담거나, 담은 제품 없이 일반 문의로 바로 보내실 수 있습니다.</p></div>

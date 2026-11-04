@@ -26,7 +26,7 @@ const list = (cat ? products.filter((p) => p.category === cat.id) : products).sl
   <p class="su-caption" style="margin-bottom:20px">{list.length}개 제품</p>
   <div class="cards">{list.map((p) => <ProductCard p={p} />)}</div>
 </div>
-<section class="sec">
+<section class="cta-sec">
   <div class="wrap">
     <div class="cta">
       <div><h2>찾는 제품이 없나요?</h2><p>원하는 디자인이 있다면 일반 문의로 보내 주세요. 맞춤 제작을 상담해 드립니다.</p></div>
