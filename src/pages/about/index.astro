@@ -24,45 +24,39 @@ const history = [
 <Layout title="회사소개" active="about" description="2015년 설립, 대구의 메디컬 유니폼 전문 제조사. 기획부터 생산, 검수, 납품까지 직접 합니다.">
   <div class="wrap">
     <nav class="crumb su-caption" aria-label="현재 위치"><a href={u('')}>홈</a><span aria-hidden="true">/</span><span aria-current="page">회사소개</span></nav>
-    <div class="page-h"><h1>회사소개</h1></div>
-    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:40px;padding-bottom:72px">
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <h2>의료 현장을 위한 유니폼을<br />기획부터 납품까지 직접 만듭니다</h2>
-        <p class="muted" style="max-width:34em">{site.founded}년 설립 이후 메디컬 유니폼 한 길만 걸어왔습니다. 의료진의 유니폼은 전문성과 병원의 가치를 보여 주는 얼굴이라는 생각으로, 검증된 고기능성 원단과 현장의 목소리를 반영한 인체공학적 패턴으로 직접 기획하고 만듭니다.</p>
-        <p class="muted" style="font-size:14px">대표 {site.ceo}</p>
+    <div class="page-h"><h1>회사소개</h1><p>{site.founded}년 대구에서 시작한 메디컬 유니폼 전문 제조사입니다.</p></div>
+    <section class="about-intro">
+      <p class="about-statement">의료 현장을 위한 유니폼을<br />기획부터 납품까지 직접 만듭니다.</p>
+      <div class="about-body">
+        <p class="muted">{site.founded}년 설립 이후 메디컬 유니폼 한 길만 걸어왔습니다. 의료진의 유니폼은 전문성과 병원의 가치를 보여 주는 얼굴이라는 생각으로, 검증된 고기능성 원단과 현장의 목소리를 반영한 인체공학적 패턴으로 직접 기획하고 만듭니다.</p>
+        <p class="about-sign">대표 <b>{site.ceo}</b></p>
       </div>
-      <Garment hex="#F2F2EE" src={siteImage('about/brand')} ratio="43" />
+      <div class="about-photo"><Garment hex="#F2F2EE" src={siteImage('about/brand')} ratio="43" /></div>
     </section>
   </div>
-  <section class="sec" style="border-top:1px solid var(--line)">
-    <div class="wrap">
-      <div class="sec-h"><h2>핵심 경쟁력</h2></div>
-      <div class="cards strengths">{strengths.map(([t, d]) => <div><b>{t}</b><p class="muted">{d}</p></div>)}</div>
-    </div>
-  </section>
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="sec-h"><div><h2>직접 제조 공정</h2><p>외주 없이 자체 공장에서 만들고 검수합니다.</p></div></div>
-      <div class="cards">{process.map(([t, src]) => <div style="display:flex;flex-direction:column;gap:10px"><span class="ph" style="aspect-ratio:3/2"><img src={u(src)} alt={`${t} 공정`} loading="lazy" /></span><b>{t}</b></div>)}</div>
-    </div>
-  </section>
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="sec-h"><h2>연혁</h2></div>
+  <div class="wrap about-secs">
+    <section class="split">
+      <h2>핵심 경쟁력</h2>
+      <ol class="strengths">{strengths.map(([t, d], i) => <li><span class="idx num">{String(i + 1).padStart(2, '0')}</span><b>{t}</b><p class="muted">{d}</p></li>)}</ol>
+    </section>
+    <section class="split">
+      <div><h2>직접 제조 공정</h2><p class="muted split-desc">외주 없이 자체 공장에서 만들고 검수합니다.</p></div>
+      <ol class="process">{process.map(([t, src], i) => <li><span class="ph" style="aspect-ratio:4/5"><img src={u(src)} alt={`${t} 공정`} loading="lazy" /></span><span class="process-t"><span class="idx num">{String(i + 1).padStart(2, '0')}</span><b>{t}</b></span></li>)}</ol>
+    </section>
+    <section class="split">
+      <h2>연혁</h2>
       <ol class="history">{history.map(([d, t]) => <li><span class="num">{d}</span><span>{t}</span></li>)}</ol>
-    </div>
-  </section>
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="sec-h"><h2>인증</h2></div>
-      <div class="cards cards-3">{certs.map(([t, d, src]) => <div style="display:flex;flex-direction:column;gap:10px"><span class="ph" style="aspect-ratio:4/3"><img src={u(src)} alt={`${t} 인증서`} loading="lazy" /></span><b>{t}</b><span class="muted num" style="font-size:14px;margin-top:-6px">{d}</span></div>)}</div>
-    </div>
-  </section>
-  <section class="sec sec-tight">
-    <div class="wrap">
-      <div class="sec-h"><h2>오시는 길</h2></div>
-      <p>{site.address}</p>
-      <p class="muted" style="margin-top:6px">T <Phone /></p>
-    </div>
-  </section>
+    </section>
+    <section class="split">
+      <h2>인증</h2>
+      <ul class="certs">{certs.map(([t, d, src]) => <li><span class="ph" style="aspect-ratio:3/4"><img src={u(src)} alt={`${t} 인증서`} loading="lazy" /></span><b>{t}</b><span class="muted num">{d} 취득</span></li>)}</ul>
+    </section>
+    <section class="split">
+      <h2>오시는 길</h2>
+      <dl class="visit">
+        <div><dt>주소</dt><dd>{site.address}</dd></div>
+        <div><dt>전화</dt><dd><Phone /></dd></div>
+      </dl>
+    </section>
+  </div>
 </Layout>

@@ -19,11 +19,10 @@ const list = (cat ? products.filter((p) => p.category === cat.id) : products).sl
     <p>{cat ? cat.summary : '6개 카테고리, 병원 로고 자수와 색상 맞춤이 가능합니다.'}</p>
   </div>
   <nav class="tabs" aria-label="카테고리">
-    <a href={u('products/')} aria-current={!cat ? 'page' : undefined}>전체</a>
-    {categories.map((c) => <a href={u(`products/${c.id}/`)} aria-current={cat?.id === c.id ? 'page' : undefined}>{c.name}</a>)}
+    <a href={u('products/')} aria-current={!cat ? 'page' : undefined}>전체<span class="tab-n num">{products.length}</span></a>
+    {categories.map((c) => <a href={u(`products/${c.id}/`)} aria-current={cat?.id === c.id ? 'page' : undefined}>{c.name}<span class="tab-n num">{products.filter((p) => p.category === c.id).length}</span></a>)}
   </nav>
   <h2 class="su-sr">제품 목록</h2>
-  <p class="su-caption" style="margin-bottom:20px">{list.length}개 제품</p>
   <div class="cards">{list.map((p) => <ProductCard p={p} />)}</div>
 </div>
 <section class="cta-sec">
