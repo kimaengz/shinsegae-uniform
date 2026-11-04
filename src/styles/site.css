@@ -36,11 +36,11 @@ main h2 { font-size: 26px; line-height: 34px; letter-spacing: -.025em; }
 .link-more:hover { color: var(--brand-text); }
 .link-lg { font-size: 16px; height: var(--control-height); padding: 0 4px; }
 .hero-actions { margin-top: 8px; gap: 24px; }
-/* 홈 섹션 머리: 위에 굵은 선, 제목 · 설명 · 링크를 한 줄에 (편집 디자인식) */
-.sec-h-ed { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: var(--space-6); padding-top: 20px; border-top: 1px solid var(--ink); margin-bottom: 40px; }
+/* 홈 섹션 머리: 위에 굵은 선, 제목 아래 설명, 링크는 오른쪽 끝 */
+.sec-h-ed { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 8px var(--space-6); padding-top: 20px; border-top: 1px solid var(--ink); margin-bottom: 40px; }
 .sec-h-ed h2 { font-size: 36px; line-height: 44px; letter-spacing: -.035em; }
-.sec-h-ed p { margin: 6px 0 0; color: var(--ink-muted); max-width: 26em; }
-.sec-h-ed .link-more { margin-top: 10px; justify-self: end; }
+.sec-h-ed p { grid-column: 1; grid-row: 2; margin: 0; color: var(--ink-muted); max-width: 26em; }
+.sec-h-ed .link-more { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
 /* 분야 카드: 번호 · 이름 · 제품 수 */
 .cat-row { display: flex; align-items: baseline; gap: 10px; padding-top: 4px; }
 .cat-no { flex: none; width: 22px; font-size: 13px; font-weight: 600; color: var(--brand-text); }
@@ -369,10 +369,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .cta { padding: 48px 0; }
   .cta h2 { font-size: 24px; line-height: 32px; }
   .cta-sec { margin-top: 56px; }
-  .sec-h-ed { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; padding-top: 16px; margin-bottom: 24px; }
+  .sec-h-ed { gap: 6px 16px; padding-top: 16px; margin-bottom: 24px; }
   .sec-h-ed h2 { font-size: 26px; line-height: 34px; }
-  .sec-h-ed p { grid-column: 1 / -1; grid-row: 2; margin: 0; }
-  .sec-h-ed .link-more { margin-top: 6px; }
   .cat-row { gap: 6px; }
   .cat-sum { padding-left: 28px; }
   .page-h h1 { font-size: 34px; line-height: 42px; }
