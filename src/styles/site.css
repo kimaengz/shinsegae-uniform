@@ -16,7 +16,7 @@ main h2 { font-size: 26px; line-height: 34px; letter-spacing: -.025em; }
 /* 섹션 위 작은 머리말: 짧은 선 + 작은 글씨 */
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; line-height: 18px; font-weight: 600; letter-spacing: 0; color: var(--brand-text); }
 .eyebrow::before { content: ""; width: 20px; height: 1px; background: currentColor; }
-:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; } /* 포커스 링은 여기 한 곳에서 */
 .skip { position: absolute; left: -9999px; top: 8px; z-index: 50; background: var(--ink); color: var(--surface); padding: 8px 12px; border-radius: var(--radius-sm); }
 .skip:focus { left: 8px; }
 
@@ -46,8 +46,6 @@ main h2 { font-size: 26px; line-height: 34px; letter-spacing: -.025em; }
 .cat-no { font-size: 13px; font-weight: 600; color: var(--brand-text); }
 .cat-count { margin-left: auto; font-size: 14px; color: var(--ink-muted); }
 .cat-sum { font-size: 14px; padding-left: 27px; }
-.su-btn-secondary { border-color: transparent; }
-.su-btn-secondary:hover { background: var(--surface-muted); }
 /* 카드: 사진과 색상 점 사이 여백, 점끼리 간격, 선택 링이 왼쪽 끝에서 잘리지 않게 */
 .su-card .su-dots { margin-top: 10px; gap: 10px; padding-left: 3px; }
 /* 카드 사진 옆으로 넘기기 */
@@ -59,6 +57,11 @@ main h2 { font-size: 26px; line-height: 34px; letter-spacing: -.025em; }
 .card-pager i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); opacity: .2; transition: opacity .2s; }
 .card-pager i.on { opacity: .7; }
 .card-color { font-size: 14px; color: var(--ink-muted); margin-top: 6px; }
+.opt-top { justify-content: space-between; }
+.opt-cat { gap: 8px; }
+.opt-cat .badge { margin-top: 0; }
+.link-btn { color: var(--brand-text); padding: 0; }
+.sum-label { font-size: 14px; }
 .badge { display: inline-flex; align-self: flex-start; align-items: center; background: var(--surface-muted); color: var(--brand-text); font-size: 14px; line-height: 18px; font-weight: 700; padding: 5px 10px; border-radius: var(--radius-sm); white-space: nowrap; margin-top: 4px; }
 a.su-btn { text-decoration: none; }
 
@@ -76,16 +79,17 @@ a.su-btn { text-decoration: none; }
 .logo-svg { display: block; height: 34px; width: auto; color: var(--brand-text); }
 .logo-svg-ft { height: 32px; }
 .nav { display: flex; align-items: center; gap: var(--space-8); font-size: 16px; font-weight: 500; }
-.nav a { color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; display: inline-flex; align-items: center; gap: 6px; }
-.nav a:hover { border-bottom-color: var(--line-strong); }
-.nav a[aria-current="page"] { border-bottom-color: var(--ink); font-weight: 700; }
+.nav a { color: var(--ink); text-decoration: none; padding: 6px 0; display: inline-flex; align-items: center; gap: 6px; }
+.nav a[aria-current="page"] { font-weight: 700; }
 .nav-sub { position: relative; }
 .nav-sub-list { display: none; position: absolute; top: 100%; left: -16px; min-width: 200px; background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-pop); padding: var(--space-2); flex-direction: column; }
 .nav-sub:hover .nav-sub-list, .nav-sub:focus-within .nav-sub-list { display: flex; }
-.nav-sub-list a { padding: 8px 10px; border: 0; border-radius: var(--radius-sm); font-weight: 500; }
+.nav-sub-list a { padding: 8px 10px; border-radius: var(--radius-sm); font-weight: 500; }
 .nav-sub-list a:hover { background: var(--ivory); }
 .cart-count[hidden] { display: none !important; }
 .m-only { display: none !important; }
+.m-actions { gap: 4px; }
+.m-quote { display: inline-flex; align-items: center; gap: 6px; height: 44px; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; }
 .menu-btn { width: 44px; height: 44px; border: 0; background: none; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
 .m-menu { border-bottom: 1px solid var(--line); background: var(--surface); }
 .m-menu a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 18px; font-weight: 500; }
@@ -134,6 +138,8 @@ a.su-btn { text-decoration: none; }
 .trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .trust > div { padding: 20px 24px 4px; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--ink); border-left: 1px solid var(--line); }
 .trust > div:first-child { padding-left: 0; border-left: 0; }
+.trust-sub { font-size: 14px; color: var(--ink-muted); }
+a.trust-sub { color: var(--brand-text); }
 .trust strong { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2; font-weight: 800; letter-spacing: -.035em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -225,16 +231,8 @@ a.su-btn { text-decoration: none; }
 .blk { display: flex; flex-direction: column; gap: 10px; }
 .blk-h { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
 .blk-h h2 { font-size: 18px; line-height: 26px; }
-/* 사이즈별 수량: 칸 폭이 좁아지면 자동으로 한 줄에 하나씩. 버튼은 손가락으로 누르기 쉬운 40px */
+/* 사이즈별 수량: 칸 폭이 좁아지면 자동으로 한 줄에 하나씩 */
 .qty-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: var(--space-2); }
-.qty-grid .su-qty { min-height: 52px; padding: 6px 6px 6px 16px; border-radius: var(--radius-md); border: 1.5px solid transparent; background: var(--surface-muted); }
-.qty-grid .su-qty.has-value { border-color: var(--ink); background: var(--surface); }
-.qty-grid .su-qty-label { font-size: 16px; }
-.qty-grid .su-qty-ctrl { grid-template-columns: 40px minmax(44px, 56px) 40px; gap: 2px; }
-.qty-grid .su-qty-ctrl button { height: 40px; border-radius: var(--radius-sm); background: var(--surface); font-size: 22px; }
-.qty-grid .su-qty-ctrl button:hover:not(:disabled) { background: var(--line); }
-.qty-grid .su-qty-ctrl input { font-size: 16px; font-weight: 600; height: 40px; }
-.qty-grid .su-qty-ctrl input:focus-visible { outline: 2px solid var(--focus); outline-offset: 0; border-radius: var(--radius-sm); }
 
 /* 자수: 로고와 이름을 따로 켜고 각각 위치 선택 */
 .emb { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px 16px; margin: 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
@@ -253,7 +251,6 @@ a.su-btn { text-decoration: none; }
 .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
 .switch:checked { background: var(--brand); }
 .switch:checked::after { transform: translateX(18px); }
-.switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .add-box { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid var(--ink); }
 .sum { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
@@ -281,6 +278,19 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .icon-btn:hover { background: var(--ivory); }
 
 /* 견적함 */
+.q-wrap { padding-bottom: 72px; }
+.q-head { align-items: baseline; gap: 12px; }
+.q-main { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
+.q-set { border: 0; margin: 0; padding: 0; }
+.q-set legend { margin-bottom: 8px; }
+.su-opt { color: var(--ink-muted); font-weight: 400; }
+.link-sm { font-size: 14px; }
+.panel-h { font-size: 18px; }
+.sum-sm { font-size: 14px; }
+.panel-est { display: flex; flex-direction: column; gap: 4px; padding-top: 16px; border-top: 1px dashed var(--line-strong); }
+.panel-est .muted { font-size: 14px; }
+.panel-est strong { font-size: 28px; line-height: 34px; }
+.panel-more { text-align: center; font-size: 14px; font-weight: 600; }
 .qw { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: var(--space-12); align-items: start; }
 .panel { position: sticky; top: 88px; background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
 .lines { border-top: 1px solid var(--ink); }

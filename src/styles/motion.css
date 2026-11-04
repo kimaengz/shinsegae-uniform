@@ -7,7 +7,6 @@
    - 움직임을 줄이는 설정이면 모두 끈다 */
 :root {
   --ease-out: cubic-bezier(.23, 1, .32, 1);      /* 진입 · 누름 */
-  --ease-in-out: cubic-bezier(.77, 0, .175, 1);  /* 화면 안에서 위치가 바뀌는 것 */
   --dur-press: 120ms;
   --dur-1: 160ms;
   --dur-2: 220ms;
@@ -43,13 +42,8 @@
   .su-select-btn:hover { background: color-mix(in srgb, var(--surface-muted) 92%, var(--ink)); }
 }
 
-/* ── 포커스 링: 키보드로 이동할 때만 ── */
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible {
-  outline: 2px solid var(--focus); outline-offset: 2px;
-}
-
 /* ── 메뉴 밑줄이 왼쪽에서 자라남 ── */
-.nav a { position: relative; border-bottom-color: transparent !important; }
+.nav a { position: relative; }
 .nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink);
   transform: scaleX(0); transform-origin: left; transition: transform var(--dur-spring) var(--spring);

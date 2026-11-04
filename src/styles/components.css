@@ -6,12 +6,11 @@
 /* Button */
 .su-btn { font: inherit; font-size: 16px; font-weight: 600; height: var(--control-height); padding: 0 28px; border-radius: var(--radius-full); border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); white-space: nowrap; }
 .su-btn-primary { background: var(--brand); color: var(--on-brand); border-color: var(--brand); }
-.su-btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--ink); }
+.su-btn-secondary { background: var(--surface); color: var(--ink); }
 .su-btn-ghost { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; padding: 0 var(--space-2); border-radius: var(--radius-sm); }
 .su-btn-sm { height: 40px; font-size: 14px; padding: 0 var(--space-4); }
 .su-btn-full { width: 100%; }
 .su-btn:disabled { background: var(--line); border-color: var(--line); color: var(--ink-muted); cursor: not-allowed; }
-.su-btn:focus-visible, .su-dot:focus-visible, .su-select-btn:focus-visible, .su-qty button:focus-visible, .su-toast button:focus-visible, .su-card a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* Tag */
 .su-tag { display: inline-flex; align-items: center; font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: var(--radius-sm); }
@@ -62,13 +61,16 @@ input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 .su-select-list button:hover, .su-select-list button:focus-visible { background: var(--ivory); outline: none; }
 
 /* QtyStepper */
-.su-qty { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3); min-height: 44px; background: var(--surface); }
-.su-qty.has-value { border-color: var(--ink); }
-.su-qty-label { font-size: 14px; font-weight: 600; min-width: 32px; }
-.su-qty-ctrl { display: grid; grid-template-columns: 32px 52px 32px; align-items: center; }
-.su-qty-ctrl button { font: inherit; height: 32px; border: 0; border-radius: var(--radius-sm); background: var(--ivory); color: var(--ink); cursor: pointer; font-size: 18px; line-height: 1; }
+.su-qty { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 52px; padding: 6px 6px 6px 16px; border: 1.5px solid transparent; border-radius: var(--radius-md); background: var(--surface-muted); }
+.su-qty.has-value { border-color: var(--ink); background: var(--surface); }
+.su-qty-label { font-size: 16px; font-weight: 600; min-width: 32px; }
+/* 버튼은 손가락으로 누르기 쉬운 40px */
+.su-qty-ctrl { display: grid; grid-template-columns: 40px minmax(44px, 56px) 40px; gap: 2px; align-items: center; }
+.su-qty-ctrl button { font: inherit; height: 40px; border: 0; border-radius: var(--radius-sm); background: var(--surface); color: var(--ink); cursor: pointer; font-size: 22px; line-height: 1; }
+.su-qty-ctrl button:hover:not(:disabled) { background: var(--line); }
 .su-qty-ctrl button:disabled { color: var(--ink-muted); cursor: not-allowed; opacity: .5; }
-.su-qty-ctrl input { font: inherit; font-size: 16px; width: 100%; border: 0; background: none; color: var(--ink); text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+.su-qty-ctrl input { font: inherit; font-size: 16px; font-weight: 600; height: 40px; width: 100%; border: 0; background: none; color: var(--ink); text-align: center; font-variant-numeric: tabular-nums; -moz-appearance: textfield; }
+.su-qty-ctrl input:focus-visible { outline-offset: 0; border-radius: var(--radius-sm); }
 .su-qty-ctrl input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
 /* PriceTiers */

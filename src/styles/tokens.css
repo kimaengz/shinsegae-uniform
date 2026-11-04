@@ -16,7 +16,7 @@
 }
 :root {
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px;
-  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 20px; --radius-full: 9999px; /* 칩·뱃지 / 버튼·입력·사진 / 박스·카드 */
-  --container-max: 1200px; --breakpoint-mobile: 760px; --control-height: 52px;
+  --radius-sm: 8px; --radius-md: 12px; --radius-full: 9999px; /* 작은 칸 · 배지 / 입력칸 · 상자 / 버튼 */
+  --container-max: 1200px; --control-height: 52px; /* 모바일 기준 폭은 760px (미디어쿼리에 직접) */
   --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }

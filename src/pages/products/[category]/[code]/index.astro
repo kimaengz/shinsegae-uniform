@@ -68,8 +68,8 @@ const client = {
 
       <div class="opt">
         <div class="opt-head">
-          <div class="row" style="justify-content:space-between">
-            <span class="row" style="gap:8px"><span class="su-caption">{cat.name}</span>{p.badge && <span class="badge" style="margin-top:0">{p.badge}</span>}</span>
+          <div class="row opt-top">
+            <span class="row opt-cat"><span class="su-caption">{cat.name}</span>{p.badge && <span class="badge">{p.badge}</span>}</span>
             <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
           </div>
           <h1>{p.name}</h1>
@@ -91,8 +91,8 @@ const client = {
 
         <div class="blk">
           <div class="blk-h">
-            <h2>참고 단가 <span class="su-caption" style="font-weight:500">1벌</span></h2>
-            <button type="button" class="su-btn su-btn-ghost su-btn-sm" style="color:var(--brand-text);padding:0" data-size-open>사이즈 안내</button>
+            <h2>참고 단가 <span class="su-caption">1벌</span></h2>
+            <button type="button" class="su-btn su-btn-ghost su-btn-sm link-btn" data-size-open>사이즈 안내</button>
           </div>
           {p.isPublic ? (
             <div class="su-tiers">
@@ -140,7 +140,7 @@ const client = {
         </div>
 
         <div class="add-box desk-only">
-          <div class="sum"><span class="muted" style="font-size:14px">예상 금액 (참고)</span><strong data-est>{p.isPublic ? '—' : '견적 후 안내'}</strong></div>
+          <div class="sum"><span class="muted sum-label">예상 금액 (참고)</span><strong data-est>{p.isPublic ? '—' : '견적 후 안내'}</strong></div>
           {p.isPublic && <span class="su-hint" data-emb-note hidden></span>}
           <button type="button" class="su-btn su-btn-primary su-btn-full" data-add disabled>견적함 담기</button>
           <span class="su-hint" data-add-hint>수량을 1벌 이상 입력하면 담을 수 있습니다.</span>

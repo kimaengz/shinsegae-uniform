@@ -15,15 +15,15 @@ const client = {
   <script is:inline>
     try { var c = JSON.parse(localStorage.getItem('su-quote-cart-v1') || '[]'); if (Array.isArray(c) && c.length) document.documentElement.classList.add('q-has-cart'); } catch (e) {}
   </script>
-  <div class="wrap" style="padding-bottom:72px">
+  <div class="wrap q-wrap">
     <nav class="crumb su-caption" aria-label="현재 위치"><a href={u('')}>홈</a><span aria-hidden="true">/</span><span aria-current="page">견적문의</span></nav>
-    <div class="page-h row" style="align-items:baseline;gap:12px">
+    <div class="page-h q-head">
       <h1 data-q-title>견적문의</h1>
       <span class="muted" data-q-sub></span>
     </div>
 
     <div class="qw">
-      <div style="display:flex;flex-direction:column;gap:40px;min-width:0">
+      <div class="q-main">
         <div data-q-lines></div>
 
         <div class="empty" data-q-empty>
@@ -34,8 +34,8 @@ const client = {
         <form class="form" novalidate data-q-form aria-labelledby="org-title">
           <h2 id="org-title" class="full">기관 정보</h2>
           <div class="alert full" role="alert" hidden data-q-alert></div>
-          <fieldset class="full" data-general style="border:0;margin:0;padding:0">
-            <legend class="su-label" style="margin-bottom:8px">관심 카테고리</legend>
+          <fieldset class="full q-set" data-general>
+            <legend class="su-label">관심 카테고리</legend>
             <div class="chips">{categories.map((c) => <label class="su-chip"><input type="checkbox" name="interest" value={c.name} /><span>{c.name}</span></label>)}</div>
           </fieldset>
           <div class="su-field" data-general>
@@ -48,7 +48,7 @@ const client = {
           <div class="su-field"><label class="su-label" for="f-mail">이메일</label><input class="su-input" id="f-mail" name="email" type="email" autocomplete="email" placeholder="name@hospital.or.kr" aria-describedby="f-mail-hint" /><span class="su-hint" id="f-mail-hint">{site.quoteEndpoint ? '남기시면 접수 확인 메일을 보내 드립니다.' : '견적서를 메일로 받으시려면 적어 주세요.'}</span></div>
           <div class="su-field"><label class="su-label" for="f-due">희망 납기</label><input class="su-input" id="f-due" name="due" type="date" /></div>
           <div class="su-field">
-            <span class="su-label" id="files-label">로고 파일 <span class="muted" style="font-weight:400">(선택)</span></span>
+            <span class="su-label" id="files-label">로고 파일 <span class="su-opt">(선택)</span></span>
             <!-- accept: 확장자와 MIME을 함께 적어야 iOS에서 .ai · .eps 파일도 고를 수 있다 -->
             <div class="file-pick" data-file-pick>
               <span class="file-pick-name" data-file-name>선택한 파일 없음</span>
@@ -58,25 +58,25 @@ const client = {
             <span class="su-hint" id="f-logo-hint">벡터(AI · EPS · PDF) 권장 · 20MB 이하</span>
           </div>
           <div class="su-field full"><label class="su-label" for="f-msg">요청사항</label><textarea class="su-input" id="f-msg" name="message" rows="4" placeholder="다른 색상(병원 로고 색 등), 배색, 납기 등 요청사항을 적어 주세요"></textarea></div>
-          <div class="full" style="display:flex;flex-direction:column;gap:6px">
-            <div class="row"><label class="su-chip"><input type="checkbox" id="f-agree" name="agree" required /><span>개인정보 수집·이용에 동의합니다 (필수)</span></label><a href={u('privacy/')} style="font-size:14px">내용 보기</a></div>
+          <div class="su-field full">
+            <div class="row"><label class="su-chip"><input type="checkbox" id="f-agree" name="agree" required /><span>개인정보 수집·이용에 동의합니다 (필수)</span></label><a class="link-sm" href={u('privacy/')}>내용 보기</a></div>
             <span class="su-error" id="f-agree-err" hidden></span>
           </div>
-          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px" />
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="su-sr" />
         </form>
       </div>
 
       <aside class="panel" aria-label="견적 요약">
-        <h2 style="font-size:18px">견적 요약</h2>
-        <div class="sum" style="font-size:14px"><span class="muted">제품</span><span class="num" data-s-count>0개</span></div>
-        <div class="sum" style="font-size:14px"><span class="muted">총 수량</span><span class="num" data-s-qty>0벌</span></div>
-        <div style="display:flex;flex-direction:column;gap:4px;padding-top:16px;border-top:1px dashed var(--line-strong)">
-          <span class="muted" style="font-size:14px">예상 금액 (참고)</span>
-          <strong class="num" style="font-size:28px;line-height:34px" data-s-est>0원</strong>
+        <h2 class="panel-h">견적 요약</h2>
+        <div class="sum sum-sm"><span class="muted">제품</span><span class="num" data-s-count>0개</span></div>
+        <div class="sum sum-sm"><span class="muted">총 수량</span><span class="num" data-s-qty>0벌</span></div>
+        <div class="panel-est">
+          <span class="muted">예상 금액 (참고)</span>
+          <strong class="num" data-s-est>0원</strong>
           <span class="su-hint" data-s-note>확정 금액은 상담 후 견적서로 안내합니다.</span>
         </div>
         <button type="button" class="su-btn su-btn-primary su-btn-full" data-submit>견적 요청 보내기</button>
-        <a href={u('products/')} style="text-align:center;font-size:14px;font-weight:600">제품 더 담기</a>
+        <a class="panel-more" href={u('products/')}>제품 더 담기</a>
       </aside>
     </div>
   </div>

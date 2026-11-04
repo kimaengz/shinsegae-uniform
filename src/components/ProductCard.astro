@@ -8,7 +8,7 @@ const first = p.colors[0];
 const imgs = p.cardImages[first.slug].map(u); // 2번째 사진부터는 넘기려 할 때 불러온다 (data-src)
 ---
 <article class="su-card" data-card>
-  <a class="su-card-img" href={href} aria-label={p.name} style="aspect-ratio:2/3">
+  <a class="su-card-img" href={href} aria-label={p.name}>
     {imgs.length ? (
       <span class="card-track" data-track>{imgs.map((src: string, i: number) => <span class="card-slide"><img src={i ? undefined : src} data-src={i ? src : undefined} alt="" loading="lazy" draggable="false" /></span>)}</span>
     ) : <Garment hex={first.hex} alt="" class="card-ph" />}
