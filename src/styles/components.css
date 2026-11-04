@@ -55,7 +55,7 @@ input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 .su-caret { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid var(--ink); }
 .su-select-btn[aria-expanded="true"] { border-color: var(--brand-text); background: var(--surface); }
 .su-select-btn[aria-expanded="true"] .su-caret { transform: rotate(180deg); }
-.su-select-list { position: absolute; z-index: 5; top: calc(100% + var(--space-1)); left: 0; right: 0; background: var(--surface-raised); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-pop); padding: var(--space-2); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); }
+.su-select-list { position: absolute; z-index: 5; top: calc(100% + var(--space-1)); left: 0; right: 0; background: var(--surface-raised); border-radius: var(--radius-md); box-shadow: var(--shadow-pop); padding: var(--space-2); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); }
 .su-select-list button { font: inherit; font-size: 16px; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2); border: 0; background: none; color: var(--ink); border-radius: var(--radius-sm); text-align: left; cursor: pointer; }
 .su-select-list button[aria-selected="true"] { color: var(--brand-text); font-weight: 700; }
 .su-select-list button:hover, .su-select-list button:focus-visible { background: var(--ivory); outline: none; }

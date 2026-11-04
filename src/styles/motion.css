@@ -11,7 +11,6 @@
   --dur-1: 160ms;
   --dur-2: 220ms;
   --dur-3: 420ms;
-  --elev-1: 0 1px 0 rgba(43, 39, 37, .06);
   /* 스프링 (Material 3 Expressive의 물리 기반 모션): 위치 · 크기 · 모양은 살짝 튕기고, 색 · 투명도는 튕기지 않는다.
      linear()를 모르는 브라우저는 일반 감속 곡선으로 */
   --spring-fast: var(--ease-out);
@@ -53,7 +52,7 @@
 
 /* ── 헤더: 스크롤하면 아래 선만 또렷해짐 ── */
 .hd { transition: box-shadow var(--dur-2) ease; }
-.hd.is-scrolled { box-shadow: var(--elev-1); }
+.hd.is-scrolled { box-shadow: 0 1px 0 var(--line); }
 
 /* ── 카드: 마우스를 올리면 사진이 아주 천천히 다가옴 ── */
 .su-card-img img, .cat-card .ph img { transition: transform 700ms var(--ease-out), opacity var(--dur-2) ease; }
