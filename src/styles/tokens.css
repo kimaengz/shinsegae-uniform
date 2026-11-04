@@ -2,7 +2,7 @@
 :root, [data-theme="light"] {
   --surface: #ffffff; --surface-raised: #ffffff; --ivory: #f7f2ec; --line: #e6e1dd; --line-strong: #8f8783;
   --ink: #2b2725; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
-  --brand-soft: #f6e6e9; --danger: #b42318; --focus: var(--brand-text);
+  --brand-soft: #f6e6e9; --brand-hover: #6c0010; --danger: #b42318; --focus: var(--brand-text);
   --surface-muted: #f4f3f1;
   --img-bg: #f6f6f6; /* 제품 사진 바탕 (사진 배경색과 같게) */
   --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);
@@ -10,7 +10,7 @@
 [data-theme="dark"] {
   --surface: #141213; --surface-raised: #1c1918; --ivory: #231e1c; --line: #3a3432; --line-strong: #7a726e;
   --ink: #f2eeec; --ink-muted: #ada6a2; --brand: #a11c33; --on-brand: #ffffff; --brand-text: #f08a9c;
-  --brand-soft: #4a1d26; --danger: #ff8a80; --focus: var(--brand-text);
+  --brand-soft: #4a1d26; --brand-hover: #b8263f; --danger: #ff8a80; --focus: var(--brand-text);
   --surface-muted: #221e1d;
   --shadow-pop: 0 8px 24px rgba(0,0,0,0.5);
 }

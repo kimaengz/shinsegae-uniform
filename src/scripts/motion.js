@@ -1,21 +1,5 @@
-// 상호작용 · 모션: 리플, 헤더 그림자, 스크롤 등장, 사진 페이드인 (styles/motion.css와 짝)
+// 상호작용 · 모션: 헤더 선, 사진 카드 등장, 사진 페이드인 (styles/motion.css와 짝)
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// 누른 자리에서 퍼지는 리플
-const RIPPLE = '.su-btn, .su-chip, .icon-btn, .su-select-btn, .su-qty-ctrl button, .gal-arrow';
-if (!reduce) {
-  document.addEventListener('pointerdown', (e) => {
-    const el = e.target instanceof Element ? e.target.closest(RIPPLE) : null;
-    if (!el || el.disabled) return;
-    const r = el.getBoundingClientRect();
-    const size = Math.hypot(r.width, r.height) * 2;
-    const dot = document.createElement('span');
-    dot.className = 'ripple';
-    dot.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
-    el.append(dot);
-    dot.addEventListener('animationend', () => dot.remove());
-  });
-}
 
 // 스크롤하면 헤더에 그림자
 const hd = document.querySelector('.hd');
@@ -36,10 +20,8 @@ const fadeIn = (img) => {
 document.querySelectorAll('main img').forEach(fadeIn);
 
 // 화면에 들어오면 아래에서 올라오며 나타남. 같은 줄의 카드는 조금씩 늦게
-const REVEAL = [
-  'main .sec-h', 'main .page-h', '.trust > div', '.su-card', '.cat-card', '.cards > *', '.ref-grid li',
-  '.ref-group-h', '.history li', '.cta', '.detail-imgs img'
-].join(',');
+// 글 · 숫자 · 표는 읽을 대상이라 움직이지 않는다. 사진 카드에만
+const REVEAL = '.su-card, .cat-card, .detail-imgs img';
 if (!reduce && 'IntersectionObserver' in window) {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => {
@@ -54,7 +36,7 @@ if (!reduce && 'IntersectionObserver' in window) {
     const r = el.getBoundingClientRect();
     if (r.top < innerHeight * 0.9) return;
     const sibs = el.parentElement ? [...el.parentElement.children] : [el];
-    el.style.setProperty('--delay', `${Math.min(sibs.indexOf(el) % 4, 3) * 60}ms`);
+    el.style.setProperty('--delay', `${Math.min(sibs.indexOf(el) % 4, 3) * 50}ms`);
     el.classList.add('reveal');
     io.observe(el);
   });

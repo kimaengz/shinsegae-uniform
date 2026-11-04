@@ -1,46 +1,31 @@
-/* 상호작용 · 모션 (Material Design 3의 상태 레이어 · 리플 · 고도 · 모션 원칙을 사이트 톤에 맞게 적용)
-   - 상태 레이어: 누를 수 있는 요소 위에 글자색을 옅게 깔아 hover 8% · pressed 12%
-   - 모션: 짧고(150~300ms) 표준 감속 곡선, 움직임을 줄이는 설정이면 모두 끔 */
+/* 상호작용 · 모션
+   원칙 (Emil Kowalski의 디자인 엔지니어링 원칙을 사이트 톤에 맞게)
+   - 목적이 있을 때만 움직인다. 자주 누르는 것(수량 ±, 칩, 색상 점)은 즉시 반응하고 꾸밈 모션은 없다
+   - 짧게: 누름 120ms · 상태 변화 160~200ms · 등장 300~450ms. 진입은 강한 감속(ease-out) 곡선
+   - 0에서 커지지 않는다: 펼침 목록 · 모달은 .96~.98에서 시작하고, 펼쳐지는 쪽(transform-origin)을 맞춘다
+   - 누를 수 없는 것은 hover에 반응하지 않는다
+   - 움직임을 줄이는 설정이면 모두 끈다 */
 :root {
-  --ease: cubic-bezier(.2, 0, 0, 1);
-  --ease-out: cubic-bezier(.05, .7, .1, 1);
-  --dur-1: 150ms;
-  --dur-2: 250ms;
-  --dur-3: 400ms;
-  --elev-1: 0 1px 2px rgba(43, 39, 37, .06), 0 1px 3px rgba(43, 39, 37, .08);
-  --elev-2: 0 2px 6px rgba(43, 39, 37, .08), 0 6px 16px rgba(43, 39, 37, .08);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);      /* 진입 · 누름 */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);  /* 화면 안에서 위치가 바뀌는 것 */
+  --dur-press: 120ms;
+  --dur-1: 160ms;
+  --dur-2: 220ms;
+  --dur-3: 420ms;
+  --elev-1: 0 1px 0 rgba(43, 39, 37, .06);
 }
 
-/* ── 상태 레이어 ── */
-.su-btn, .su-chip, .icon-btn, .su-select-btn, .su-select-list button, .su-qty-ctrl button, .gal-arrow, .nav-sub-list a {
-  position: relative; overflow: hidden; isolation: isolate;
+/* ── 버튼: 누르면 살짝 눌림. 색 변화는 짧게 ── */
+.su-btn, .su-chip, .su-select-btn, .su-qty-ctrl button, .icon-btn, .gal-arrow, .file-pick-btn, .bbar-call {
+  transition: background-color var(--dur-1) ease, border-color var(--dur-1) ease, color var(--dur-1) ease, transform var(--dur-press) var(--ease-out);
 }
-.su-btn::before, .su-chip::before, .icon-btn::before, .su-select-btn::before, .su-select-list button::before, .su-qty-ctrl button::before, .gal-arrow::before, .nav-sub-list a::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; background: currentColor; opacity: 0; pointer-events: none;
-  transition: opacity var(--dur-1) var(--ease);
-}
+.su-btn:active:not(:disabled), .icon-btn:active, .bbar-call:active, .file-pick-btn:active { transform: scale(.97); }
+.gal-arrow:active { transform: translateY(-50%) scale(.94); }
 @media (hover: hover) {
-  .su-btn:hover:not(:disabled)::before, .su-chip:hover::before, .icon-btn:hover::before, .su-select-btn:hover::before,
-  .su-select-list button:hover::before, .su-qty-ctrl button:hover:not(:disabled)::before, .gal-arrow:hover::before, .nav-sub-list a:hover::before { opacity: .08; }
+  .su-btn-primary:hover:not(:disabled) { background: var(--brand-hover); border-color: var(--brand-hover); }
+  .su-btn-secondary:hover { background: var(--surface-muted); }
+  .su-select-btn:hover { background: color-mix(in srgb, var(--surface-muted) 92%, var(--ink)); }
 }
-.su-btn:active:not(:disabled)::before, .su-chip:active::before, .icon-btn:active::before, .su-select-btn:active::before,
-.su-qty-ctrl button:active:not(:disabled)::before, .gal-arrow:active::before { opacity: .12; }
-/* 기존 hover 배경은 상태 레이어로 대신한다 */
-.su-btn-secondary:hover { background: var(--surface); }
-.icon-btn:hover, .nav-sub-list a:hover, .su-select-list button:hover, .su-select-list button:focus-visible { background: none; }
-.qty-grid .su-qty-ctrl button:hover:not(:disabled) { background: var(--ivory); }
-
-.su-btn, .su-chip, .su-select-btn, .su-qty-ctrl button {
-  transition: background-color var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease), transform var(--dur-1) var(--ease);
-}
-.su-btn:active:not(:disabled) { transform: scale(.98); }
-
-/* ── 리플 (motion.js가 누른 자리에 원을 만든다) ── */
-.ripple {
-  position: absolute; z-index: -1; border-radius: 50%; background: currentColor; opacity: .16; pointer-events: none;
-  transform: scale(0); animation: ripple var(--dur-3) var(--ease-out) forwards;
-}
-@keyframes ripple { to { transform: scale(1); opacity: 0; } }
 
 /* ── 포커스 링: 키보드로 이동할 때만 ── */
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible {
@@ -51,38 +36,41 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .nav a { position: relative; border-bottom-color: transparent !important; }
 .nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink);
-  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out);
 }
-.nav a:hover::after { transform: scaleX(1); background: var(--line-strong); }
+@media (hover: hover) { .nav a:hover::after { transform: scaleX(1); background: var(--line-strong); } }
 .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
 
-/* ── 헤더: 스크롤하면 그림자(고도 1) ── */
-.hd { transition: box-shadow var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease); }
-.hd.is-scrolled { box-shadow: var(--elev-1); border-bottom-color: transparent; }
+/* ── 헤더: 스크롤하면 아래 선만 또렷해짐 ── */
+.hd { transition: box-shadow var(--dur-2) ease; }
+.hd.is-scrolled { box-shadow: var(--elev-1); }
 
-/* ── 카드: 마우스를 올리면 사진이 살짝 다가옴 ── */
-.su-card-img img, .cat-card .ph img { transition: transform var(--dur-3) var(--ease), opacity var(--dur-2) var(--ease); }
+/* ── 카드: 마우스를 올리면 사진이 아주 천천히 다가옴 ── */
+.su-card-img img, .cat-card .ph img { transition: transform 700ms var(--ease-out), opacity var(--dur-2) ease; }
 @media (hover: hover) {
-  .su-card:hover .su-card-img img { transform: scale(1.03); }
-  .cat-card:hover .ph img { transform: scale(1.04); }
-  .ref-grid li { transition: box-shadow var(--dur-2) var(--ease), transform var(--dur-2) var(--ease); }
-  .ref-grid li:hover { box-shadow: var(--elev-2); transform: translateY(-2px); }
+  .su-card:hover .su-card-img img, .cat-card:hover .ph img { transform: scale(1.025); }
 }
+
+/* ── '전체 보기' 링크: 화살표만 살짝 밀림 ── */
+.link-more::after { transition: transform var(--dur-2) var(--ease-out); }
+@media (hover: hover) { .link-more:hover::after { transform: translateX(3px); } }
 
 /* ── 사진은 다 받은 뒤 부드럽게 나타남 ── */
 img.is-loading { opacity: 0; }
 
-/* ── 펼침 목록 · 서브메뉴 · 모달 ── */
+/* ── 펼침 목록 · 서브메뉴 · 모달: 0이 아니라 .96~.98에서, 펼쳐지는 쪽을 기준으로 ── */
+.su-select-list { transform-origin: top center; }
+.nav-sub-list { transform-origin: top left; }
 .su-select-list:not([hidden]), .nav-sub:hover .nav-sub-list, .nav-sub:focus-within .nav-sub-list { animation: pop-in var(--dur-1) var(--ease-out); }
-@keyframes pop-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.97) translateY(-4px); } to { opacity: 1; transform: none; } }
 dialog.modal[open] { animation: dialog-in var(--dur-2) var(--ease-out); }
-dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) var(--ease); }
-@keyframes dialog-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) ease; }
+@keyframes dialog-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-.su-caret { transition: transform var(--dur-2) var(--ease); }
+.su-caret { transition: transform var(--dur-2) var(--ease-out); }
 
-/* ── 스크롤하면 섹션이 아래에서 올라옴 (motion.js가 .reveal을 붙임: JS가 없으면 그대로 보임) ── */
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-3) var(--ease), transform 600ms var(--ease-out); transition-delay: var(--delay, 0ms); }
+/* ── 스크롤 등장: 사진 카드에만, 짧게. 글 · 숫자는 읽을 대상이라 처음부터 보임 ── */
+.reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); transition-delay: var(--delay, 0ms); }
 .reveal.is-in { opacity: 1; transform: none; }
 
 /* 인쇄할 때는 아직 안 나타난 요소도 모두 보이게 */
@@ -92,5 +80,4 @@ dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) var(--ease); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
   .reveal { opacity: 1; transform: none; }
-  .ripple { display: none; }
 }
