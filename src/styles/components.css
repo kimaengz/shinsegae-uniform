@@ -4,10 +4,10 @@
 .su-hint { font-size: 12px; line-height: 18px; color: var(--ink-muted); }
 
 /* Button */
-.su-btn { font: inherit; font-size: 16px; font-weight: 600; height: var(--control-height); padding: 0 var(--space-6); border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); white-space: nowrap; }
+.su-btn { font: inherit; font-size: 16px; font-weight: 600; height: var(--control-height); padding: 0 28px; border-radius: var(--radius-full); border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); white-space: nowrap; }
 .su-btn-primary { background: var(--brand); color: var(--on-brand); border-color: var(--brand); }
 .su-btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--ink); }
-.su-btn-ghost { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; padding: 0 var(--space-2); }
+.su-btn-ghost { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; padding: 0 var(--space-2); border-radius: var(--radius-sm); }
 .su-btn-sm { height: 40px; font-size: 14px; padding: 0 var(--space-4); }
 .su-btn-full { width: 100%; }
 .su-btn:disabled { background: var(--line); border-color: var(--line); color: var(--ink-muted); cursor: not-allowed; }
