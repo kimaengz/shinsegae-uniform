@@ -63,10 +63,10 @@ const org = {
         <a class="link-more" href={u('products/')}>전체 제품 보기</a>
       </div>
       <div class="cards cards-3">
-        {categories.map((c, i) => (
+        {categories.map((c) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
             <Garment hex="#F2F2EE" src={c.image} ratio="43" />
-            <span class="cat-row"><span class="cat-no num">{String(i + 1).padStart(2, '0')}</span><b>{c.name}</b>{countOf(c.id) > 0 && <span class="cat-count num">{countOf(c.id)}종</span>}</span>
+            <span class="cat-row"><b>{c.name}</b>{countOf(c.id) > 0 && <span class="cat-count num">{countOf(c.id)}종</span>}</span>
             <span class="muted cat-sum">{c.summary}</span>
           </a>
         ))}
