@@ -134,8 +134,24 @@
   "color": "navy",
   "files": [
    [
-    "F01_front.png",
-    1794136099
+    "F01_back.png",
+    1794143980
+   ],
+   [
+    "F01_side.png",
+    1794144101
+   ],
+   [
+    "F01_detail_neck.png",
+    1794144005
+   ],
+   [
+    "F01_detail_pocket.png",
+    1794144038
+   ],
+   [
+    "F01_detail_rib.png",
+    1794144069
    ]
   ]
  },
@@ -616,6 +632,77 @@
    [
     "fabric.png",
     1794143623
+   ]
+  ]
+ },
+ "F02": {
+  "color": "navy",
+  "files": [
+   [
+    "F02_front.png",
+    1794144253
+   ],
+   [
+    "F02_back.png",
+    1794144139
+   ],
+   [
+    "F02_side.png",
+    1794144283
+   ],
+   [
+    "F02_detail_neck.png",
+    1794144185
+   ],
+   [
+    "F02_detail_sleeve.png",
+    1794144216
+   ]
+  ]
+ },
+ "F03": {
+  "color": "wine",
+  "files": [
+   [
+    "F03_front.png",
+    1794144428
+   ],
+   [
+    "F03_back.png",
+    1794144313
+   ],
+   [
+    "F03_detail_neck.png",
+    1794144360
+   ]
+  ]
+ },
+ "F04": {
+  "color": "light-blue",
+  "files": [
+   [
+    "F04_front.png",
+    1794144679
+   ],
+   [
+    "F04_back.png",
+    1794144503
+   ],
+   [
+    "F04_side.png",
+    1794144709
+   ],
+   [
+    "F04_detail.png",
+    1794144551
+   ],
+   [
+    "F04_detail_neck.png",
+    1794144624
+   ],
+   [
+    "fabric.png",
+    1794144741
    ]
   ]
  }
