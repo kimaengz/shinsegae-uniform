@@ -14,7 +14,7 @@ const { site, categories } = data();
 const tel = /\d/.test(site.phone) ? site.phone.replace(/[^\d+]/g, '') : '';
 const fullTitle = title === '홈' ? `${site.companyName} | 병원 단체 메디컬 유니폼` : `${title} | ${site.companyName}`;
 // 메뉴 순서: 제품 중심 (견적문의는 맨 끝에 따로)
-const nav = [['new', '신제품'], ['products', '제품'], ['references', '납품 실적'], ['about', '회사소개']];
+const nav = [['new', '신제품'], ['products', '제품'], ['references', '제작사례'], ['about', '회사소개']];
 ---
 <!doctype html>
 <html lang="ko">

@@ -9,7 +9,7 @@
 
 | 경로 | 내용 |
 | --- | --- |
-| `data/` | 제품·카테고리·사이즈·납품 실적 CSV, 회사 정보 `site.json` |
+| `data/` | 제품·카테고리·사이즈·제작사례 CSV, 회사 정보 `site.json` |
 | `public/images/products/` | 제품 이미지 (상품 코드별 폴더) |
 | `src/pages/` | 페이지 |
 | `src/styles/` | 디자인 시스템 토큰과 컴포넌트 스타일 |

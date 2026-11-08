@@ -319,7 +319,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .empty { background: var(--ivory); padding: var(--space-6); border-radius: var(--radius-sm); }
 
 /* 모바일 */
-/* 납품 실적: 유형별 기관 타일 · 공공 납품 */
+/* 제작사례: 유형별 기관 타일 · 공공 납품 */
 .ref-groups { display: flex; flex-direction: column; gap: 48px; }
 .ref-group-h { display: flex; align-items: baseline; gap: 10px; padding-top: 16px; margin-bottom: 20px; border-top: 1px solid var(--ink); }
 .ref-group-h h2 { font-size: 18px; line-height: 26px; letter-spacing: -.02em; }
