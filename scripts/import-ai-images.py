@@ -37,11 +37,13 @@ def default_colors():
 
 
 def sort_key(row):
-    stem = os.path.splitext(nfc(row['원본명']))[0]
-    stem = stem.split('_', 1)[1] if '_' in stem else stem          # A01_front(바지) → front(바지)
+    name = os.path.splitext(nfc(row['원본명']))[0]
+    named = bool(re.match(r'[A-Z]\d{2}_', name))                    # A01_front … / 20261028_154057 같은 촬영 원본 이름
+    stem = name.split('_', 1)[1] if named else name                 # A01_front(바지) → front(바지)
     cut = (row.get('컷유형') or stem.split('_')[0].split('(')[0]).strip().lower()
     num = int(m.group(1)) if (m := re.search(r'(\d+)', stem)) else 0  # side, side1, side2 …
-    return (CUT_ORDER.get(cut, 9), '(' in stem, re.sub(r'\d+', '', stem), num)
+    # 같은 종류 안에서: 코드로 이름 붙인 컷(상의) → '(바지)' · 날짜 이름 컷(하의 등 추가 컷)
+    return (CUT_ORDER.get(cut, 9), not named or '(' in stem, re.sub(r'\d+', '', stem) if named else '', num if named else name)
 
 
 def main():
