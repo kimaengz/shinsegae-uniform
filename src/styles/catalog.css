@@ -44,7 +44,8 @@ img { display: block; max-width: 100%; }
 .cover { background: var(--ivory); }
 .cover .sheet-hd { border-bottom-color: transparent; }
 .cover-body { display: flex; flex-direction: column; gap: 5mm; margin-top: 22mm; }
-.cover-img { display: block; margin-top: 12mm; height: 105mm; overflow: hidden; background: var(--img-bg); }
+/* 사진은 남는 높이를 채운다: 제품 목록이 길면(전체 카탈로그) 낮아지고, 짧으면 105mm까지 */
+.cover-img { display: block; margin-top: 12mm; flex: 1 1 105mm; min-height: 55mm; max-height: 105mm; overflow: hidden; background: var(--img-bg); }
 .cover-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 .cover-body .p-meta { font-size: 10pt; }
 .cover-body h1 { font-size: 34pt; line-height: 1.2; letter-spacing: -.04em; }

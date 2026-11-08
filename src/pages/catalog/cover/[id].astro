@@ -19,7 +19,8 @@ const title = id === 'all' ? '제품 카탈로그' : id === 'selection' ? '선�
 const lead = id === 'selection'
   ? '견적함에 담으신 제품의 소개서입니다. 단가는 수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.'
   : '병원 현장을 위한 메디컬 유니폼. 기획부터 생산, 검수, 납품까지 직접 만듭니다. 단가는 수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.';
-const photo = cat?.image ?? siteImage('hero');
+// 제품 목록이 길면(전체 카탈로그) 한 장에 사진까지 들어가지 않아 목록만
+const photo = list.length > 12 ? null : cat?.image ?? siteImage('hero');
 const qr = await qrSvg(new URL(u('quote/'), Astro.site).href);
 const hasPhone = /\d/.test(site.phone);
 ---

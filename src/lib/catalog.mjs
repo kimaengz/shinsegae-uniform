@@ -17,10 +17,11 @@ export const issued = () => {
   return `${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월`;
 };
 
-// 페이지 안에서 실행: 크롬은 WebP를 PDF에 무압축으로 넣어 파일이 커진다 → 찍기 전에 화면 크기 2배의 JPEG로 바꿔 둔다
+// 페이지 안에서 실행: 크롬은 WebP를 PDF에 무압축으로 넣어 파일이 커진다 → 찍기 전에 제품 사진만 화면 크기 2배의 JPEG로 바꿔 둔다
+// (로고 PNG는 투명 배경이라 JPEG로 바꾸면 검게 되므로 제외)
 // (scripts/make-pdfs.mjs가 window.__ready를 기다린 뒤 PDF로 찍는다)
 export const TO_JPEG = `
-    window.__ready = Promise.all([...document.images].map((img) => img.decode().then(() => {
+    window.__ready = Promise.all([...document.querySelectorAll('.p-photos img, .cover-img img')].map((img) => img.decode().then(() => {
       const r = img.getBoundingClientRect(), k = Math.min(2, img.naturalWidth / r.width);
       const c = document.createElement('canvas');
       c.width = Math.round(r.width * k); c.height = Math.round(r.height * k);
