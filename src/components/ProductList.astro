@@ -2,6 +2,7 @@
 import ProductCard from './ProductCard.astro';
 import { data } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
+import { pdfPath } from '../lib/catalog.mjs';
 interface Props { current: string }
 const { current } = Astro.props;
 const { categories, products } = data();
@@ -17,6 +18,7 @@ const list = (cat ? products.filter((p) => p.category === cat.id) : products).sl
   <div class="page-h">
     <h1>{cat ? cat.name : '제품'}</h1>
     <p>{cat ? cat.summary : '6개 카테고리, 병원 로고 자수와 색상 맞춤이 가능합니다.'}</p>
+    <a class="link-more pdf-link" href={u(pdfPath(cat ? `category-${cat.id}` : 'all'))} download={`신세계유니폼_${cat ? cat.name.replace(/ · /g, '_') : '전체'}_카탈로그.pdf`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>{cat ? '카탈로그 PDF' : '전체 카탈로그 PDF'}</a>
   </div>
   <nav class="tabs" aria-label="카테고리">
     <a href={u('products/')} aria-current={!cat ? 'page' : undefined}>전체<span class="tab-n num">{products.length}</span></a>

@@ -4,6 +4,7 @@ import ProductCard from '../../../../components/ProductCard.astro';
 import Garment from '../../../../components/Garment.astro';
 import { data, imageSize } from '../../../../lib/data.mjs';
 import { u, won } from '../../../../lib/url.mjs';
+import { pdfPath } from '../../../../lib/catalog.mjs';
 
 export function getStaticPaths() {
   const { products } = data();
@@ -70,7 +71,7 @@ const client = {
         <div class="opt-head">
           <div class="row opt-top">
             <span class="row opt-cat"><span class="su-caption">{cat.name}</span>{p.badge && <span class="badge">{p.badge}</span>}</span>
-            <button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button>
+            <span class="row opt-actions"><a class="su-btn su-btn-secondary su-btn-sm" href={u(pdfPath(p.code))} download={`신세계유니폼_${p.name}_소개서.pdf`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>소개서 PDF</a><button type="button" class="su-btn su-btn-secondary su-btn-sm" data-share>링크 복사</button></span>
           </div>
           <h1>{p.name}</h1>
           <p class="muted">{p.summary}</p>

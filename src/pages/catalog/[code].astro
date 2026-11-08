@@ -1,0 +1,73 @@
+---
+// 제품 소개서 A4 한 장 (PDF로 찍는 페이지, 사이트 메뉴에는 없음)
+import '../../styles/tokens.css';
+import '../../styles/catalog.css';
+import Logo from '../../components/Logo.astro';
+import { data } from '../../lib/data.mjs';
+import { u } from '../../lib/url.mjs';
+import { isReal, sheetPhotos, qrSvg, issued, TO_JPEG } from '../../lib/catalog.mjs';
+
+export function getStaticPaths() {
+  return data().products.map((p) => ({ params: { code: p.slug }, props: { p } }));
+}
+interface Props { p: any }
+const { p } = Astro.props;
+const { site, categories } = data();
+const cat = categories.find((c) => c.id === p.category);
+const photos = sheetPhotos(p);
+const shown = photos.length ? photos : ['images/placeholder.png'];
+const pageUrl = new URL(u(`products/${p.category}/${p.slug}/`), Astro.site).href;
+const qr = await qrSvg(pageUrl);
+const hasPhone = /\d/.test(site.phone);
+// 왼쪽: 색상 · 사이즈 · 구성 / 오른쪽: 단가 · 자수 · 소재 · 기능 · 관리 (자리표시인 줄은 숨김)
+const rowsLeft: [string, string][] = [['사이즈', p.sizes.join(' · ')], ['구성', p.type]].filter(([, v]) => isReal(v)) as [string, string][];
+const rowsRight: [string, string][] = [
+  ['자수 위치', p.embroidery.length ? `${p.embroidery.join(' · ')} (병원 로고 · 이름)` : ''],
+  ['소재', p.material], ['기능', p.function], ['관리', p.care]
+].filter(([, v]) => isReal(v)) as [string, string][];
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>{p.name} 제품 소개서 | {site.companyName}</title>
+  <link rel="stylesheet" href={u('fonts/pretendard/pretendard.css')} />
+</head>
+<body>
+  <section class="sheet">
+    <header class="sheet-hd"><Logo /><span>제품 소개서 · {issued()}</span></header>
+    <div class="p-title">
+      <span class="p-meta">{cat.name} · {p.code}</span>
+      <h1>{p.name}</h1>
+      {isReal(p.summary) && <p>{p.summary}</p>}
+    </div>
+    <div class={`p-photos${shown.length === 1 ? ' one' : ''}`}>
+      <span class="main"><img src={u(shown[0])} alt="" /></span>
+      {shown.length > 1 && <span class="sub">{shown.slice(1, 4).map((s) => <span><img src={u(s)} alt="" /></span>)}</span>}
+    </div>
+    <div class="p-info">
+      <dl>
+        <div><dt>색상</dt><dd>
+          <span class="swatches">{p.colors.map((c: any) => <span><i style={`--sw:${c.hex}`}></i>{c.name}</span>)}</span>
+          <span class="muted">병원 로고 색 등 다른 색상도 제작 가능합니다.</span>
+        </dd></div>
+        {rowsLeft.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+      <dl>
+        <div><dt>단가</dt><dd><span class="price">견적 후 안내</span><br /><span class="muted">수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.</span></dd></div>
+        {rowsRight.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+    <footer class="sheet-ft">
+      <div>
+        <b>{site.companyName}</b> · 메디컬 유니폼 직접 제조<br />
+        {site.address}<br />
+        {hasPhone && <>T {site.phone} · </>}{new URL(u(''), Astro.site).host}{u('')}
+      </div>
+      <div class="qr"><span>제품 페이지 ·<br />견적문의</span><Fragment set:html={qr} /></div>
+    </footer>
+  </section>
+  <script is:inline set:html={TO_JPEG}></script>
+</body>
+</html>

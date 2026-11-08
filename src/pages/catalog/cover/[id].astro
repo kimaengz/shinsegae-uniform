@@ -1,0 +1,55 @@
+---
+// 카탈로그 표지 A4 한 장: 전체(all) · 카테고리별 · 견적함에서 고른 제품(selection)
+import '../../../styles/tokens.css';
+import '../../../styles/catalog.css';
+import Logo from '../../../components/Logo.astro';
+import { data, siteImage } from '../../../lib/data.mjs';
+import { u } from '../../../lib/url.mjs';
+import { qrSvg, issued, TO_JPEG } from '../../../lib/catalog.mjs';
+
+export function getStaticPaths() {
+  const { categories } = data();
+  return ['all', 'selection', ...categories.map((c) => c.id)].map((id) => ({ params: { id } }));
+}
+const { id } = Astro.params;
+const { site, categories, products } = data();
+const cat = categories.find((c) => c.id === id);
+const list = id === 'selection' ? [] : products.filter((p) => !cat || p.category === cat.id);
+const title = id === 'all' ? '제품 카탈로그' : id === 'selection' ? '선택 제품 소개서' : `${cat.name} 카탈로그`;
+const lead = id === 'selection'
+  ? '견적함에 담으신 제품의 소개서입니다. 단가는 수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.'
+  : '병원 현장을 위한 메디컬 유니폼. 기획부터 생산, 검수, 납품까지 직접 만듭니다. 단가는 수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.';
+const photo = cat?.image ?? siteImage('hero');
+const qr = await qrSvg(new URL(u('quote/'), Astro.site).href);
+const hasPhone = /\d/.test(site.phone);
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>{title} | {site.companyName}</title>
+  <link rel="stylesheet" href={u('fonts/pretendard/pretendard.css')} />
+</head>
+<body>
+  <section class="sheet cover">
+    <header class="sheet-hd"><Logo /><span>{issued()}</span></header>
+    <div class="cover-body">
+      <span class="p-meta">{site.founded}년부터 대구에서 직접 만듭니다</span>
+      <h1>{title}</h1>
+      <p>{lead}</p>
+    </div>
+    {photo && <span class="cover-img"><img src={u(photo)} alt="" /></span>}
+    {list.length > 0 && <ul class="cover-list">{list.map((p) => <li><span class="num">{p.code}</span><span>{p.name}</span></li>)}</ul>}
+    <footer class="sheet-ft">
+      <div>
+        <b>{site.companyName}</b> · 대표 {site.ceo}<br />
+        {site.address}<br />
+        {hasPhone && <>T {site.phone} · </>}{new URL(u(''), Astro.site).host}{u('')}
+      </div>
+      <div class="qr"><span>견적문의</span><Fragment set:html={qr} /></div>
+    </footer>
+  </section>
+  <script is:inline set:html={TO_JPEG}></script>
+</body>
+</html>

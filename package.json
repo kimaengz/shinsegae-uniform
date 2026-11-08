@@ -6,10 +6,16 @@
   "scripts": {
     "check-data": "node scripts/check-data.mjs",
     "dev": "astro dev",
-    "build": "node scripts/check-data.mjs && astro build",
-    "preview": "astro preview"
+    "build": "node scripts/check-data.mjs && astro build && node scripts/make-pdfs.mjs",
+    "preview": "astro preview",
+    "pdfs": "node scripts/make-pdfs.mjs"
   },
   "dependencies": {
-    "astro": "4.16.18"
+    "astro": "4.16.18",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.48.2",
+    "qrcode": "^1.5.4"
   }
 }
