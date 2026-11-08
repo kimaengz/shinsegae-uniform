@@ -439,5 +439,55 @@
     1794140515
    ]
   ]
+ },
+ "D01": {
+  "color": "white",
+  "files": [
+   [
+    "D01_detail.png",
+    1794141299
+   ],
+   [
+    "D01_detail_button.png",
+    1794141387
+   ],
+   [
+    "D01_detail_embroidery.png",
+    1794141422
+   ],
+   [
+    "D01_detail_lapel.png",
+    1794141457
+   ]
+  ]
+ },
+ "D02": {
+  "color": "white",
+  "files": [
+   [
+    "D02_front.png",
+    1794141831
+   ],
+   [
+    "D02_back.png",
+    1794141590
+   ],
+   [
+    "D02_side.png",
+    1794141864
+   ],
+   [
+    "D02_detail_embroidery.png",
+    1794141731
+   ],
+   [
+    "D02_detail_lapel.png",
+    1794141764
+   ],
+   [
+    "D02_detail_pocket.png",
+    1794141802
+   ]
+  ]
  }
 }
