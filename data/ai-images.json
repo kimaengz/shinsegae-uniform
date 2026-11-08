@@ -103,6 +103,30 @@
    [
     "C02_front.png",
     1794136098
+   ],
+   [
+    "C02_back.png",
+    1794140626
+   ],
+   [
+    "C02_side.png",
+    1794140801
+   ],
+   [
+    "C02_detail_button.png",
+    1794140655
+   ],
+   [
+    "C02_detail_lapel.png",
+    1794140689
+   ],
+   [
+    "C02_detail_lapel1.png",
+    1794140721
+   ],
+   [
+    "C02_detail_pocket.png",
+    1794140769
    ]
   ]
  },
@@ -363,6 +387,56 @@
    [
     "20261028_154131.png",
     1794140002
+   ]
+  ]
+ },
+ "C03": {
+  "color": "pink",
+  "files": [
+   [
+    "C03_front.png",
+    1794140923
+   ],
+   [
+    "C03_back.png",
+    1794140831
+   ],
+   [
+    "C03_side.png",
+    1794140955
+   ],
+   [
+    "C03_detail_pocket.png",
+    1794140863
+   ],
+   [
+    "C03_detail_pocket1.png",
+    1794140893
+   ]
+  ]
+ },
+ "C04": {
+  "color": "navy",
+  "files": [
+   [
+    "C04_front.png",
+    1794140544
+   ],
+   [
+    "C04_back.png",
+    1794140987
+   ],
+   [
+    "C04_side.png",
+    1794140585
+   ],
+   [
+    "C04_detail_sleeve.png",
+    1794140486
+   ],
+   [
+    "C04_detail_waist.png",
+    1794140515
    ]
   ]
  }
