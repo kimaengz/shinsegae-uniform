@@ -146,6 +146,10 @@
   "color": "navy",
   "files": [
    [
+    "F01_front.png",
+    1794147363
+   ],
+   [
     "F01_back.png",
     1794143980
    ],
@@ -405,8 +409,20 @@
     1794140112
    ],
    [
+    "20261028_154204.png",
+    1794146555
+   ],
+   [
     "C01_side.png",
     1794140365
+   ],
+   [
+    "20261028_154144.png",
+    1794146522
+   ],
+   [
+    "C01_detail_button.png",
+    1794146599
    ],
    [
     "C01_detail_collar.png",
@@ -471,6 +487,10 @@
     1794140585
    ],
    [
+    "C04_detail_closure.png",
+    1794146634
+   ],
+   [
     "C04_detail_sleeve.png",
     1794140486
    ],
@@ -484,8 +504,24 @@
   "color": "white",
   "files": [
    [
+    "D01_front.png",
+    1794146751
+   ],
+   [
+    "D01_back.png",
+    1794146709
+   ],
+   [
+    "D01_side.png",
+    1794146786
+   ],
+   [
     "D01_detail.png",
     1794141299
+   ],
+   [
+    "D01_detail1.png",
+    1794146281
    ],
    [
     "D01_detail_button.png",
@@ -498,6 +534,10 @@
    [
     "D01_detail_lapel.png",
     1794141457
+   ],
+   [
+    "D01_detail_pocket.png",
+    1794146328
    ]
   ]
  },
@@ -515,6 +555,14 @@
    [
     "D02_side.png",
     1794141864
+   ],
+   [
+    "D02_detail.png",
+    1794146362
+   ],
+   [
+    "D02_detail_button.png",
+    1794146416
    ],
    [
     "D02_detail_embroidery.png",
@@ -567,8 +615,16 @@
   "color": "light-blue",
   "files": [
    [
+    "D04_front.png",
+    1794146450
+   ],
+   [
     "D04_back.png",
     1794142249
+   ],
+   [
+    "D04_side.png",
+    1794146487
    ],
    [
     "D04_detail_button.png",
@@ -596,6 +652,10 @@
     1794142765
    ],
    [
+    "E01_front1.png",
+    1794146854
+   ],
+   [
     "E01_side.png",
     1794142823
    ],
@@ -619,6 +679,26 @@
    [
     "E02_front.png",
     1794143121
+   ],
+   [
+    "E02_front1.png",
+    1794146979
+   ],
+   [
+    "E02_back.png",
+    1794146894
+   ],
+   [
+    "E02_back1.png",
+    1794146940
+   ],
+   [
+    "E02_side.png",
+    1794147014
+   ],
+   [
+    "E02_detail_closure.png",
+    1794147164
    ],
    [
     "E02_detail_closure1.png",
@@ -696,8 +776,16 @@
     1794144313
    ],
    [
+    "F03_side.png",
+    1794147421
+   ],
+   [
     "F03_detail_neck.png",
     1794144360
+   ],
+   [
+    "F03_detail_texture.png",
+    1794147387
    ]
   ]
  },
@@ -719,6 +807,10 @@
    [
     "F04_detail.png",
     1794144551
+   ],
+   [
+    "F04_detail_button.png",
+    1794147447
    ],
    [
     "F04_detail_neck.png",
@@ -750,6 +842,14 @@
     1794145730
    ],
    [
+    "E04_detail.png",
+    1794147237
+   ],
+   [
+    "E04_back(바지).png",
+    1794147204
+   ],
+   [
     "E04_back(바지1).png",
     1794144986
    ],
@@ -758,12 +858,20 @@
     1794145867
    ],
    [
+    "E04_side(바지).png",
+    1794147313
+   ],
+   [
     "E04_side(바지1).png",
     1794145845
    ],
    [
     "E04_detail_closure.png",
     1794145062
+   ],
+   [
+    "E04_detail_closure1.png",
+    1794147287
    ],
    [
     "E04_detail_pocket.png",
