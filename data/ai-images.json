@@ -74,5 +74,50 @@
     1794136099
    ]
   ]
+ },
+ "A02": {
+  "color": "light-blue",
+  "files": [
+   [
+    "A02_front.png",
+    1794137261
+   ],
+   [
+    "A02_back.png",
+    1794136805
+   ],
+   [
+    "A02_side.png",
+    1794137262
+   ],
+   [
+    "A02_side1.png",
+    1794137263
+   ],
+   [
+    "A02_detail1.png",
+    1794136807
+   ],
+   [
+    "A02_detail2.png",
+    1794136950
+   ],
+   [
+    "A02_detail4.png",
+    1794136952
+   ],
+   [
+    "A02_detail_neck.png",
+    1794137132
+   ],
+   [
+    "A02_detail_shoulder.png",
+    1794137133
+   ],
+   [
+    "A02_detail_sidepocket.png",
+    1794137133
+   ]
+  ]
  }
 }
