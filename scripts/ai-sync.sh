@@ -1,6 +1,6 @@
 #!/bin/zsh
 # GPT 결과 폴더의 '완료' 사진을 사이트에 반영하고, 바뀐 게 있으면 빌드 확인 후 GitHub에 올린다(→ 자동 배포).
-# launchd(~/Library/LaunchAgents/com.haremi.shinsegae-ai-sync.plist)가 30분마다 실행한다.
+# launchd(~/Library/LaunchAgents/com.haremi.shinsegae-ai-sync.plist)가 5분마다 실행한다.
 # 끄기: launchctl unload ~/Library/LaunchAgents/com.haremi.shinsegae-ai-sync.plist
 set -e
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
