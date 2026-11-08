@@ -81,8 +81,8 @@ a.su-btn { text-decoration: none; }
 .nav .nav-cta .su-tag-count { background: var(--surface); color: var(--ink); }
 .hd-in { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
-.logo-svg { display: block; height: 34px; width: auto; color: var(--brand-text); }
-.logo-svg-ft { height: 32px; }
+.logo-svg { display: block; height: 52px; width: auto; }
+.logo-svg-ft { height: 64px; }
 .nav { display: flex; align-items: center; gap: var(--space-8); font-size: 16px; font-weight: 500; }
 .nav a { color: var(--ink); text-decoration: none; padding: 6px 0; display: inline-flex; align-items: center; gap: 6px; }
 .nav a[aria-current="page"] { font-weight: 700; }

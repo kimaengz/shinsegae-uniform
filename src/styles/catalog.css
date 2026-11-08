@@ -9,7 +9,7 @@ img { display: block; max-width: 100%; }
 
 .sheet { width: 210mm; height: 297mm; padding: 14mm 15mm 12mm; display: flex; flex-direction: column; overflow: hidden; page-break-after: always; }
 .sheet-hd { display: flex; justify-content: space-between; align-items: center; padding-bottom: 5mm; border-bottom: 1px solid var(--ink); }
-.sheet-hd svg { height: 9mm; width: auto; color: var(--brand); }
+.sheet-hd img { height: 13mm; width: auto; }
 .sheet-hd span { font-size: 8.5pt; color: var(--ink-muted); }
 
 /* 제품 한 장 */
