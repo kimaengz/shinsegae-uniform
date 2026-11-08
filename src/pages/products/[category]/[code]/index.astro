@@ -2,7 +2,7 @@
 import Layout from '../../../../layouts/Layout.astro';
 import ProductCard from '../../../../components/ProductCard.astro';
 import Garment from '../../../../components/Garment.astro';
-import { data, VIEWS, imageSize } from '../../../../lib/data.mjs';
+import { data, imageSize } from '../../../../lib/data.mjs';
 import { u, won } from '../../../../lib/url.mjs';
 
 export function getStaticPaths() {
@@ -47,9 +47,9 @@ const client = {
       <div class="gal-wrap">
         <div class="gal">
           <div class="thumbs" role="group" aria-label="이미지 보기">
-            {VIEWS.map(([v, label], i) => (
-              <button type="button" aria-label={label} aria-pressed={i === 0 ? 'true' : 'false'} data-view={i}>
-                <Garment hex={c0.hex} src={g0[i].src} />
+            {g0.map((g: any, i: number) => (
+              <button type="button" aria-label={g.label} aria-pressed={i === 0 ? 'true' : 'false'} data-view={i}>
+                <Garment hex={c0.hex} src={g.src} />
               </button>
             ))}
           </div>
@@ -237,7 +237,8 @@ const client = {
     }
     function renderGallery() {
       const list = P.gallery[color.slug];
-      $$('[data-view]').forEach((b, i) => { b.querySelector('[data-ph]')!.innerHTML = phHtml(list[i].src, color.hex); });
+      // 색상마다 사진 장수가 달라서 작은 사진 줄도 새로 그린다
+      $('.thumbs').innerHTML = list.map((g: any, i: number) => `<button type="button" aria-label="${g.label}" aria-pressed="false" data-view="${i}"><span class="ph ph-23" data-ph>${phHtml(g.src, color.hex)}</span></button>`).join('');
       track.innerHTML = list.map((g: any) => `<div class="gal-slide"><span class="ph ph-23" data-ph>${phHtml(g.src, color.hex, `${g.label} · ${color.name}`)}</span></div>`).join('');
       track.querySelectorAll('img').forEach((img, i) => (img.alt = `${P.name} ${color.name} ${list[i].label}`));
       goTo(view, false);
@@ -299,11 +300,11 @@ const client = {
     document.addEventListener('click', (e) => { if (!list.hidden && !(e.target as HTMLElement).closest('[data-color-select]')) closeList(); });
 
     // 멀티뷰
-    $$('[data-view]').forEach((b) => b.addEventListener('click', () => goTo(Number(b.dataset.view))));
+    $('.thumbs').addEventListener('click', (e) => { const b = (e.target as Element).closest<HTMLElement>('[data-view]'); if (b) goTo(Number(b.dataset.view)); });
     $('.thumbs').addEventListener('keydown', (e) => {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
       e.preventDefault();
-      goTo((view + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : 4)) % 5); ($$('[data-view]')[view]).focus();
+      const n = track.children.length; goTo((view + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : n - 1)) % n); ($$('[data-view]')[view]).focus();
     });
 
     // 수량

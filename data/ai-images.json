@@ -1,0 +1,46 @@
+{
+ "A01": {
+  "color": "wine",
+  "files": [
+   [
+    "A01_front.png",
+    1794136097
+   ],
+   [
+    "A01_back.png",
+    1794136129
+   ],
+   [
+    "A01_back(바지).png",
+    1794136096
+   ]
+  ]
+ },
+ "A03": {
+  "color": "light-blue",
+  "files": [
+   [
+    "A03_detail_neck.png",
+    1794136097
+   ]
+  ]
+ },
+ "C02": {
+  "color": "white",
+  "files": [
+   [
+    "C02_front.png",
+    1794136098
+   ]
+  ]
+ },
+ "F01": {
+  "color": "navy",
+  "files": [
+   [
+    "F01_front.png",
+    1794136099
+   ]
+  ]
+ }
+}

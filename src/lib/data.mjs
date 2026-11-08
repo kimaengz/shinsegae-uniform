@@ -6,7 +6,8 @@ const ROOT = process.cwd();
 const DATA = path.join(ROOT, 'data');
 const IMG = path.join(ROOT, 'public', 'images', 'products');
 const IMG_EXT = ['.jpg', '.jpeg', '.png', '.webp'];
-// 색상별 사진 5칸: 파일 이름 1~5 (예전 이름 front·back·neck·left·right도 읽음)
+// 색상별 사진: 파일 이름 1, 2, 3 … 순서대로 장수 제한 없이. 사진이 하나도 없으면 아래 5칸을 기본 사진으로 채움
+// (예전 이름 front·back·neck·left·right도 읽음)
 export const VIEWS = [['1', '사진 1', 'front'], ['2', '사진 2', 'back'], ['3', '사진 3', 'neck'], ['4', '사진 4', 'left'], ['5', '사진 5', 'right']];
 const EMBROIDERY = ['왼가슴', '오른가슴', '소매', '등'];
 // 제품 사진이 아직 없는 자리에 보여줄 기본 사진 (720×1080)
@@ -38,6 +39,15 @@ export function parseCsv(text) {
 
 const readCsv = (name) => parseCsv(fs.readFileSync(path.join(DATA, name), 'utf8'));
 const split = (v) => (v ? v.split('|').map((s) => s.trim()).filter(Boolean) : []);
+
+// 한 색상 폴더의 사진 목록: 1, 2, 3 … 숫자 순서 (없으면 예전 이름 순서)
+function colorImages(dir) {
+  const abs = path.join(IMG, dir);
+  if (!fs.existsSync(abs)) return [];
+  const nums = fs.readdirSync(abs).filter((f) => /^\d+\.(jpe?g|png|webp)$/i.test(f)).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  if (nums.length) return nums.map((f) => 'images/products/' + [...dir.split(path.sep), f].join('/'));
+  return VIEWS.map(([, , old]) => findImage(dir, old)).filter(Boolean);
+}
 
 function findImage(dir, base) {
   for (const ext of IMG_EXT) {
@@ -125,18 +135,18 @@ export function loadData() {
     embroidery.forEach((e) => { if (!EMBROIDERY.includes(e)) err(F, L, `자수 위치 "${e}"는 쓸 수 없습니다. (${EMBROIDERY.join(', ')})`); });
 
     const ownThumb = findImage(code, 'thumb');
-    const raw = Object.fromEntries(colors.map((c) => [c.slug, VIEWS.map(([v, , old]) => findImage(path.join(code, c.slug), v) ?? findImage(path.join(code, c.slug), old))]));
+    const raw = Object.fromEntries(colors.map((c) => [c.slug, colorImages(path.join(code, c.slug))]));
     // 썸네일은 thumb 파일이 없어도 기본 색 1번 사진이 대신하므로, 둘 다 없을 때만 알림
-    const missing = [!ownThumb && !raw[colors[0]?.slug]?.[0] && '썸네일'].concat(colors.filter((c) => raw[c.slug].some((s) => !s)).map((c) => `${c.name} 사진 ${raw[c.slug].filter(Boolean).length}/5`)).filter(Boolean);
+    const missing = [!ownThumb && !raw[colors[0]?.slug]?.[0] && '썸네일'].concat(colors.filter((c) => !raw[c.slug].length).map((c) => `${c.name} 사진`)).filter(Boolean);
     if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 기본 사진(placeholder)으로 보입니다.`);
     // 빈 자리 채우기: 썸네일은 기본 색 앞면 → 기본 사진, 기본 색 앞면은 썸네일 → 기본 사진, 나머지는 기본 사진
     const thumb = ownThumb ?? raw[colors[0]?.slug]?.[0] ?? PLACEHOLDER;
-    const gallery = Object.fromEntries(colors.map((c, ci) => [c.slug, VIEWS.map(([v, label], vi) => ({
-      view: v, label, src: raw[c.slug][vi] ?? ((ci === 0 && vi === 0 && ownThumb) || PLACEHOLDER)
-    }))]));
-    // 카드에서 옆으로 넘겨 볼 사진: 실제로 올린 사진만 (기본 색은 썸네일이 맨 앞), 하나도 없으면 썸네일 한 장
+    const gallery = Object.fromEntries(colors.map((c, ci) => [c.slug, raw[c.slug].length
+      ? raw[c.slug].map((src, i) => ({ label: `사진 ${i + 1}`, src }))
+      : VIEWS.map(([, label], vi) => ({ label, src: (ci === 0 && vi === 0 && ownThumb) || PLACEHOLDER }))]));
+    // 카드에서 옆으로 넘겨 볼 사진: 실제로 올린 사진 앞 5장 (기본 색은 썸네일이 맨 앞), 하나도 없으면 썸네일 한 장
     const cardImages = Object.fromEntries(colors.map((c, ci) => {
-      const list = [...new Set([ci === 0 && ownThumb, ...raw[c.slug]].filter(Boolean))];
+      const list = [...new Set([ci === 0 && ownThumb, ...raw[c.slug]].filter(Boolean))].slice(0, 5);
       return [c.slug, list.length ? list : [ci === 0 ? thumb : gallery[c.slug][0].src].filter(Boolean)];
     }));
 
