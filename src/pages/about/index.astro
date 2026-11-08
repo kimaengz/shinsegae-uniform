@@ -41,7 +41,7 @@ const history = [
     </section>
     <section class="split">
       <div><h2>직접 제조 공정</h2><p class="muted split-desc">외주 없이 자체 공장에서 만들고 검수합니다.</p></div>
-      <ol class="process">{process.map(([t, src], i) => <li><span class="ph" style="aspect-ratio:4/5"><img src={u(src)} alt={`${t} 공정`} loading="lazy" /></span><span class="process-t"><span class="idx num">{String(i + 1).padStart(2, '0')}</span><b>{t}</b></span></li>)}</ol>
+      <ol class="process">{process.map(([t, src], i) => <li><span class="ph" style="aspect-ratio:3/2"><img src={u(src)} alt={`${t} 공정`} loading="lazy" /></span><span class="process-t"><span class="idx num">{String(i + 1).padStart(2, '0')}</span><b>{t}</b></span></li>)}</ol>
     </section>
     <section class="split">
       <h2>연혁</h2>

@@ -162,7 +162,8 @@ a.trust-sub { color: var(--brand-text); }
 .strengths li { display: flex; flex-direction: column; gap: 8px; }
 .strengths b { font-size: 20px; line-height: 28px; letter-spacing: -.025em; }
 .strengths p { font-size: 15px; line-height: 24px; }
-.process { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+/* 공정 사진은 가로형(3:2)이라 2칸씩 */
+.process { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
 .process li { display: flex; flex-direction: column; gap: 10px; }
 .process-t { display: flex; align-items: baseline; gap: 8px; }
 .certs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
@@ -362,7 +363,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .about-secs { gap: 56px; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-top: 16px; }
   .split h2 { font-size: 22px; line-height: 30px; }
-  .process { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 8px; }
+  .process { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 12px; }
   .visit div { grid-template-columns: 72px minmax(0, 1fr); }
   .page-h { grid-template-columns: minmax(0, 1fr); padding: 8px 0 28px; }
