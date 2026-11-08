@@ -125,11 +125,12 @@ main:has(> .cta-sec:last-child) + .ft { border-top: 0; }
 .ph-label { position: absolute; left: 12px; bottom: 12px; background: var(--surface); padding: 2px 8px; border-radius: var(--radius-sm); font-size: 12px; color: var(--ink-muted); }
 
 /* 홈 */
-.hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--ivory); min-height: 600px; container-type: inline-size; }
+/* 히어로 바탕은 사진 배경색과 같게 (사진 테두리가 보이지 않도록) */
+.hero { --hero-bg: #f8f2ed; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--hero-bg); min-height: 600px; container-type: inline-size; }
 .hero-copy { display: flex; flex-direction: column; justify-content: center; gap: var(--space-6); padding: var(--space-18) var(--space-12) var(--space-18) max(var(--space-8), calc((100cqw - var(--container-max)) / 2 + var(--space-8))); }
 .hero-title { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.18; letter-spacing: -.04em; font-weight: 800; }
 .hero-copy .lead { color: var(--ink-muted); max-width: 26em; font-size: 17px; line-height: 1.65; }
-.hero-photo { position: relative; background: var(--ivory); min-height: 600px; overflow: hidden; }
+.hero-photo { position: relative; background: var(--hero-bg); min-height: 600px; overflow: hidden; }
 /* 사진 배경이 아이보리와 같아서, 잘리지 않게 통째로 넣고 아래쪽에 붙인다 */
 .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
@@ -345,7 +346,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .nav { display: none; }
   .m-only { display: inline-flex !important; }
   .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .hero-photo { min-height: 0; aspect-ratio: 5 / 6; }
+  .hero-photo { min-height: 0; aspect-ratio: 4 / 3; }
   .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
   .hero-title { font-size: 34px; line-height: 42px; }
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 16px; }
