@@ -27,8 +27,20 @@
     1794136631
    ],
    [
+    "A01_detail_neck.png",
+    1794145973
+   ],
+   [
+    "A01_detail_pocket.png",
+    1794146027
+   ],
+   [
     "A01_detail_pocket1.png",
     1794136302
+   ],
+   [
+    "A01_detail_sleeve.png",
+    1794146064
    ],
    [
     "A01_detail_waist.png",
@@ -175,12 +187,20 @@
     1794137263
    ],
    [
+    "A02_detail.png",
+    1794146094
+   ],
+   [
     "A02_detail1.png",
     1794136807
    ],
    [
     "A02_detail2.png",
     1794136950
+   ],
+   [
+    "A02_detail3.png",
+    1794146137
    ],
    [
     "A02_detail4.png",
@@ -321,6 +341,10 @@
    [
     "B03_detail_shoulder.png",
     1794139245
+   ],
+   [
+    "B03_detail_shoulder1.png",
+    1794146181
    ]
   ]
  },
@@ -710,12 +734,44 @@
   "color": "beige",
   "files": [
    [
+    "E04_front.png",
+    1794145768
+   ],
+   [
+    "E04_front1.png",
+    1794145793
+   ],
+   [
+    "E04_front(바지).png",
+    1794145699
+   ],
+   [
+    "E04_front(바지1).png",
+    1794145730
+   ],
+   [
     "E04_back(바지1).png",
     1794144986
    ],
    [
+    "E04_side.png",
+    1794145867
+   ],
+   [
+    "E04_side(바지1).png",
+    1794145845
+   ],
+   [
     "E04_detail_closure.png",
     1794145062
+   ],
+   [
+    "E04_detail_pocket.png",
+    1794145662
+   ],
+   [
+    "fabric.png",
+    1794145888
    ]
   ]
  }
