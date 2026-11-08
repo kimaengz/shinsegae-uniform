@@ -489,5 +489,63 @@
     1794141802
    ]
   ]
+ },
+ "D03": {
+  "color": "white",
+  "files": [
+   [
+    "D03_front.png",
+    1794142187
+   ],
+   [
+    "D03_back.png",
+    1794142019
+   ],
+   [
+    "D03_side.png",
+    1794142220
+   ],
+   [
+    "D03_detail_button.png",
+    1794142055
+   ],
+   [
+    "D03_detail_collar.png",
+    1794142093
+   ],
+   [
+    "D03_detail_pocket.png",
+    1794142130
+   ],
+   [
+    "D03_detail_pocket1.png",
+    1794142158
+   ]
+  ]
+ },
+ "D04": {
+  "color": "light-blue",
+  "files": [
+   [
+    "D04_back.png",
+    1794142249
+   ],
+   [
+    "D04_detail_button.png",
+    1794142295
+   ],
+   [
+    "D04_detail_logo.png",
+    1794142330
+   ],
+   [
+    "D04_detail_neck.png",
+    1794142364
+   ],
+   [
+    "D04_detail_pocket.png",
+    1794142408
+   ]
+  ]
  }
 }
