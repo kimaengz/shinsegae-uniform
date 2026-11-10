@@ -3,13 +3,14 @@ import '../styles/tokens.css';
 import '../styles/components.css';
 import '../styles/site.css';
 import '../styles/motion.css';
-import { data, siteImage } from '../lib/data.mjs';
+import { data } from '../lib/data.mjs';
 import { u } from '../lib/url.mjs';
 import Phone from '../components/Phone.astro';
 import Logo from '../components/Logo.astro';
 
-interface Props { title: string; description?: string; active?: string; bbar?: 'default' | 'none' | 'custom' }
-const { title, description = '병원·기관 단체 메디컬 유니폼. 스크럽, 간호복, 의사 가운, 환자복을 직접 제조하고 로고 자수까지 맞춰 납품합니다.', active = '', bbar = 'default' } = Astro.props;
+interface Props { title: string; description?: string; active?: string; bbar?: 'default' | 'none' | 'custom'; og?: string }
+// og: 링크 미리보기 사진 이름 (src/pages/og/[key].astro, 기본은 공통 사진)
+const { og = 'site', title, description = '병원·기관 단체 메디컬 유니폼. 스크럽, 간호복, 의사 가운, 환자복을 직접 제조하고 로고 자수까지 맞춰 납품합니다.', active = '', bbar = 'default' } = Astro.props;
 const { site, categories } = data();
 const tel = /\d/.test(site.phone) ? site.phone.replace(/[^\d+]/g, '') : '';
 const fullTitle = title === '홈' ? `${site.companyName} | 병원 단체 메디컬 유니폼` : `${title} | ${site.companyName}`;
@@ -27,7 +28,10 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '제�
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
-  <meta property="og:image" content={new URL(u(siteImage('og')), Astro.site)} />
+  <meta property="og:image" content={new URL(u(`og/${og}.jpg`), Astro.site)} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
   <link rel="icon" href={u('favicon.svg')} type="image/svg+xml" />

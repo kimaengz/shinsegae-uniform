@@ -8,6 +8,6 @@ export function getStaticPaths() {
 interface Props { cat: any }
 const { cat } = Astro.props;
 ---
-<Layout title={cat.name} active="products" description={`${cat.name}: ${cat.summary}. 병원 로고 자수와 색상 맞춤 단체 제작.`}>
+<Layout title={cat.name} active="products" og={`c-${cat.id}`} description={`${cat.name}: ${cat.summary}. 병원 로고 자수와 색상 맞춤 단체 제작.`}>
   <ProductList current={cat.id} />
 </Layout>

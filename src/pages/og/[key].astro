@@ -1,0 +1,44 @@
+---
+// 카톡 · 문자 · SNS로 링크를 보낼 때 뜨는 미리보기 사진(og:image, 1200×630).
+// scripts/make-pdfs.mjs가 이 페이지를 JPEG(dist/og/<key>.jpg)로 찍고 HTML은 지운다.
+//   site      홈 등 공통: 메인 사진 + 로고
+//   c-<id>    제품 카테고리: 카테고리 사진
+//   p-<slug>  제품: 기본 색 사진 3장 (가운데가 대표 사진 → 정사각형으로 잘려도 대표 사진이 보이게)
+import '../../styles/tokens.css';
+import { data, siteImage } from '../../lib/data.mjs';
+import { u } from '../../lib/url.mjs';
+import { sheetPhotos } from '../../lib/catalog.mjs';
+
+export function getStaticPaths() {
+  const { categories, products } = data();
+  return [
+    { params: { key: 'site' }, props: { kind: 'site' } },
+    ...categories.map((c) => ({ params: { key: `c-${c.id}` }, props: { kind: 'cat', img: c.image } })),
+    ...products.map((p) => ({ params: { key: `p-${p.slug}` }, props: { kind: 'product', photos: sheetPhotos(p).slice(0, 3) } }))
+  ];
+}
+const { kind, img, photos = [] } = Astro.props as { kind: string; img?: string; photos?: string[] };
+// 3장이면 [2번, 1번(대표), 3번] 순서로 대표 사진을 가운데에
+const row = photos.length === 3 ? [photos[1], photos[0], photos[2]] : photos;
+const cover = kind === 'site' ? siteImage('hero') : kind === 'cat' ? img : row.length ? null : siteImage('hero');
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <style>
+    html, body { margin: 0; }
+    body { width: 1200px; height: 630px; overflow: hidden; background: #f8f2ed; }
+    .cover { width: 100%; height: 100%; object-fit: cover; object-position: center 12%; display: block; }
+    .row { display: flex; justify-content: center; height: 100%; }
+    .row img { width: 400px; height: 630px; object-fit: cover; object-position: center top; display: block; }
+    .logo { position: absolute; left: 44px; top: 40px; height: 76px; width: auto; }
+  </style>
+</head>
+<body>
+  {cover && <img class="cover" src={u(cover)} alt="" />}
+  {!cover && <div class="row">{row.map((s) => <img src={u(s)} alt="" />)}</div>}
+  {kind === 'site' && <img class="logo" src={u('logo.png')} alt="" />}
+</body>
+</html>

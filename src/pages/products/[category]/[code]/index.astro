@@ -35,7 +35,7 @@ const client = {
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
 ---
-<Layout title={p.name} active="products" bbar="custom" description={`${p.name} · ${p.summary}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
+<Layout title={p.name} active="products" og={`p-${p.slug}`} bbar="custom" description={`${p.name} · ${p.summary}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
   <div class="wrap">
     <nav class="crumb su-caption" aria-label="현재 위치">
       <a href={u('')}>홈</a><span aria-hidden="true">/</span>

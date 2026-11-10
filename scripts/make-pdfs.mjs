@@ -1,4 +1,4 @@
-// 빌드 뒤에 제품 소개서 PDF를 만든다 (astro build 다음에 실행)
+// 빌드 뒤에 제품 소개서 PDF와 링크 미리보기 사진을 만든다 (astro build 다음에 실행)
 //   dist/catalog/pdf/<CODE>.pdf        제품 한 장
 //   dist/catalog/pdf/cover-<id>.pdf     표지 (all · selection · 카테고리)
 //   dist/catalog/pdf/category-<id>.pdf  카테고리 카탈로그 = 표지 + 그 카테고리 제품
@@ -43,6 +43,17 @@ const shoot = async (route, file) => {
 try {
   for (const p of products) await shoot(`catalog/${p.slug}/`, `${p.code}.pdf`);
   for (const id of ['all', 'selection', ...categories.map((c) => c.id)]) await shoot(`catalog/cover/${id}/`, `cover-${id}.pdf`);
+  // 링크 미리보기 사진(og:image): src/pages/og/ → dist/og/<key>.jpg
+  const OG = path.join(DIST, 'og');
+  await page.setViewportSize({ width: 1200, height: 630 });
+  const keys = fs.readdirSync(OG).filter((f) => fs.statSync(path.join(OG, f)).isDirectory());
+  for (const key of keys) {
+    await page.goto(`${origin}/og/${key}/`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
+    await page.screenshot({ path: path.join(OG, `${key}.jpg`), type: 'jpeg', quality: 85 });
+    fs.rmSync(path.join(OG, key), { recursive: true });
+  }
+  console.log(`미리보기 사진 ${keys.length}개 → dist/og/`);
 } finally {
   await browser.close();
   server.close();
