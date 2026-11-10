@@ -154,7 +154,9 @@ export function loadData() {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: r.summary,
       colors, sizes: split(r.sizes), prices, isPublic: isPublic && site.showPrices !== false, embroidery,
       isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: r.material, function: r.function, care: r.care,
-      order: Number(r.order) || 999, thumb, gallery, cardImages, details: detailImages(code)
+      order: Number(r.order) || 999, thumb, gallery, cardImages,
+      // 상세 정보: detail-N 이미지가 있으면 그것, 없으면 기본 색 사진을 썸네일 순서대로
+      details: (d => d.length ? d : raw[colors[0]?.slug] ?? [])(detailImages(code))
     };
   }).sort((a, b) => a.order - b.order);
 
