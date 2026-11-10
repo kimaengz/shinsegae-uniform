@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """GPT가 만든 제품 사진(신세계유니폼_AI_완성)을 사이트 사진으로 옮긴다.
 
-- 작업목록.csv에서 상태가 '완료'인 것만 쓴다 (검토 중인 사진은 올라가지 않음)
+- 작업목록.csv에서 상태가 '완료'인 것만 쓴다. 단 재생성에서 '검토 필요'로 보류된 컷은 재생성 신규 파일을 쓴다
 - 제품 폴더 이름 앞의 코드(A01 등)로 products.csv의 제품을 찾고, 그 제품의 기본 색(맨 앞 색) 폴더에 넣는다
 - 순서: 정면 → 뒷면 → 옆면 → 디테일 (같은 종류 안에서는 상의 먼저, '(바지)' 다음)
 - 정사각형 원본을 가운데 기준 2:3으로 잘라 960×1440 WebP로 줄인다 (장당 수 MB → 수십 KB)
@@ -50,8 +50,24 @@ def main():
     csv_path = os.path.join(SRC, '작업목록.csv')
     if not os.path.exists(csv_path):
         sys.exit(f'작업목록.csv가 없습니다: {csv_path}')
+    # 재생성에서 '검토 필요'로 보류된 컷은 재생성 신규 파일을 쓴다 (사용자 확인 후 사용 결정, 2026-11-10)
+    held = {}
+    regen = os.path.join(SRC, '재생성_교체작업목록.csv')
+    if os.path.exists(regen):
+        with open(regen, encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                if r.get('상태', '').strip() == '검토 필요' and os.path.exists(r.get('신규파일', '')):
+                    held[nfc(r['상대경로'])] = r['신규파일']
     with open(csv_path, encoding='utf-8-sig') as f:
-        rows = [r for r in csv.DictReader(f) if r.get('상태', '').strip() == '완료' and os.path.exists(r.get('결과파일', ''))]
+        rows = []
+        for r in csv.DictReader(f):
+            st = r.get('상태', '').strip()
+            if st == '검토 필요' and nfc(r['상대경로']) in held:
+                r['결과파일'] = held[nfc(r['상대경로'])]
+            elif st != '완료':
+                continue
+            if os.path.exists(r.get('결과파일', '')):
+                rows.append(r)
 
     colors = default_colors()
     groups = {}
