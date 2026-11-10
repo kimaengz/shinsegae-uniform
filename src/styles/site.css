@@ -73,10 +73,10 @@ a.su-btn { text-decoration: none; }
 /* 헤더 */
 .hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); }
 /* 헤더의 견적문의는 메뉴가 아니라 행동 버튼 */
-.nav .nav-cta { height: 44px; padding: 0 20px; border-radius: var(--radius-full); background: var(--ink); color: var(--surface); font-weight: 600; font-size: 15px; transition: background-color var(--dur-1) ease, transform var(--dur-spring-fast) var(--spring-fast), border-radius var(--dur-spring-fast) var(--spring-fast); }
+.nav .nav-cta { height: 44px; padding: 0 20px; border-radius: var(--radius-full); background: var(--ink); color: var(--surface); font-weight: 600; font-size: 15px; transition: background-color var(--dur-1) ease, transform var(--dur-1) var(--ease-out); }
 .nav .nav-cta::after { display: none; }
 .nav .nav-cta:hover { background: var(--brand); }
-.nav .nav-cta:active { transform: scale(.97); border-radius: var(--radius-md); transition-duration: var(--dur-press); }
+.nav .nav-cta:active { transform: scale(.97); transition-duration: var(--dur-press); }
 .nav .nav-cta[aria-current="page"] { background: var(--brand); font-weight: 600; }
 .nav .nav-cta .su-tag-count { background: var(--surface); color: var(--ink); }
 .hd-in { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); }

@@ -11,29 +11,14 @@
   --dur-1: 160ms;
   --dur-2: 220ms;
   --dur-3: 420ms;
-  /* 스프링 (Material 3 Expressive의 물리 기반 모션): 위치 · 크기 · 모양은 살짝 튕기고, 색 · 투명도는 튕기지 않는다.
-     linear()를 모르는 브라우저는 일반 감속 곡선으로 */
-  --spring-fast: var(--ease-out);
-  --spring: var(--ease-out);
-  --dur-spring-fast: 280ms;
-  --dur-spring: 450ms;
-}
-@supports (transition-timing-function: linear(0, 1)) {
-  :root {
-    --spring-fast: linear(0, .233 6.3%, .617 13.6%, .858 20.3%, .98 27%, 1.031 33.5%, 1.04 40%, 1.026 50.5%, 1.006 63.6%, .999 80%, 1);
-    --spring: linear(0, .156 5.4%, .508 12.1%, .784 18.7%, .949 25.4%, 1.033 32.3%, 1.058 38.9%, 1.05 45.4%, 1.019 57.5%, .998 73%, .997 86%, 1);
-  }
 }
 
 /* ── 버튼: 누르면 살짝 눌림. 색 변화는 짧게 ── */
 .su-btn, .su-chip, .su-select-btn, .su-qty-ctrl button, .icon-btn, .gal-arrow, .file-pick-btn, .bbar-call {
   transition: background-color var(--dur-1) ease, border-color var(--dur-1) ease, color var(--dur-1) ease,
-    transform var(--dur-spring-fast) var(--spring-fast), border-radius var(--dur-spring-fast) var(--spring-fast);
+    transform var(--dur-1) var(--ease-out);
 }
-/* 누르는 순간은 바로, 놓을 때 스프링으로 돌아온다 */
 .su-btn:active:not(:disabled), .icon-btn:active, .bbar-call:active, .file-pick-btn:active { transform: scale(.97); transition-duration: var(--dur-press); }
-/* 모양 변화: 알약 버튼이 눌리면 모서리가 각지고, 놓으면 다시 둥글게 (M3 Expressive 버튼) */
-.su-btn:active:not(:disabled) { border-radius: var(--radius-md); }
 .gal-arrow:active { transform: translateY(-50%) scale(.94); }
 @media (hover: hover) {
   .su-btn-primary:hover:not(:disabled) { background: var(--brand-hover); border-color: var(--brand-hover); }
@@ -45,7 +30,7 @@
 .nav a { position: relative; }
 .nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink);
-  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-spring) var(--spring);
+  transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out);
 }
 @media (hover: hover) { .nav a:hover::after { transform: scaleX(1); background: var(--line-strong); } }
 .nav a[aria-current="page"]::after { transform: scaleX(1); background: var(--ink); }
@@ -61,7 +46,7 @@
 }
 
 /* ── '전체 보기' 링크: 화살표만 살짝 밀림 ── */
-.link-more::after { transition: transform var(--dur-spring-fast) var(--spring-fast); }
+.link-more::after { transition: transform var(--dur-1) var(--ease-out); }
 @media (hover: hover) { .link-more:hover::after { transform: translateX(3px); } }
 
 /* ── 사진은 다 받은 뒤 부드럽게 나타남 ── */
@@ -72,12 +57,11 @@ img.is-loading { opacity: 0; }
 .nav-sub-list { transform-origin: top left; }
 .su-select-list:not([hidden]), .nav-sub:hover .nav-sub-list, .nav-sub:focus-within .nav-sub-list { animation: pop-in var(--dur-1) var(--ease-out); }
 @keyframes pop-in { from { opacity: 0; transform: scale(.97) translateY(-4px); } to { opacity: 1; transform: none; } }
-.su-select-list:not([hidden]), .nav-sub:hover .nav-sub-list, .nav-sub:focus-within .nav-sub-list { animation-duration: var(--dur-spring-fast); animation-timing-function: var(--spring-fast); }
-dialog.modal[open] { animation: dialog-in var(--dur-spring) var(--spring); }
+dialog.modal[open] { animation: dialog-in var(--dur-2) var(--ease-out); }
 dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) ease; }
 @keyframes dialog-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-.su-caret { transition: transform var(--dur-spring) var(--spring); }
+.su-caret { transition: transform var(--dur-2) var(--ease-out); }
 
 /* ── 스크롤 등장: 사진 카드에만, 짧게. 글 · 숫자는 읽을 대상이라 처음부터 보임 ── */
 .reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); transition-delay: var(--delay, 0ms); }
