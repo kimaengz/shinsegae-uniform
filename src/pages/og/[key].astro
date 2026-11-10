@@ -39,6 +39,6 @@ const cover = kind === 'site' ? siteImage('hero') : kind === 'cat' ? img : row.l
 <body>
   {cover && <img class="cover" src={u(cover)} alt="" />}
   {!cover && <div class="row">{row.map((s) => <img src={u(s)} alt="" />)}</div>}
-  {kind === 'site' && <img class="logo" src={u('logo.png')} alt="" />}
+  {kind === 'site' && <img class="logo" src={u('logo.svg')} alt="" />}
 </body>
 </html>

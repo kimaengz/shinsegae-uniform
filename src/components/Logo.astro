@@ -1,8 +1,8 @@
 ---
-// 신세계유니폼 로고 (원본: public/logo.png, 388×223, 엠블럼 + SHINSEGAE UNIFORM 세로 배치)
+// 신세계유니폼 로고 (원본: public/logo.svg, 388×223, 엠블럼 + SHINSEGAE UNIFORM 세로 배치)
 // 이름은 링크의 aria-label이 읽어 주므로 그림 자체는 alt를 비운다
 import { u } from '../lib/url.mjs';
 interface Props { class?: string }
 const { class: cls = '' } = Astro.props;
 ---
-<img class={cls} src={u('logo.png')} alt="" width="388" height="223" decoding="async" />
+<img class={cls} src={u('logo.svg')} alt="" width="388" height="223" decoding="async" />
