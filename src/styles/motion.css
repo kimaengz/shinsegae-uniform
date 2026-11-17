@@ -39,11 +39,8 @@
 .hd { transition: box-shadow var(--dur-2) ease; }
 .hd.is-scrolled { box-shadow: 0 1px 0 var(--line); }
 
-/* ── 카드: 마우스를 올리면 사진이 아주 천천히 다가옴 ── */
-.su-card-img img, .cat-card .ph img { transition: transform 700ms var(--ease-out), opacity var(--dur-2) ease; }
-@media (hover: hover) {
-  .su-card:hover .su-card-img img, .cat-card:hover .ph img { transform: scale(1.025); }
-}
+/* ── 카드 사진: 움직임 없음 (불러올 때 살짝 나타나기만) ── */
+.su-card-img img, .cat-card .ph img { transition: opacity var(--dur-2) ease; }
 
 /* ── '전체 보기' 링크: 화살표만 살짝 밀림 ── */
 .link-more::after { transition: transform var(--dur-1) var(--ease-out); }

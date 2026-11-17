@@ -20,25 +20,4 @@ const fadeIn = (img) => {
 // 상세 정보 사진은 길게 이어 보는 사진이라 모션 없이 바로 보인다
 document.querySelectorAll('main img:not(.detail-imgs img)').forEach(fadeIn);
 
-// 화면에 들어오면 아래에서 올라오며 나타남. 같은 줄의 카드는 조금씩 늦게
-// 글 · 숫자 · 표는 읽을 대상이라 움직이지 않는다. 사진 카드에만
-const REVEAL = '.su-card, .cat-card';
-if (!reduce && 'IntersectionObserver' in window) {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (!en.isIntersecting) return;
-      en.target.classList.add('is-in');
-      io.unobserve(en.target);
-    });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-  const items = [...document.querySelectorAll(REVEAL)].filter((el) => !el.closest('.hero'));
-  items.forEach((el) => {
-    // 첫 화면에 이미 보이는 것은 그대로 둔다 (깜빡임 방지)
-    const r = el.getBoundingClientRect();
-    if (r.top < innerHeight * 0.9) return;
-    const sibs = el.parentElement ? [...el.parentElement.children] : [el];
-    el.style.setProperty('--delay', `${Math.min(sibs.indexOf(el) % 4, 3) * 50}ms`);
-    el.classList.add('reveal');
-    io.observe(el);
-  });
-}
+// 카드(썸네일)는 움직이지 않는다
