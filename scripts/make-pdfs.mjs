@@ -34,8 +34,14 @@ const { products, categories } = data();
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage();
+// 사진이 많으면 가끔 30초 안에 다 못 받아 실패한다 → 넉넉히 기다리고 한 번 더 시도
+page.setDefaultTimeout(90000);
+const open = async (url) => {
+  try { await page.goto(url, { waitUntil: 'networkidle' }); }
+  catch { await page.goto(url, { waitUntil: 'networkidle' }); }
+};
 const shoot = async (route, file) => {
-  await page.goto(`${origin}/${route}`, { waitUntil: 'networkidle' });
+  await open(`${origin}/${route}`);
   await page.evaluate(() => Promise.all([document.fonts.ready, window.__ready]));
   await page.pdf({ path: path.join(OUT, file), preferCSSPageSize: true, printBackground: true });
 };
@@ -48,7 +54,7 @@ try {
   await page.setViewportSize({ width: 1200, height: 630 });
   const keys = fs.readdirSync(OG).filter((f) => fs.statSync(path.join(OG, f)).isDirectory());
   for (const key of keys) {
-    await page.goto(`${origin}/og/${key}/`, { waitUntil: 'networkidle' });
+    await open(`${origin}/og/${key}/`);
     await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
     await page.screenshot({ path: path.join(OG, `${key}.jpg`), type: 'jpeg', quality: 85 });
     fs.rmSync(path.join(OG, key), { recursive: true });

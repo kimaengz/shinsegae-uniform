@@ -79,9 +79,14 @@ def main():
         groups.setdefault(m.group(1), []).append(r)
 
     manifest = json.load(open(MANIFEST, encoding='utf-8')) if os.path.exists(MANIFEST) else {}
+    # 디자이너 컬러 폴더로 반영한 제품(import-color-folder.py)은 AI 사진으로 덮어쓰지 않는다
+    cf = os.path.join(ROOT, 'data', 'color-images.json')
+    color_managed = set(json.load(open(cf, encoding='utf-8'))) if os.path.exists(cf) else set()
     changed = []
     for code, items in sorted(groups.items()):
         slug = colors.get(code)
+        if code in color_managed:
+            continue
         if not slug:
             print(f'건너뜀 {code}: products.csv에 없는 제품')
             continue
