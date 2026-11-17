@@ -20,7 +20,7 @@ export function getStaticPaths() {
 const { kind, img, photos = [] } = Astro.props as { kind: string; img?: string; photos?: string[] };
 // 3장이면 [2번, 1번(대표), 3번] 순서로 대표 사진을 가운데에
 const row = photos.length === 3 ? [photos[1], photos[0], photos[2]] : photos;
-const cover = kind === 'site' ? siteImage('hero') : kind === 'cat' ? img : row.length ? null : siteImage('hero');
+const cover = kind === 'site' ? siteImage('hero') : kind === 'cat' ? img || siteImage('hero') : row.length ? null : siteImage('hero');
 ---
 <!doctype html>
 <html lang="ko">

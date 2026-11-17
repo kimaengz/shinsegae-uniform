@@ -55,7 +55,7 @@ try {
   const keys = fs.readdirSync(OG).filter((f) => fs.statSync(path.join(OG, f)).isDirectory());
   for (const key of keys) {
     await open(`${origin}/og/${key}/`);
-    await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
+    await page.evaluate(() => Promise.allSettled([...document.images].map((i) => i.decode())));
     await page.screenshot({ path: path.join(OG, `${key}.jpg`), type: 'jpeg', quality: 85 });
     fs.rmSync(path.join(OG, key), { recursive: true });
   }

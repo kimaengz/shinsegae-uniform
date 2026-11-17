@@ -11,7 +11,7 @@
 사용: python3 scripts/import-color-folder.py   (원본 폴더를 바꾸려면 COLOR_SRC 환경 변수)
 """
 import csv, io, json, os, re, shutil, sys, unicodedata
-from PIL import Image
+from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.environ.get('COLOR_SRC', os.path.expanduser('~/Desktop/신세계 컬러 폴더_1,2'))
@@ -42,9 +42,12 @@ def main():
     fields = list(rows[0].keys())
     by_name = {r['name']: r for r in rows}
     by_code = {r['code']: r for r in rows}
-    manifest = {}
+    # 지난번에 반영한 제품도 계속 보호한다 (폴더에서 빠졌다고 AI 자동 동기화가 덮어쓰지 않게)
+    manifest = json.load(open(MANIFEST, encoding='utf-8')) if os.path.exists(MANIFEST) else {}
     log = []
 
+    # 1단계: 전부 읽고 검사만 한다. 문제가 있으면 아무 파일도 바꾸지 않고 멈춘다
+    plan = []
     for cat in sorted(os.listdir(SRC)):
         cdir = os.path.join(SRC, cat)
         if not os.path.isdir(cdir):
@@ -67,41 +70,52 @@ def main():
                     continue
                 cname = re.sub(r'\s*\(완\)\s*$', '', nfc(col)).strip()
                 if cname not in COLORS:
-                    sys.exit(f'{code} {name}: 모르는 색상 "{cname}" → COLORS 표에 추가하세요')
+                    sys.exit(f'{code} {name}: 모르는 색상 "{cname}" → COLORS 표에 추가하세요 (아무 파일도 바꾸지 않았습니다)')
                 files = sorted((os.path.join(cpath, f) for f in os.listdir(cpath)
                                 if re.search(r'\.(png|jpe?g|webp)$', f, re.I) and not f.startswith('.')), key=num)
                 found.append((cname, *COLORS[cname], files))
+            if not found:
+                print(f'건너뜀: {code} {name}: 색상 폴더가 없습니다')
+                continue
+            slugs = [c[1] for c in found]
+            dup = sorted({c[0] for c in found if slugs.count(c[1]) > 1})
+            if dup:
+                sys.exit(f'{code} {name}: 같은 색으로 취급되는 폴더가 함께 있습니다({", ".join(dup)}) → 하나로 합치세요 (아무 파일도 바꾸지 않았습니다)')
             # 기본 색은 지금 사이트의 기본 색 유지 (없으면 사진이 있는 첫 색)
-            cur_default = r['colors'].split('|')[0].split(':')[1]
+            cur = r['colors'].split('|')[0].split(':')
+            cur_default = cur[1] if len(cur) > 1 else ''
             found.sort(key=lambda c: (c[1] != cur_default, not c[3]))
             if found[0][1] != cur_default:
                 found.sort(key=lambda c: not c[3])
+            plan.append((r, name, code, found))
 
-            r['name'] = name
-            r['colors'] = '|'.join(f'{n}:{s}:{h}' for n, s, h, _ in found)
-            # 사진: 색 폴더마다 통째로 교체, 목록에서 빠진 색의 사진 폴더는 지운다
-            pout = os.path.join(OUT, code)
-            keep = {s for _, s, _, _ in found}
-            if os.path.isdir(pout):
-                for d in os.listdir(pout):
-                    if os.path.isdir(os.path.join(pout, d)) and d not in keep:
-                        shutil.rmtree(os.path.join(pout, d))
-            for _, slug, _, files in found:
-                dest = os.path.join(pout, slug)
-                if os.path.isdir(dest):
-                    shutil.rmtree(dest)
-                if not files:
-                    continue
-                os.makedirs(dest)
-                for i, f in enumerate(files, 1):
-                    im = Image.open(f).convert('RGB')
-                    w, h = im.size
-                    cw = min(w, round(h * 2 / 3)); ch = min(h, round(w * 3 / 2))  # 2:3 가운데 기준
-                    left, top = (w - cw) // 2, (h - ch) // 2
-                    im.crop((left, top, left + cw, top + ch)).resize(SIZE, Image.LANCZOS).save(
-                        os.path.join(dest, f'{i}.webp'), 'WEBP', quality=80, method=6)
-            manifest[code] = {n: len(fs) for n, _, _, fs in found}
-            log.append(f"{code} {name}: " + ', '.join(f'{n} {len(fs)}장' for n, _, _, fs in found))
+    # 2단계: 반영
+    for r, name, code, found in plan:
+        r['name'] = name
+        r['colors'] = '|'.join(f'{n}:{s}:{h}' for n, s, h, _ in found)
+        # 사진: 색 폴더마다 통째로 교체, 목록에서 빠진 색의 사진 폴더는 지운다
+        pout = os.path.join(OUT, code)
+        keep = {s for _, s, _, _ in found}
+        if os.path.isdir(pout):
+            for d in os.listdir(pout):
+                if os.path.isdir(os.path.join(pout, d)) and d not in keep:
+                    shutil.rmtree(os.path.join(pout, d))
+        for _, slug, _, files in found:
+            dest = os.path.join(pout, slug)
+            if os.path.isdir(dest):
+                shutil.rmtree(dest)
+            if not files:
+                continue
+            os.makedirs(dest)
+            for i, f in enumerate(files, 1):
+                im = ImageOps.exif_transpose(Image.open(f)).convert('RGB')
+                w, h = im.size
+                cw = min(w, round(h * 2 / 3)); ch = min(h, round(w * 3 / 2))  # 2:3 가운데 기준
+                left, top = (w - cw) // 2, (h - ch) // 2
+                im.crop((left, top, left + cw, top + ch)).resize(SIZE, Image.LANCZOS).save(
+                    os.path.join(dest, f'{i}.webp'), 'WEBP', quality=80, method=6)
+        manifest[code] = {n: len(fs) for n, _, _, fs in found}
+        log.append(f"{code} {name}: " + ', '.join(f'{n} {len(fs)}장' for n, _, _, fs in found))
 
     out = io.StringIO()
     w = csv.DictWriter(out, fieldnames=fields, lineterminator='\r\n' if '\r\n' in raw else '\n')

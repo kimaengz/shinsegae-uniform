@@ -134,13 +134,15 @@ export function loadData() {
     const embroidery = split(r.embroidery);
     embroidery.forEach((e) => { if (!EMBROIDERY.includes(e)) err(F, L, `자수 위치 "${e}"는 쓸 수 없습니다. (${EMBROIDERY.join(', ')})`); });
 
-    const ownThumb = findImage(code, 'thumb');
+    let ownThumb = findImage(code, 'thumb');
     const raw = Object.fromEntries(colors.map((c) => [c.slug, colorImages(path.join(code, c.slug))]));
     // 사진이 없는 색상은 사진이 생길 때까지 숨긴다 (products.csv에는 남겨 둠 → 사진 폴더가 생기면 자동으로 보임)
     // 단, 사진이 있는 색이 하나도 없는 제품(신제품 등)은 그대로 둔다
     const hidden = colors.some((c) => raw[c.slug].length) ? colors.filter((c) => !raw[c.slug].length) : [];
     if (hidden.length) {
       warn(`${code}: 사진 없는 색상 숨김(${hidden.map((c) => c.name).join(', ')})`);
+      // thumb 파일은 원래 기본 색 사진이므로, 그 색이 숨겨지면 새 기본 색 사진을 썸네일로 쓴다
+      if (hidden.includes(colors[0])) ownThumb = null;
       hidden.forEach((c) => colors.splice(colors.indexOf(c), 1));
     }
     // 썸네일은 thumb 파일이 없어도 기본 색 1번 사진이 대신하므로, 둘 다 없을 때만 알림

@@ -10,7 +10,6 @@
   --dur-press: 120ms;
   --dur-1: 160ms;
   --dur-2: 220ms;
-  --dur-3: 420ms;
 }
 
 /* ── 버튼: 누르면 살짝 눌림. 색 변화는 짧게 ── */
@@ -60,15 +59,10 @@ dialog.modal[open]::backdrop { animation: fade-in var(--dur-2) ease; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .su-caret { transition: transform var(--dur-2) var(--ease-out); }
 
-/* ── 스크롤 등장: 사진 카드에만, 짧게. 글 · 숫자는 읽을 대상이라 처음부터 보임 ── */
-.reveal { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); transition-delay: var(--delay, 0ms); }
-.reveal.is-in { opacity: 1; transform: none; }
-
-/* 인쇄할 때는 아직 안 나타난 요소도 모두 보이게 */
-@media print { .reveal { opacity: 1 !important; transform: none !important; } .hd { box-shadow: none; } }
+/* 인쇄할 때는 헤더 그림자 없이 */
+@media print { .hd { box-shadow: none; } }
 
 /* 움직임을 줄이는 설정이면 모션을 끈다 */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
-  .reveal { opacity: 1; transform: none; }
 }

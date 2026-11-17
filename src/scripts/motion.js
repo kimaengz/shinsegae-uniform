@@ -1,5 +1,4 @@
-// 상호작용 · 모션: 헤더 선, 사진 카드 등장, 사진 페이드인 (styles/motion.css와 짝)
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// 상호작용 · 모션: 헤더 선, 사진 페이드인 (styles/motion.css와 짝)
 
 // 스크롤하면 헤더에 그림자
 const hd = document.querySelector('.hd');
@@ -19,5 +18,3 @@ const fadeIn = (img) => {
 };
 // 상세 정보 사진은 길게 이어 보는 사진이라 모션 없이 바로 보인다
 document.querySelectorAll('main img:not(.detail-imgs img)').forEach(fadeIn);
-
-// 카드(썸네일)는 움직이지 않는다
