@@ -136,6 +136,13 @@ export function loadData() {
 
     const ownThumb = findImage(code, 'thumb');
     const raw = Object.fromEntries(colors.map((c) => [c.slug, colorImages(path.join(code, c.slug))]));
+    // 사진이 없는 색상은 사진이 생길 때까지 숨긴다 (products.csv에는 남겨 둠 → 사진 폴더가 생기면 자동으로 보임)
+    // 단, 사진이 있는 색이 하나도 없는 제품(신제품 등)은 그대로 둔다
+    const hidden = colors.some((c) => raw[c.slug].length) ? colors.filter((c) => !raw[c.slug].length) : [];
+    if (hidden.length) {
+      warn(`${code}: 사진 없는 색상 숨김(${hidden.map((c) => c.name).join(', ')})`);
+      hidden.forEach((c) => colors.splice(colors.indexOf(c), 1));
+    }
     // 썸네일은 thumb 파일이 없어도 기본 색 1번 사진이 대신하므로, 둘 다 없을 때만 알림
     const missing = [!ownThumb && !raw[colors[0]?.slug]?.[0] && '썸네일'].concat(colors.filter((c) => !raw[c.slug].length).map((c) => `${c.name} 사진`)).filter(Boolean);
     if (missing.length) warn(`${code}: 이미지 없음(${missing.join(', ')}). 기본 사진(placeholder)으로 보입니다.`);
