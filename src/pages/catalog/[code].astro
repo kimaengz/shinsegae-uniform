@@ -4,7 +4,7 @@ import '../../styles/tokens.css';
 import '../../styles/catalog.css';
 import Logo from '../../components/Logo.astro';
 import { data } from '../../lib/data.mjs';
-import { u } from '../../lib/url.mjs';
+import { u, won } from '../../lib/url.mjs';
 import { isReal, qrSvg, issued, TO_JPEG } from '../../lib/catalog.mjs';
 
 export function getStaticPaths() {
@@ -54,7 +54,9 @@ const rowsRight: [string, string][] = [
         {rowsLeft.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
       </dl>
       <dl>
-        <div><dt>단가</dt><dd><span class="price">견적 후 안내</span><br /><span class="muted">수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.</span></dd></div>
+        <div><dt>단가</dt><dd>{p.isPublic
+          ? <><span class="price">{won(p.prices[0])}부터</span><br /><span class="muted">참고 단가 · 10~49벌 {won(p.prices[0])} · 50~99벌 {won(p.prices[1])} · 100벌 이상 {won(p.prices[2])}. 자수 · 옵션에 따라 견적서로 안내합니다.</span></>
+          : <><span class="price">견적 후 안내</span><br /><span class="muted">수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.</span></>}</dd></div>
         {rowsRight.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
       </dl>
     </div>

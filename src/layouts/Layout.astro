@@ -144,8 +144,6 @@ const nav = [['new', '신제품'], ['products', '제품'], ['references', '제�
       if (!dot) return;
       const card = dot.closest('[data-card]')!;
       card.querySelectorAll('.su-dot').forEach((d) => d.setAttribute('aria-pressed', String(d === dot)));
-      const name = card.querySelector('[data-card-color]');
-      if (name) name.textContent = dot.dataset.name ?? '';
       const srcs: string[] = JSON.parse(dot.dataset.srcs || '[]');
       const track = card.querySelector<HTMLElement>('[data-track]');
       const pager = card.querySelector<HTMLElement>('[data-pager]');

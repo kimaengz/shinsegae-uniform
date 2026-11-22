@@ -50,7 +50,7 @@ const org = {
           <p>새로 디자인한 {news.length}종입니다.</p>
           <a class="link-more" href={u('new/')}>신제품 전체 보기</a>
         </div>
-        <div class="cards cards-3">{news.map((p) => <ProductCard p={p} />)}</div>
+        <div class="cards cards-3">{news.map((p) => <ProductCard p={p} eager />)}</div>
       </div>
     </section>
   )}

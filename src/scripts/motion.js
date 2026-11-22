@@ -16,5 +16,5 @@ const fadeIn = (img) => {
   img.addEventListener('load', done, { once: true });
   img.addEventListener('error', done, { once: true });
 };
-// 상세 정보 사진은 길게 이어 보는 사진이라 모션 없이 바로 보인다
-document.querySelectorAll('main img:not(.detail-imgs img)').forEach(fadeIn);
+// 상세 정보 사진 · 카드 사진은 받는 대로 바로 보인다 (빨리 넘길 때 빈 칸이 오래 보이지 않게)
+document.querySelectorAll('main img:not(.detail-imgs img):not(.su-card img):not(.cat-card img)').forEach(fadeIn);

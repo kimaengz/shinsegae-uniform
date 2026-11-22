@@ -1,8 +1,9 @@
 ---
 import Garment from './Garment.astro';
 import { u, won } from '../lib/url.mjs';
-interface Props { p: any }
-const { p } = Astro.props;
+// eager: 첫 화면에 보이는 카드는 사진을 바로 불러온다
+interface Props { p: any; eager?: boolean }
+const { p, eager = false } = Astro.props;
 const href = u(`products/${p.category}/${p.slug}/`);
 const first = p.colors[0];
 const imgs = p.cardImages[first.slug].map(u); // 2번째 사진부터는 넘기려 할 때 불러온다 (data-src)
@@ -10,17 +11,16 @@ const imgs = p.cardImages[first.slug].map(u); // 2번째 사진부터는 넘기�
 <article class="su-card" data-card>
   <a class="su-card-img" href={href} aria-label={p.name}>
     {imgs.length ? (
-      <span class="card-track" data-track>{imgs.map((src: string, i: number) => <span class="card-slide"><img src={i ? undefined : src} data-src={i ? src : undefined} alt="" loading="lazy" draggable="false" /></span>)}</span>
+      <span class="card-track" data-track>{imgs.map((src: string, i: number) => <span class="card-slide"><img src={i ? undefined : src} data-src={i ? src : undefined} alt="" loading={i === 0 && eager ? 'eager' : 'lazy'} draggable="false" /></span>)}</span>
     ) : <Garment hex={first.hex} alt="" class="card-ph" />}
     <span class="card-pager" data-pager aria-hidden="true" hidden={imgs.length < 2}>{imgs.map((_: string, i: number) => <i class={i === 0 ? 'on' : ''}></i>)}</span>
   </a>
   <div class="su-dots" role="group" aria-label={`${p.name} 색상`}>
     {p.colors.map((c: any, i: number) => (
-      <button type="button" class="su-dot" style={`--sw:${c.hex}`} aria-label={c.name} aria-pressed={i === 0 ? 'true' : 'false'}
+      <button type="button" class="su-dot" style={`--sw:${c.hex}`} aria-label={c.name} title={c.name} aria-pressed={i === 0 ? 'true' : 'false'}
         data-hex={c.hex} data-name={c.name} data-srcs={JSON.stringify(p.cardImages[c.slug].map(u))}></button>
     ))}
   </div>
-  <span class="card-color" data-card-color>{first.name}</span>
   <h3 class="su-card-name"><a href={href}>{p.name}</a></h3>
   <span class="su-card-price">{p.isPublic ? `${won(p.prices[0])}부터` : '견적 문의'}</span>
   {p.badge && <span class="badge">{p.badge}</span>}
