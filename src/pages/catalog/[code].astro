@@ -5,7 +5,7 @@ import '../../styles/catalog.css';
 import Logo from '../../components/Logo.astro';
 import { data } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
-import { isReal, sheetPhotos, qrSvg, issued, TO_JPEG } from '../../lib/catalog.mjs';
+import { isReal, qrSvg, issued, TO_JPEG } from '../../lib/catalog.mjs';
 
 export function getStaticPaths() {
   return data().products.map((p) => ({ params: { code: p.slug }, props: { p } }));
@@ -14,8 +14,8 @@ interface Props { p: any }
 const { p } = Astro.props;
 const { site, categories } = data();
 const cat = categories.find((c) => c.id === p.category);
-const photos = sheetPhotos(p);
-const shown = photos.length ? photos : ['images/placeholder.png'];
+// 사진: 썸네일(대표 사진) 풀샷 한 장
+const photo = p.thumb || 'images/placeholder.png';
 const pageUrl = new URL(u(`products/${p.category}/${p.slug}/`), Astro.site).href;
 const qr = await qrSvg(pageUrl);
 const hasPhone = /\d/.test(site.phone);
@@ -42,9 +42,8 @@ const rowsRight: [string, string][] = [
       <h1>{p.name}</h1>
       {isReal(p.summary) && <p>{p.summary}</p>}
     </div>
-    <div class={`p-photos${shown.length === 1 ? ' one' : ''}`}>
-      <span class="main"><img src={u(shown[0])} alt="" /></span>
-      {shown.length > 1 && <span class="sub">{shown.slice(1, 4).map((s) => <span><img src={u(s)} alt="" /></span>)}</span>}
+    <div class="p-photos one">
+      <span class="main"><img src={u(photo)} alt="" /></span>
     </div>
     <div class="p-info">
       <dl>

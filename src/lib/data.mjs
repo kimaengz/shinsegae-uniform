@@ -37,6 +37,8 @@ export function parseCsv(text) {
   return body.map((r, i) => Object.fromEntries(head.map((h, j) => [h.trim(), (r[j] ?? '').trim()]).concat([['_line', i + 2]])));
 }
 
+// [원단명] 같은 자리표시 글은 빈 값으로 (화면에서 그 줄이 숨겨짐)
+const real = (v) => (/^\[.*\]$/.test((v ?? '').trim()) ? '' : (v ?? '').trim());
 const readCsv = (name) => parseCsv(fs.readFileSync(path.join(DATA, name), 'utf8'));
 const split = (v) => (v ? v.split('|').map((s) => s.trim()).filter(Boolean) : []);
 
@@ -160,9 +162,9 @@ export function loadData() {
     }));
 
     return {
-      code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: r.summary,
+      code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: real(r.summary),
       colors, sizes: split(r.sizes), prices, isPublic: isPublic && site.showPrices !== false, embroidery,
-      isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: r.material, function: r.function, care: r.care,
+      isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: real(r.material), function: real(r.function), care: real(r.care),
       order: Number(r.order) || 999, thumb, gallery, cardImages,
       // 상세 정보: detail-N 이미지가 있으면 그것, 없으면 기본 색 사진을 썸네일 순서대로
       details: (d => d.length ? d : raw[colors[0]?.slug] ?? [])(detailImages(code))

@@ -8,12 +8,12 @@ const news = data().products.filter((p) => p.isNew);
 <Layout title="신제품" active="new" description="신세계유니폼이 새로 디자인한 메디컬 유니폼입니다.">
   <section class="hero" style="min-height:420px">
     <div class="hero-copy">
-      <p class="su-caption">[시즌명]</p>
+      <p class="su-caption">2026 신제품</p>
       <h1 style="font-size:40px;line-height:50px;letter-spacing:-.02em">새로 디자인한<br />메디컬 유니폼</h1>
-      <p class="lead">[신제품 콘셉트 2~3줄: 무엇을 개선했고 어떤 현장에 맞는지]</p>
+      <p class="lead">{news.map((p) => p.name).join(', ')} {news.length}종을 새로 선보입니다.</p>
     </div>
     <div class="hero-photo" style="min-height:420px">
-      <!-- 신제품 착용 사진: public/images/new-hero.jpg (2880×1440) -->
+      <!-- 신제품 착용 사진: public/images/new-hero.webp (2880×1440, 신제품 스틸컷 3장) -->
       <img src={u(siteImage('new-hero'))} alt="" />
     </div>
   </section>

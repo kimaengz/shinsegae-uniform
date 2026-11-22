@@ -19,7 +19,9 @@ img { display: block; max-width: 100%; }
 .p-title p { color: var(--ink-muted); margin-top: 1.5mm; }
 
 .p-photos { display: grid; grid-template-columns: 2fr 1fr; gap: 3mm; height: 118mm; }
-.p-photos.one { grid-template-columns: 1fr; }
+.p-photos.one { grid-template-columns: 1fr; height: 158mm; }
+/* 한 장일 때는 자르지 않고 전신이 다 보이게 */
+.p-photos.one img { object-fit: contain; object-position: center; }
 .p-photos .main, .p-photos .sub span { background: var(--img-bg); overflow: hidden; }
 .p-photos img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .p-photos .sub { display: grid; grid-template-rows: repeat(3, 1fr); gap: 3mm; min-height: 0; }

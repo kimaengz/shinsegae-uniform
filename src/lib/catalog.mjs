@@ -25,9 +25,12 @@ export const TO_JPEG = `
       const r = img.getBoundingClientRect(), k = Math.min(2, img.naturalWidth / r.width);
       const c = document.createElement('canvas');
       c.width = Math.round(r.width * k); c.height = Math.round(r.height * k);
-      const s = Math.max(c.width / img.naturalWidth, c.height / img.naturalHeight); // object-fit: cover, 위쪽 기준
+      // object-fit: cover는 꽉 채워 위쪽 기준, contain은 자르지 않고 가운데 (빈 곳은 바탕색)
+      const fit = getComputedStyle(img).objectFit, ctx = c.getContext('2d');
+      const s = (fit === 'contain' ? Math.min : Math.max)(c.width / img.naturalWidth, c.height / img.naturalHeight);
       const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      c.getContext('2d').drawImage(img, (c.width - w) / 2, 0, w, h);
+      if (fit === 'contain') { ctx.fillStyle = getComputedStyle(img.parentElement).backgroundColor; ctx.fillRect(0, 0, c.width, c.height); }
+      ctx.drawImage(img, (c.width - w) / 2, fit === 'contain' ? (c.height - h) / 2 : 0, w, h);
       img.src = c.toDataURL('image/jpeg', 0.82);
       return img.decode();
     })));

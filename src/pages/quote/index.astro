@@ -269,7 +269,7 @@ const client = {
       try {
         sessionStorage.setItem('su-last-quote', JSON.stringify({ id, org: payload.org, email: payload.email, items: payload.items, sent }));
       } catch { /* 완료 화면 요약만 생략 */ }
-      cart = []; saveCart(cart);
+      if (sent) { cart = []; saveCart(cart); }
       location.href = Q.completeUrl;
     });
 
