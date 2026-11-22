@@ -12,7 +12,7 @@ export function getStaticPaths() {
 }
 interface Props { p: any }
 const { p } = Astro.props;
-const { categories, products, sizeTables, site } = data();
+const { categories, products, sizeTables, sizeGuide, site } = data();
 const embPrice: Record<'logo' | 'name', number> = site.embroideryPrice ?? { logo: 0, name: 0 };
 const cat = categories.find((c) => c.id === p.category);
 const related = products.filter((x) => x.category === p.category && x.code !== p.code).slice(0, 4);
@@ -182,17 +182,27 @@ const client = {
         <h2 id="size-title">사이즈 안내</h2>
         <button type="button" class="icon-btn" aria-label="닫기" data-size-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
       </div>
-      {sizeParts ? sizeParts.map(([part, rows]) => (
+      {sizeGuide.map((c: any) => (
         <div class="scroll-x">
           <table class="size-table">
-            <thead><tr><th scope="col" style="text-align:left">{part} (cm)</th>{p.sizes.map((s) => <th scope="col">{s}</th>)}</tr></thead>
+            <caption>{c.title} 사이즈 (신체 치수, cm)</caption>
+            <thead><tr><th scope="col" style="text-align:left">구분</th>{c.sizes.map(([k, e]: string[]) => <th scope="col">{k}{e && <span class="size-en">{e}</span>}</th>)}</tr></thead>
+            <tbody>{c.rows.map(([m, v]: [string, number[]]) => <tr><th scope="row">{m}</th>{v.map((n) => <td>{n}</td>)}</tr>)}</tbody>
+          </table>
+        </div>
+      ))}
+      {sizeParts && sizeParts.map(([part, rows]) => (
+        <div class="scroll-x">
+          <table class="size-table">
+            <caption>제품 실측 · {part} (cm)</caption>
+            <thead><tr><th scope="col" style="text-align:left">구분</th>{p.sizes.map((s) => <th scope="col">{s}</th>)}</tr></thead>
             <tbody>{rows.map((r) => <tr><th scope="row">{r.measure}</th>{p.sizes.map((s) => <td>{r.values[s] || '-'}</td>)}</tr>)}</tbody>
           </table>
         </div>
-      )) : <p class="empty">이 제품의 사이즈 표를 준비하고 있습니다. 급하시면 견적 요청서에 적어 주세요.</p>}
+      ))}
       <ul class="muted" style="margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:6px">
-        <li>평평하게 펼쳐 끝선에서 끝선까지 잰 값입니다.</li>
-        <li>측정 방법에 따라 1~3cm 차이가 날 수 있습니다.</li>
+        <li>몸을 잰 치수 기준입니다. 옷은 이 치수에 맞춰 여유분을 두고 만듭니다.</li>
+        {sizeGuide.map((c: any) => <li>{c.title}: {c.note}</li>)}
         <li>사이즈 샘플이 필요하면 견적 요청서에 적어 주세요.</li>
       </ul>
     </div>

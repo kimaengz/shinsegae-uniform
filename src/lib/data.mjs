@@ -182,7 +182,10 @@ export function loadData() {
   const sizeTables = Object.fromEntries(products.map((p) => [p.code, own[p.code] ?? byCat[p.category]]).filter(([, t]) => t));
 
   const references = readCsv('references.csv').sort((a, b) => Number(a.order) - Number(b.order));
-  return { site, categories, products, sizeTables, references, errors, warnings };
+  // 사이즈 안내: 모든 제품 공통 신체 치수표 (여성 · 남성)
+  const sizeGuide = JSON.parse(fs.readFileSync(path.join(DATA, 'size-guide.json'), 'utf8')).charts;
+  sizeGuide.forEach((c) => c.rows.forEach(([m, v]) => { if (v.length !== c.sizes.length) err('size-guide.json', 0, `${c.title} ${m}: 값 ${v.length}개, 사이즈 ${c.sizes.length}개로 개수가 다릅니다.`); }));
+  return { site, categories, products, sizeTables, sizeGuide, references, errors, warnings };
 }
 
 let cache;
