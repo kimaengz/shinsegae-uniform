@@ -1,11 +1,10 @@
 /* 신세계유니폼 디자인 시스템 토큰 (디자인 시스템 tokens.json에서 옮김) */
 :root, [data-theme="light"] {
-  /* 시안 2 · 신뢰 · 의료: 따뜻한 아이보리 → 차가운 회청색, 글자는 짙은 남색 계열. 브랜드 와인은 로고 · 주요 버튼에만 */
+  /* 시안 2 · 신뢰 · 의료: 키컬러(와인 #840013)는 그대로, 바탕만 따뜻한 아이보리 → 차가운 회색. 보조색은 무채색만 */
   --surface: #ffffff; --surface-raised: #ffffff; --ivory: #eef2f6; --line: #dde3ea; --line-strong: #8792a0;
-  --ink: #16202c; --ink-muted: #556272; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
-  --brand-soft: #f7e9ec; --brand-hover: #6c0010; --danger: #b42318; --focus: #1f4e79;
+  --ink: #1c2026; --ink-muted: #5a626c; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
+  --brand-soft: #f7e9ec; --brand-hover: #6c0010; --danger: #b42318; --focus: var(--brand-text);
   --surface-muted: #f2f5f8;
-  --navy: #1b2f45; --navy-soft: #e7eef5;
   --img-bg: #f6f6f6; /* 제품 사진 바탕 (사진 배경색과 같게) */
   --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);
 }
