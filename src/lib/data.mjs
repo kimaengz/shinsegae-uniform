@@ -111,6 +111,11 @@ export function loadData() {
   categories.forEach((c) => { if (!/^[a-z0-9-]+$/.test(c.id)) err('categories.csv', c._line, `id "${c.id}"는 영문 소문자·숫자·-만 쓸 수 있습니다.`); });
 
   const seen = new Set();
+  // 사이즈 안내: 모든 제품 공통 신체 치수표 (여성 · 남성)
+  const sizeGuide = JSON.parse(fs.readFileSync(path.join(DATA, 'size-guide.json'), 'utf8')).charts;
+  sizeGuide.forEach((c) => c.rows.forEach(([m, v]) => { if (v.length !== c.sizes.length) err('size-guide.json', 0, `${c.title} ${m}: 값 ${v.length}개, 사이즈 ${c.sizes.length}개로 개수가 다릅니다.`); }));
+  const chartTitles = sizeGuide.map((c) => c.title);
+
   const products = readCsv('products.csv').map((r) => {
     const F = 'products.csv', L = r._line;
     const code = r.code.toUpperCase();
@@ -161,9 +166,16 @@ export function loadData() {
       return [c.slug, list.length ? list : [ci === 0 ? thumb : gallery[c.slug][0].src].filter(Boolean)];
     }));
 
+    // 사이즈별 수량 칸은 사이즈표와 같게: products.csv sizes 칸에는 어떤 표(여성|남성)를 쓰는지 적는다
+    // (FREE처럼 표가 없는 제품은 그 이름 하나만 수량 칸으로)
+    const charts = split(r.sizes);
+    charts.filter((t) => !chartTitles.includes(t) && t !== 'FREE').forEach((t) => err(F, L, `사이즈 "${t}"는 size-guide.json의 표 이름(${chartTitles.join(', ')}) 또는 FREE가 아닙니다.`));
+    const sizes = charts.flatMap((t) => sizeGuide.find((c) => c.title === t)?.sizes.map(([k]) => `${t} ${k}`) ?? [t]);
+    const sizeText = charts.map((t) => (c => c ? `${t} ${c.sizes[0][0]}~${c.sizes.at(-1)[0]}` : t)(sizeGuide.find((c) => c.title === t))).join(' · ');
+
     return {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: real(r.summary),
-      colors, sizes: split(r.sizes), prices, isPublic: isPublic && site.showPrices !== false, embroidery,
+      colors, sizes, sizeText, prices, isPublic: isPublic && site.showPrices !== false, embroidery,
       isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: real(r.material), function: real(r.function), care: real(r.care),
       order: Number(r.order) || 999, thumb, gallery, cardImages,
       // 상세 정보: detail-N 이미지가 있으면 그것, 없으면 기본 색 사진을 썸네일 순서대로
@@ -184,9 +196,6 @@ export function loadData() {
   const sizeTables = Object.fromEntries(products.map((p) => [p.code, own[p.code] ?? byCat[p.category]]).filter(([, t]) => t));
 
   const references = readCsv('references.csv').sort((a, b) => Number(a.order) - Number(b.order));
-  // 사이즈 안내: 모든 제품 공통 신체 치수표 (여성 · 남성)
-  const sizeGuide = JSON.parse(fs.readFileSync(path.join(DATA, 'size-guide.json'), 'utf8')).charts;
-  sizeGuide.forEach((c) => c.rows.forEach(([m, v]) => { if (v.length !== c.sizes.length) err('size-guide.json', 0, `${c.title} ${m}: 값 ${v.length}개, 사이즈 ${c.sizes.length}개로 개수가 다릅니다.`); }));
   return { site, categories, products, sizeTables, sizeGuide, references, errors, warnings };
 }
 

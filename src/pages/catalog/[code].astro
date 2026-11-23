@@ -20,7 +20,7 @@ const pageUrl = new URL(u(`products/${p.category}/${p.slug}/`), Astro.site).href
 const qr = await qrSvg(pageUrl);
 const hasPhone = /\d/.test(site.phone);
 // 왼쪽: 색상 · 사이즈 · 구성 / 오른쪽: 단가 · 자수 · 소재 · 기능 · 관리 (자리표시인 줄은 숨김)
-const rowsLeft: [string, string][] = [['사이즈', p.sizes.join(' · ')], ['구성', p.type]].filter(([, v]) => isReal(v)) as [string, string][];
+const rowsLeft: [string, string][] = [['사이즈', p.sizeText], ['구성', p.type]].filter(([, v]) => isReal(v)) as [string, string][];
 const rowsRight: [string, string][] = [
   ['자수 위치', p.embroidery.length ? `${p.embroidery.join(' · ')} (병원 로고 · 이름)` : ''],
   ['소재', p.material], ['기능', p.function], ['관리', p.care]

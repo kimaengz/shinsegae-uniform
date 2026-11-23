@@ -115,7 +115,7 @@ const client = {
               </div>
               <button type="button" class="su-btn su-btn-ghost su-btn-sm" data-del="${i}" aria-label="${esc(l.name)} ${esc(l.colorName)} 삭제">삭제</button>
             </div>
-            <div class="cq">${l.sizes.map((s: string) => `<label>${esc(s)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.name)} ${esc(s)} 수량"></label>`).join('')}</div>
+            ${sizeGroups(l.sizes).map(([title, list]) => `<div class="cq-group">${title ? `<span class="cq-h">${esc(title)}</span>` : ''}<div class="cq">${list.map(([s, k]) => `<label>${esc(k)}<input type="number" inputmode="numeric" min="0" max="9999" value="${Number(l.qty[s]) || 0}" data-size="${esc(s)}" aria-label="${esc(l.name)} ${esc(s)} 수량"></label>`).join('')}</div></div>`).join('')}
             <div class="line-f">
               <span>자수 <span class="muted">${esc(embText(l.emb))}${l.isPublic && embUnit(l.emb, l.embPrice) ? ` · 1벌당 +${won(embUnit(l.emb, l.embPrice))}` : ''}</span></span>
               <span class="num"><span data-l-qty>${lineTotal(l)}</span>벌 · <b data-l-est>${l.isPublic ? won(tierPrice(l, lineTotal(l))!) : '견적 후 안내'}</b></span>
@@ -159,6 +159,15 @@ const client = {
       }
     });
 
+    // "여성 55"처럼 저장된 사이즈를 표(여성 · 남성)별로 묶기
+    function sizeGroups(sizes: string[]) {
+      const out: [string, [string, string][]][] = [];
+      sizes.forEach((s) => {
+        const [t, k] = s.includes(' ') ? s.split(' ') : ['', s];
+        (out.find(([x]) => x === t) ?? (out.push([t, []]), out.at(-1)!))[1].push([s, k]);
+      });
+      return out;
+    }
     const lines = $('[data-q-lines]');
     lines.addEventListener('input', (e) => {
       const t = e.target as HTMLInputElement;

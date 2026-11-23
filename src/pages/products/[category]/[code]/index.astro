@@ -34,6 +34,14 @@ const client = {
   gallery: Object.fromEntries(Object.entries(p.gallery as Record<string, any[]>).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
+// 사이즈별 수량 칸: 사이즈표(여성 · 남성)별로 묶어서, 호수 옆에 영문 사이즈
+const qtyGroups: [string, [string, string, string][]][] = [];
+p.sizes.forEach((s: string) => {
+  const [title, k] = s.includes(' ') ? s.split(' ') : ['', s];
+  const en = sizeGuide.find((c: any) => c.title === title)?.sizes.find(([kk]: string[]) => kk === k)?.[1] ?? '';
+  const g = qtyGroups.find(([t]) => t === title) ?? (qtyGroups.push([title, []]), qtyGroups.at(-1)!);
+  g[1].push([s, k, en]);
+});
 ---
 <Layout title={p.name} active="products" og={`p-${p.slug}`} bbar="custom" description={`${p.name}${p.summary ? ` · ${p.summary}` : ''}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
   <div class="wrap">
@@ -107,18 +115,23 @@ const client = {
 
         <div class="blk">
           <div class="blk-h"><h2>사이즈별 수량</h2><span class="su-label num" data-total>총 0벌</span></div>
-          <div class="qty-grid">
-            {p.sizes.map((s) => (
-              <div class="su-qty" data-qty={s}>
-                <span class="su-qty-label">{s}</span>
-                <div class="su-qty-ctrl">
-                  <button type="button" data-dec aria-label={`${s} 1벌 빼기`} disabled>−</button>
-                  <input type="number" inputmode="numeric" min="0" max="9999" value="0" aria-label={`${s} 수량`} />
-                  <button type="button" data-inc aria-label={`${s} 1벌 더하기`}>+</button>
-                </div>
+          {qtyGroups.map(([title, list]) => (
+            <div class="qty-group">
+              {title && <h3 class="su-label qty-group-h">{title}</h3>}
+              <div class="qty-grid">
+                {list.map(([s, label, en]) => (
+                  <div class="su-qty" data-qty={s}>
+                    <span class="su-qty-label">{label}{en && <span class="size-en">{en}</span>}</span>
+                    <div class="su-qty-ctrl">
+                      <button type="button" data-dec aria-label={`${s} 1벌 빼기`} disabled>−</button>
+                      <input type="number" inputmode="numeric" min="0" max="9999" value="0" aria-label={`${s} 수량`} />
+                      <button type="button" data-inc aria-label={`${s} 1벌 더하기`}>+</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         <div class="blk">
@@ -160,7 +173,7 @@ const client = {
       <div class="sec-h"><h2>제품 정보</h2></div>
       <table class="spec"><tbody>
         <tr><th scope="row">구성</th><td>{p.type}</td></tr>
-        <tr><th scope="row">사이즈</th><td>{p.sizes.join(' · ')}</td></tr>
+        <tr><th scope="row">사이즈</th><td>{p.sizeText}</td></tr>
         {p.material && <tr><th scope="row">소재</th><td>{p.material}</td></tr>}
         {p.function && <tr><th scope="row">기능</th><td>{p.function}</td></tr>}
         {p.care && <tr><th scope="row">세탁</th><td>{p.care}</td></tr>}
