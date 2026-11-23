@@ -130,13 +130,13 @@ main:has(> .cta-sec:last-child) + .ft { border-top: 0; }
 
 /* 홈 */
 /* 히어로 바탕은 사진 배경색과 같게 (사진 테두리가 보이지 않도록) */
-.hero { --hero-bg: var(--ivory); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--hero-bg); min-height: 600px; container-type: inline-size; }
+.hero { --hero-bg: #f8f2ed; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--hero-bg); min-height: 600px; container-type: inline-size; }
 .hero-copy { display: flex; flex-direction: column; justify-content: center; gap: var(--space-6); padding: var(--space-18) var(--space-12) var(--space-18) max(var(--space-8), calc((100cqw - var(--container-max)) / 2 + var(--space-8))); }
 .hero-title { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.18; letter-spacing: -.04em; font-weight: 800; }
 .hero-copy .lead { color: var(--ink-muted); max-width: 26em; font-size: 17px; line-height: 1.65; }
 .hero-photo { position: relative; background: var(--hero-bg); min-height: 600px; overflow: hidden; }
-/* 시안 2: 사진은 회청색 바탕 위에 액자처럼 (사진 자체 바탕색이 따뜻한 톤이라 경계를 일부러 보이게) */
-.hero-photo img { position: absolute; top: 48px; right: 0; bottom: 0; left: 0; width: 100%; height: calc(100% - 48px); object-fit: cover; object-position: center bottom; border-top-left-radius: var(--radius-md); }
+/* 사진 배경이 아이보리와 같아서, 잘리지 않게 통째로 넣고 아래쪽에 붙인다 */
+.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 .trust-band { padding: var(--space-8) 0; background: var(--surface); border-bottom: 1px solid var(--line); }
 .trust-band .su-caption { color: var(--brand-text); font-weight: 700; }
@@ -432,5 +432,4 @@ a.tel { color: inherit; text-underline-offset: 3px; }
   .steps li { padding: 14px 0; border-top: 1px solid var(--line); flex-direction: row; flex-wrap: wrap; column-gap: 12px; }
   .steps li span { flex-basis: 100%; padding-left: 32px; }
   .trust > div { border-left: 0; border-top: 1px solid var(--line); padding: 14px 0 0; }
-  .hero-photo img { top: 24px; height: calc(100% - 24px); }
 }
