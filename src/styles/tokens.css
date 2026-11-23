@@ -1,9 +1,11 @@
 /* 신세계유니폼 디자인 시스템 토큰 (디자인 시스템 tokens.json에서 옮김) */
 :root, [data-theme="light"] {
-  --surface: #ffffff; --surface-raised: #ffffff; --ivory: #f7f2ec; --line: #e6e1dd; --line-strong: #8f8783;
-  --ink: #2b2725; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
-  --brand-soft: #f6e6e9; --brand-hover: #6c0010; --danger: #b42318; --focus: var(--brand-text);
-  --surface-muted: #f4f3f1;
+  /* 시안 2 · 신뢰 · 의료: 따뜻한 아이보리 → 차가운 회청색, 글자는 짙은 남색 계열. 브랜드 와인은 로고 · 주요 버튼에만 */
+  --surface: #ffffff; --surface-raised: #ffffff; --ivory: #eef2f6; --line: #dde3ea; --line-strong: #8792a0;
+  --ink: #16202c; --ink-muted: #556272; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
+  --brand-soft: #f7e9ec; --brand-hover: #6c0010; --danger: #b42318; --focus: #1f4e79;
+  --surface-muted: #f2f5f8;
+  --navy: #1b2f45; --navy-soft: #e7eef5;
   --img-bg: #f6f6f6; /* 제품 사진 바탕 (사진 배경색과 같게) */
   --shadow-pop: 0 8px 24px rgba(26,23,23,0.12);
 }
@@ -16,7 +18,7 @@
 }
 :root {
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px;
-  --radius-sm: 8px; --radius-md: 12px; --radius-full: 9999px; /* 작은 칸 · 배지 / 입력칸 · 상자 / 버튼 */
+  --radius-sm: 4px; --radius-md: 6px; --radius-full: 9999px; --radius-btn: 6px; /* 시안 2: 둥근 알약 대신 반듯한 모서리 */
   --container-max: 1200px; --control-height: 52px; /* 모바일 기준 폭은 760px (미디어쿼리에 직접) */
   --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }

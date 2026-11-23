@@ -72,7 +72,7 @@ a.su-btn { text-decoration: none; }
 /* 헤더 */
 .hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); }
 /* 헤더의 견적문의는 메뉴가 아니라 행동 버튼 */
-.nav .nav-cta { height: 44px; padding: 0 20px; border-radius: var(--radius-full); background: var(--ink); color: var(--surface); font-weight: 600; font-size: 15px; transition: background-color var(--dur-1) ease, transform var(--dur-1) var(--ease-out); }
+.nav .nav-cta { height: 44px; padding: 0 20px; border-radius: var(--radius-btn); background: var(--brand); color: var(--surface); font-weight: 600; font-size: 15px; transition: background-color var(--dur-1) ease, transform var(--dur-1) var(--ease-out); }
 .nav .nav-cta::after { display: none; }
 .nav .nav-cta:hover { background: var(--brand); }
 .nav .nav-cta:active { transform: scale(.97); transition-duration: var(--dur-press); }
@@ -130,22 +130,25 @@ main:has(> .cta-sec:last-child) + .ft { border-top: 0; }
 
 /* 홈 */
 /* 히어로 바탕은 사진 배경색과 같게 (사진 테두리가 보이지 않도록) */
-.hero { --hero-bg: #f8f2ed; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--hero-bg); min-height: 600px; container-type: inline-size; }
+.hero { --hero-bg: var(--ivory); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); background: var(--hero-bg); min-height: 600px; container-type: inline-size; }
 .hero-copy { display: flex; flex-direction: column; justify-content: center; gap: var(--space-6); padding: var(--space-18) var(--space-12) var(--space-18) max(var(--space-8), calc((100cqw - var(--container-max)) / 2 + var(--space-8))); }
 .hero-title { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.18; letter-spacing: -.04em; font-weight: 800; }
 .hero-copy .lead { color: var(--ink-muted); max-width: 26em; font-size: 17px; line-height: 1.65; }
 .hero-photo { position: relative; background: var(--hero-bg); min-height: 600px; overflow: hidden; }
-/* 사진 배경이 아이보리와 같아서, 잘리지 않게 통째로 넣고 아래쪽에 붙인다 */
-.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+/* 시안 2: 사진은 회청색 바탕 위에 액자처럼 (사진 자체 바탕색이 따뜻한 톤이라 경계를 일부러 보이게) */
+.hero-photo img { position: absolute; top: 48px; right: 0; bottom: 0; left: 0; width: 100%; height: calc(100% - 48px); object-fit: cover; object-position: center bottom; border-top-left-radius: var(--radius-md); }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-.trust-band { padding-top: var(--space-12); }
+.trust-band { padding: var(--space-8) 0; background: var(--navy); color: #fff; }
+.trust-band .su-caption { color: #9fb3c8; }
+.trust-band .trust-sub { color: #c5d2df; }
+.trust-band a.trust-sub { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 /* 신뢰 지표: 둥근 상자 대신 가는 선으로 나눈 한 줄 (연혁 · 표와 같은 언어) */
 .trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-6); }
 .trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.trust > div { padding-top: 20px; display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--ink); }
+.trust > div { padding: 4px 0 4px 20px; display: flex; flex-direction: column; gap: 6px; border-left: 1px solid rgba(255,255,255,.22); }
 .trust-sub { font-size: 14px; color: var(--ink-muted); }
 a.trust-sub { color: var(--brand-text); }
-.trust strong { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2; font-weight: 800; letter-spacing: -.035em; }
+.trust strong { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; font-weight: 800; letter-spacing: -.035em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 회사소개: 핵심 경쟁력 · 연혁 */
@@ -194,10 +197,10 @@ a.trust-sub { color: var(--brand-text); }
 /* 마무리 행동 유도: 브랜드 색 면으로 확실히 끊어 준다 */
 .cta-sec { margin-top: var(--space-18); }
 /* 화면 끝까지 꽉 찬 띠 (내용은 본문 폭에 맞춤). box-shadow로 넓혀 가로 스크롤이 생기지 않는다 */
-.cta { background: var(--brand); color: var(--on-brand); padding: 72px 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6); box-shadow: 0 0 0 100vmax var(--brand); clip-path: inset(0 -100vmax); }
+.cta { background: var(--navy); color: var(--on-brand); padding: 72px 0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-6); box-shadow: 0 0 0 100vmax var(--navy); clip-path: inset(0 -100vmax); }
 .cta h2 { font-size: 32px; line-height: 42px; letter-spacing: -.035em; }
 .cta p { color: color-mix(in srgb, var(--on-brand) 76%, transparent); margin-top: 10px; max-width: 34em; }
-.cta .su-btn-primary { background: var(--on-brand); border-color: var(--on-brand); color: var(--brand); }
+.cta .su-btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
 .cta .su-btn-primary:hover:not(:disabled) { background: color-mix(in srgb, var(--on-brand) 90%, var(--brand)); border-color: transparent; }
 .cta :focus-visible { outline-color: var(--on-brand); }
 
@@ -418,3 +421,18 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 }
 
 a.tel { color: inherit; text-underline-offset: 3px; }
+
+/* 시안 2: 홈 납품 과정 */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: st; border-top: 2px solid var(--navy); }
+.steps li { counter-increment: st; padding: 20px 20px 0 0; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.steps li::before { content: counter(st, decimal-leading-zero); font-size: 13px; font-weight: 700; color: var(--brand-text); font-variant-numeric: tabular-nums; }
+.steps b { font-size: 17px; letter-spacing: -.02em; }
+.steps span { font-size: 14px; color: var(--ink-muted); line-height: 1.55; }
+.sec-eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--navy); margin-bottom: 8px; }
+@media (max-width: 760px) {
+  .steps { grid-template-columns: 1fr; border-top: 0; }
+  .steps li { padding: 14px 0; border-top: 1px solid var(--line); flex-direction: row; flex-wrap: wrap; column-gap: 12px; }
+  .steps li span { flex-basis: 100%; padding-left: 32px; }
+  .trust > div { border-left: 0; border-top: 1px solid rgba(255,255,255,.22); padding: 14px 0 0; }
+  .hero-photo img { top: 24px; height: calc(100% - 24px); }
+}
