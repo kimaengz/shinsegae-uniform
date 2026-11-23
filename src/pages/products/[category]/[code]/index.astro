@@ -34,13 +34,12 @@ const client = {
   gallery: Object.fromEntries(Object.entries(p.gallery as Record<string, any[]>).map(([k, list]) => [k, list.map((g) => ({ label: g.label, src: g.src ? u(g.src) : null }))])),
   thumb: p.thumb ? u(p.thumb) : null, quoteUrl: u('quote/')
 };
-// 사이즈별 수량 칸: 사이즈표(여성 · 남성)별로 묶어서, 호수 옆에 영문 사이즈
-const qtyGroups: [string, [string, string, string][]][] = [];
+// 사이즈별 수량 칸: 사이즈표(여성 · 남성)별로 묶는다 (영문 사이즈는 사이즈 안내 표에만)
+const qtyGroups: [string, [string, string][]][] = [];
 p.sizes.forEach((s: string) => {
   const [title, k] = s.includes(' ') ? s.split(' ') : ['', s];
-  const en = sizeGuide.find((c: any) => c.title === title)?.sizes.find(([kk]: string[]) => kk === k)?.[1] ?? '';
   const g = qtyGroups.find(([t]) => t === title) ?? (qtyGroups.push([title, []]), qtyGroups.at(-1)!);
-  g[1].push([s, k, en]);
+  g[1].push([s, k]);
 });
 ---
 <Layout title={p.name} active="products" og={`p-${p.slug}`} bbar="custom" description={`${p.name}${p.summary ? ` · ${p.summary}` : ''}. ${cat.name} 단체 제작, 병원 로고 자수 가능.`}>
@@ -119,9 +118,9 @@ p.sizes.forEach((s: string) => {
             <div class="qty-group">
               {title && <h3 class="su-label qty-group-h">{title}</h3>}
               <div class="qty-grid">
-                {list.map(([s, label, en]) => (
+                {list.map(([s, label]) => (
                   <div class="su-qty" data-qty={s}>
-                    <span class="su-qty-label">{label}{en && <span class="size-en">{en}</span>}</span>
+                    <span class="su-qty-label">{label}</span>
                     <div class="su-qty-ctrl">
                       <button type="button" data-dec aria-label={`${s} 1벌 빼기`} disabled>−</button>
                       <input type="number" inputmode="numeric" min="0" max="9999" value="0" aria-label={`${s} 수량`} />

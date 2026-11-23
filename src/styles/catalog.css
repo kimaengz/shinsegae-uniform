@@ -22,6 +22,11 @@ img { display: block; max-width: 100%; }
 .p-photos.one { grid-template-columns: 1fr; height: 158mm; }
 /* 한 장일 때는 자르지 않고 전신이 다 보이게 */
 .p-photos.one img { object-fit: contain; object-position: center; }
+/* 사진은 모두 2:3 세로. 칸도 2:3으로 맞춰 자르지 않는다 (높이 158mm 기준) */
+.p-photos.three { grid-template-columns: 105.33mm 51.67mm; height: 158mm; justify-content: center; }
+.p-photos.three .sub { grid-template-rows: repeat(2, 1fr); }
+.p-photos.two { grid-template-columns: repeat(2, 88.5mm); height: 132.75mm; justify-content: space-between; }
+.p-photos.two .sub { grid-template-rows: 1fr; }
 .p-photos .main, .p-photos .sub span { background: var(--img-bg); overflow: hidden; }
 .p-photos img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .p-photos .sub { display: grid; grid-template-rows: repeat(3, 1fr); gap: 3mm; min-height: 0; }

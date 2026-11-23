@@ -22,7 +22,10 @@ export const issued = () => {
 // (scripts/make-pdfs.mjs가 window.__ready를 기다린 뒤 PDF로 찍는다)
 export const TO_JPEG = `
     window.__ready = Promise.all([...document.querySelectorAll('.p-photos img, .cover-img img')].map((img) => img.decode().then(() => {
-      const r = img.getBoundingClientRect(), k = Math.min(2, img.naturalWidth / r.width);
+      // 칸에 실제로 그려지는 사진 크기 기준으로, 원본 해상도를 그대로 살린다 (예전엔 칸 폭 기준이라 contain일 때 840px로 줄었음)
+      const r = img.getBoundingClientRect(), fit0 = getComputedStyle(img).objectFit;
+      const drawn = (fit0 === 'contain' ? Math.min : Math.max)(r.width / img.naturalWidth, r.height / img.naturalHeight);
+      const k = 1 / drawn;
       const c = document.createElement('canvas');
       c.width = Math.round(r.width * k); c.height = Math.round(r.height * k);
       // object-fit: cover는 꽉 채워 위쪽 기준, contain은 자르지 않고 가운데 (빈 곳은 바탕색)
@@ -31,7 +34,7 @@ export const TO_JPEG = `
       const w = img.naturalWidth * s, h = img.naturalHeight * s;
       if (fit === 'contain') { ctx.fillStyle = getComputedStyle(img.parentElement).backgroundColor; ctx.fillRect(0, 0, c.width, c.height); }
       ctx.drawImage(img, (c.width - w) / 2, fit === 'contain' ? (c.height - h) / 2 : 0, w, h);
-      img.src = c.toDataURL('image/jpeg', 0.82);
+      img.src = c.toDataURL('image/jpeg', 0.9);
       return img.decode();
     })));
 `;

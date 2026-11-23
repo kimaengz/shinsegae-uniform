@@ -242,7 +242,6 @@ a.trust-sub { color: var(--brand-text); }
 /* 사이즈별 수량: 칸 폭이 좁아지면 자동으로 한 줄에 하나씩 */
 .qty-group + .qty-group { margin-top: var(--space-4); }
 .qty-group-h { margin: 0 0 var(--space-2); }
-.su-qty-label .size-en { margin-left: 6px; font-size: 12px; font-weight: 500; color: var(--ink-muted); }
 .qty-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: var(--space-2); }
 
 /* 자수: 로고와 이름을 따로 켜고 각각 위치 선택 */
