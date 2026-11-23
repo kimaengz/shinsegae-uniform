@@ -198,7 +198,7 @@ p.sizes.forEach((s: string) => {
         <div class="scroll-x">
           <table class="size-table">
             <caption>{c.title} 사이즈 (신체 치수, cm)</caption>
-            <thead><tr><th scope="col" style="text-align:left">구분</th>{c.sizes.map(([k, e]: string[]) => <th scope="col">{k}{e && <span class="size-en">{e}</span>}</th>)}</tr></thead>
+            <thead><tr><th scope="col" style="text-align:left">구분</th>{c.sizes.map(([k, e]: string[]) => <th scope="col"><span class="size-en" aria-hidden={!e}>{e || '\u00a0'}</span>{k}</th>)}</tr></thead>
             <tbody>{c.rows.map(([m, v]: [string, number[]]) => <tr><th scope="row">{m}</th>{v.map((n) => <td>{n}</td>)}</tr>)}</tbody>
           </table>
         </div>
