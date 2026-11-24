@@ -62,6 +62,8 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 /* 제품 목록 머리: 카탈로그 받기 링크는 설명 아래 */
 .pdf-link { margin-top: 8px; gap: 8px; }
 .pdf-link::after { display: none; }
+.page-h-link { margin-top: 8px; }
+.new-page { padding-bottom: var(--space-18); }
 .opt-cat { gap: 8px; }
 .opt-cat .badge { margin-top: 0; }
 .link-btn { color: var(--brand-text); padding: 0; }
