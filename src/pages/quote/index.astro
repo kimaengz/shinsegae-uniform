@@ -3,8 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import { data } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
 const { site, categories, products } = data();
+// 견적 받는 곳: quoteMail(FormSubmit 메일 별칭)이 있으면 메일로 바로, 없으면 quoteEndpoint(구글 시트)로
+const mailTo = site.quoteMail || '';
+const maxMB = mailTo ? 10 : 20; // FormSubmit 첨부는 합계 10MB까지
 const client = {
   endpoint: site.quoteEndpoint || '',
+  mail: mailTo ? `https://formsubmit.co/ajax/${mailTo}` : '',
+  maxMB,
   completeUrl: u('quote/complete/'),
   productsUrl: u('products/'),
   products: Object.fromEntries(products.map((p) => [p.code, u(`products/${p.category}/${p.slug}/`)])),
@@ -46,7 +51,7 @@ const client = {
           <div class="su-field"><label class="su-label" for="f-org">병원·기관명<span class="su-req" aria-hidden="true"> *</span></label><input class="su-input" id="f-org" name="org" required autocomplete="organization" placeholder="예: OO대학교병원" /></div>
           <div class="su-field"><label class="su-label" for="f-name">담당자<span class="su-req" aria-hidden="true"> *</span></label><input class="su-input" id="f-name" name="name" required autocomplete="name" placeholder="성함 · 부서" /></div>
           <div class="su-field"><label class="su-label" for="f-tel">연락처<span class="su-req" aria-hidden="true"> *</span></label><input class="su-input" id="f-tel" name="tel" type="tel" required autocomplete="tel" placeholder="010-0000-0000" /></div>
-          <div class="su-field"><label class="su-label" for="f-mail">이메일</label><input class="su-input" id="f-mail" name="email" type="email" autocomplete="email" placeholder="name@hospital.or.kr" aria-describedby="f-mail-hint" /><span class="su-hint" id="f-mail-hint">{site.quoteEndpoint ? '남기시면 접수 확인 메일을 보내 드립니다.' : '견적서를 메일로 받으시려면 적어 주세요.'}</span></div>
+          <div class="su-field"><label class="su-label" for="f-mail">이메일</label><input class="su-input" id="f-mail" name="email" type="email" autocomplete="email" placeholder="name@hospital.or.kr" aria-describedby="f-mail-hint" /><span class="su-hint" id="f-mail-hint">{site.quoteEndpoint && !mailTo ? '남기시면 접수 확인 메일을 보내 드립니다.' : '견적서를 메일로 받으시려면 적어 주세요.'}</span></div>
           <div class="su-field"><label class="su-label" for="f-due">희망 납기</label><input class="su-input" id="f-due" name="due" type="date" /></div>
           <div class="su-field">
             <span class="su-label" id="files-label">로고 파일 <span class="su-opt">(선택)</span></span>
@@ -56,7 +61,7 @@ const client = {
               <button type="button" class="file-pick-clear" data-file-clear aria-label="고른 로고 파일 빼기" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
               <label class="file-pick-btn" for="f-logo"><span data-file-btn>파일 올리기</span><input id="f-logo" name="logo" type="file" aria-describedby="f-logo-hint" accept=".ai,.eps,.pdf,.svg,.png,.jpg,.jpeg,application/postscript,application/illustrator,application/pdf,image/svg+xml,image/png,image/jpeg" /></label>
             </div>
-            <span class="su-hint" id="f-logo-hint">벡터(AI · EPS · PDF) 권장 · 20MB 이하</span>
+            <span class="su-hint" id="f-logo-hint">벡터(AI · EPS · PDF) 권장 · {maxMB}MB 이하</span>
           </div>
           <div class="su-field full"><label class="su-label" for="f-msg">요청사항</label><textarea class="su-input" id="f-msg" name="message" rows="4" placeholder="다른 색상(병원 로고 색 등), 배색, 납기 등 요청사항을 적어 주세요"></textarea></div>
           <div class="su-field full">
@@ -214,7 +219,7 @@ const client = {
       if (mail && !/^\S+@\S+\.\S+$/.test(mail)) errs.push(['f-mail', '이메일 형식을 확인해 주세요. 예: name@hospital.or.kr']);
       for (const id of ['f-logo']) {
         const f = (document.getElementById(id) as HTMLInputElement).files?.[0];
-        if (f && f.size > 20 * 1024 * 1024) errs.push([id, '20MB 이하 파일만 보낼 수 있습니다. 더 크면 비워 두고 상담 때 보내 주세요.']);
+        if (f && f.size > Q.maxMB * 1024 * 1024) errs.push([id, `${Q.maxMB}MB 이하 파일만 보낼 수 있습니다. 더 크면 비워 두고 상담 때 보내 주세요.`]);
       }
       if (!(document.getElementById('f-agree') as HTMLInputElement).checked) errs.push(['f-agree', '개인정보 수집·이용에 동의해야 보낼 수 있습니다.']);
       ['f-org', 'f-name', 'f-tel', 'f-mail', 'f-logo', 'f-agree'].forEach((id) => setErr(id, errs.find((e) => e[0] === id)?.[1] ?? ''));
@@ -264,8 +269,39 @@ const client = {
       };
       let sent = false;
       try {
-        payload.logo = await readFile(document.getElementById('f-logo') as HTMLInputElement);
-        if (Q.endpoint) {
+        const logoInput = document.getElementById('f-logo') as HTMLInputElement;
+        if (Q.mail) {
+          // 메일로 바로: FormSubmit이 담당자 메일로 표 형태로 보낸다 (첨부 = 로고 파일)
+          const items = payload.items.map((it) => `${it.code} ${it.name} / ${it.color} / ${Object.entries(it.qty).map(([k, n]) => `${k} ${n}`).join(', ')} (${it.total}벌) / 자수 ${it.embroidery}`);
+          const totalQty = payload.items.reduce((a, it) => a + it.total, 0);
+          const estimate = payload.items.reduce((a, it) => a + (it.estimate || 0), 0);
+          const fd = new FormData();
+          fd.append('_subject', `[견적 요청] ${payload.org} · ${totalQty ? totalQty + '벌' : '일반 문의'}`);
+          fd.append('_template', 'table');
+          fd.append('_captcha', 'false');
+          fd.append('접수번호', id);
+          fd.append('병원·기관명', payload.org);
+          fd.append('담당자', payload.name);
+          fd.append('연락처', payload.tel);
+          if (payload.email) fd.append('email', payload.email); // 메일에서 '답장'하면 고객에게 간다
+          fd.append('희망 납기', payload.due || '-');
+          if (items.length) {
+            fd.append('품목', items.join('\n'));
+            fd.append('총 수량', `${totalQty}벌`);
+            if (estimate) fd.append('예상 금액(참고)', `${estimate.toLocaleString('ko-KR')}원`);
+          } else {
+            fd.append('관심 카테고리', payload.interest.join(', ') || '-');
+            fd.append('예상 수량', payload.expectedQty || '-');
+          }
+          fd.append('요청사항', payload.message || '-');
+          const f = logoInput.files?.[0];
+          if (f) fd.append('attachment', f, f.name);
+          const res = await fetch(Q.mail, { method: 'POST', headers: { Accept: 'application/json' }, body: fd });
+          const out = await res.json().catch(() => ({}));
+          if (!res.ok || String(out.success) !== 'true') throw new Error(out.message || res.status);
+          sent = true;
+        } else if (Q.endpoint) {
+          payload.logo = await readFile(logoInput);
           await fetch(Q.endpoint, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
           sent = true;
         }
