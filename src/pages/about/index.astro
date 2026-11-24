@@ -4,7 +4,7 @@ import Garment from '../../components/Garment.astro';
 import { data, siteImage } from '../../lib/data.mjs';
 import { u } from '../../lib/url.mjs';
 import Phone from '../../components/Phone.astro';
-const { site } = data();
+const { site, references } = data();
 const process = ['재단', '봉제', '자수', '검수'].map((t, i) => [t, siteImage(`about/process-${i + 1}`)]);
 // 인증서 사진: public/images/about/cert-1~3 (사업자번호 · QR은 가린 사본)
 const certs = [['여성기업 확인', '유효기간 2025.11 ~ 2028.11'], ['직접생산확인 (유니폼)', '2026.11 확인'], ['조달청 나라장터 경쟁입찰참가자격', '2019.11 등록 · 2026.11 갱신']].map(([t, d], i) => [t, d, siteImage(`about/cert-${i + 1}`)]);
@@ -52,6 +52,12 @@ const history = [
       <h2>인증</h2>
       <ul class="certs">{certs.map(([t, d, src]) => <li><span class="ph" style="aspect-ratio:3/4"><img src={u(src)} alt={`${t} 인증서`} loading="lazy" /></span><b>{t}</b><span class="muted num">{d}</span></li>)}</ul>
     </section>
+    {references.length > 0 && (
+      <section class="split" id="clients">
+        <div><h2>Clients</h2><p class="muted split-desc">유니폼을 만들어 납품한 병원과 기관입니다.</p></div>
+        <ul class="clients">{references.map((r) => <li><b>{r.name}</b>{r.note && <span class="muted">{r.note}</span>}</li>)}</ul>
+      </section>
+    )}
     <section class="split">
       <h2>오시는 길</h2>
       <dl class="visit">

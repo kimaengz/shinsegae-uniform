@@ -337,17 +337,12 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .empty { background: var(--ivory); padding: var(--space-6); border-radius: var(--radius-sm); }
 
 /* 모바일 */
-/* 제작사례: 유형별 기관 타일 · 공공 납품 */
-.ref-groups { display: flex; flex-direction: column; gap: 48px; }
-.ref-group-h { display: flex; align-items: baseline; gap: 8px; padding-top: 16px; margin-bottom: 24px; border-top: 1px solid var(--ink); }
-.ref-group-h h2 { font-size: 18px; line-height: 28px; letter-spacing: -.02em; }
-/* 기관 목록: 상자 대신 가는 선 목록 (기관명이 주인공) */
-.ref-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px var(--space-6); }
-.ref-grid li { display: flex; flex-direction: column; gap: 4px; }
-.ref-grid b { font-size: 17px; line-height: 24px; letter-spacing: -.02em; }
-.ref-grid span { font-size: 14px; }
-.ref-public { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
-.ref-public p { margin-top: 12px; max-width: 30em; }
+/* 회사소개 Clients: 기관명 목록 (가는 선) */
+.clients { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-6); }
+.clients li { display: flex; flex-direction: column; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.clients li:nth-child(-n+3) { padding-top: 0; }
+.clients b { font-size: 16px; line-height: 24px; letter-spacing: -.02em; }
+.clients span { font-size: 13px; line-height: 20px; }
 /* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 (3칸일 때는 그대로) */
 @media (min-width: 761px) and (max-width: 960px) {
   .trust:not(.trust-3) { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
@@ -378,11 +373,10 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .split h2 { font-size: 22px; line-height: 32px; }
   .process { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
+  .clients { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  .clients li:nth-child(3) { padding-top: 16px; }
   .visit div { grid-template-columns: 72px minmax(0, 1fr); }
   .page-h { grid-template-columns: minmax(0, 1fr); padding: 8px 0 32px; }
-  .ref-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .ref-grid b { font-size: 16px; line-height: 24px; }
-  .ref-public { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .history li { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
   .cta { padding: 48px 0; }
   .cta h2 { font-size: 24px; line-height: 32px; }

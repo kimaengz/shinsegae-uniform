@@ -1,57 +1,16 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { data } from '../../lib/data.mjs';
+// 예전 '제작사례' 주소: 회사소개의 Clients로 옮겨서 그쪽으로 넘긴다 (북마크 · 검색 링크 보호)
 import { u } from '../../lib/url.mjs';
-const { site, references } = data();
-const groups = [...new Set(references.map((r) => r.type))].map((t) => [t, references.filter((r) => r.type === t)]);
-// 기업소개서 연혁 · 인증 중 공공 · 의료기관 납품과 관련된 것
-const credentials = [
-  ['2019.11', '조달청 나라장터 경쟁입찰참가 자격 등록'],
-  ['2019.11', '여성기업 확인'],
-  ['2021.04', '국공립 의료기관 및 공공 · 보건기관 직접 제조 · 납품 계약'],
-  ['2026.11', '직접생산확인 (유니폼)']
-];
+const to = u('about/#clients');
 ---
-<Layout title="제작사례" active="references" description="세브란스병원, 충남대학교병원 등 대학병원 · 종합병원과 공공기관에 메디컬 유니폼을 직접 제조해 납품합니다.">
-  <div class="wrap">
-    <nav class="crumb su-caption" aria-label="현재 위치"><a href={u('')}>홈</a><span aria-hidden="true">/</span><span aria-current="page">제작사례</span></nav>
-    <div class="page-h"><h1>제작사례</h1><p>대학병원부터 공공기관까지, 현장에 맞춘 유니폼을 직접 만들어 납품합니다.</p></div>
-  </div>
-  {site.referenceCount && (
-    <section class="trust-band" aria-label="납품 지표">
-      <div class="wrap trust trust-3">
-        <div><span class="su-caption">납품 기관</span><strong class="num">{site.referenceCount}곳</strong></div>
-        <div><span class="su-caption">공공 조달</span><strong>나라장터 등록</strong></div>
-        <div><span class="su-caption">설립</span><strong class="num">{site.founded}</strong></div>
-      </div>
-    </section>
-  )}
-  <section class="sec">
-    <div class="wrap">
-      {groups.length ? (
-        <div class="ref-groups">
-          {groups.map(([type, list]) => (
-            <div class="ref-group">
-              <div class="ref-group-h"><h2>{type}</h2><span class="num muted">{list.length}곳</span></div>
-              <ul class="ref-grid">
-                {list.map((r) => <li><b>{r.name}</b>{r.note && <span class="muted">{r.note}</span>}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p class="empty">납품 기관 목록을 정리하고 있습니다. 납품 이력이 궁금하시면 견적문의로 남겨 주세요.</p>
-      )}
-    </div>
-  </section>
-  <section class="sec sec-tight">
-    <div class="wrap ref-public">
-      <div>
-        <h2>공공 · 의료기관 납품</h2>
-        <p class="muted">여성기업 인증과 조달청 나라장터 경쟁입찰참가 자격을 갖춘 직접 제조 기업입니다. 국공립 병원 등 공공기관의 기준과 규정에 맞춰 투명하게 납품합니다.</p>
-      </div>
-      <ol class="history">{credentials.map(([d, t]) => <li><span class="num">{d}</span><span>{t}</span></li>)}</ol>
-    </div>
-  </section>
-  <section class="cta-sec"><div class="wrap"><div class="cta"><div><h2>우리 병원도 상담받아 보세요</h2><p>품목과 수량만 알려 주시면 담당자가 연락드립니다.</p></div><a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a></div></div></section>
-</Layout>
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+    <title>회사소개로 이동 | 신세계유니폼</title>
+  </head>
+  <body><p><a href={to}>회사소개 페이지로 이동합니다.</a></p></body>
+</html>

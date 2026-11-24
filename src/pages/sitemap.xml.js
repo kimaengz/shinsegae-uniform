@@ -4,7 +4,7 @@ import { u } from '../lib/url.mjs';
 
 export function GET({ site }) {
   const { categories, products } = data();
-  const paths = ['', 'new/', 'products/', 'references/', 'about/', 'quote/', 'privacy/',
+  const paths = ['', 'new/', 'products/', 'about/', 'quote/', 'privacy/',
     ...categories.map((c) => `products/${c.id}/`),
     ...products.map((p) => `products/${p.category}/${p.slug}/`)];
   const body = paths.map((p) => `  <url><loc>${new URL(u(p), site).href}</loc></url>`).join('\n');
