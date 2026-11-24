@@ -100,8 +100,8 @@ a.su-btn { text-decoration: none; }
 .m-menu p { padding-block: 16px; }
 
 /* 푸터 */
-main:has(> .cta-sec:last-child) + .ft { border-top: 0; }
-.ft { border-top: 1px solid var(--line); color: var(--ink-muted); font-size: 14px; line-height: 24px; }
+/* 푸터: 선 대신 미색 바탕으로 본문과 구분 */
+.ft { background: var(--ivory); color: var(--ink-muted); font-size: 14px; line-height: 24px; }
 .ft-top { padding-top: var(--space-12); }
 .ft-bottom { position: relative; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 24px 32px;  font-size: 13px; }
 .ft-bottom::before { content: ""; position: absolute; top: 0; left: max(var(--gutter), env(safe-area-inset-left, 0px)); right: max(var(--gutter), env(safe-area-inset-right, 0px)); height: 1px; background: var(--line); }
@@ -160,7 +160,7 @@ a.trust-sub { color: var(--brand-text); }
 .about-greeting p { font-size: 16px; line-height: 28px; color: var(--ink-muted); }
 .about-sign { font-size: 14px; color: var(--ink-muted); }
 .about-sign b { font-size: 18px; color: var(--ink); margin-left: 8px; letter-spacing: .02em; }
-.about-secs { display: flex; flex-direction: column; gap: 96px; padding-bottom: 24px; }
+.about-secs { display: flex; flex-direction: column; gap: 96px; padding-bottom: 72px; }
 .split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px 48px; padding-top: 24px; border-top: 1px solid var(--ink); }
 .split h2 { font-size: 26px; line-height: 36px; }
 .split-desc { margin-top: 8px; font-size: 15px; }
@@ -179,14 +179,14 @@ a.trust-sub { color: var(--brand-text); }
 .certs b { font-size: 15px; line-height: 24px; }
 .certs .muted { font-size: 13px; }
 .visit { margin: 0; display: flex; flex-direction: column; }
-.visit div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.visit div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 8px 0; }
 .visit div:first-child { padding-top: 0; }
 .visit dt { font-weight: 600; }
 .visit dd { margin: 0; }
 .split .history { border-top: 0; }
 .split .history li:first-child { padding-top: 0; }
 .history { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-.history li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.history li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 8px 0; }
 .history li > span:first-child { font-weight: 600; color: var(--brand-text); }
 .cat-card { display: flex; flex-direction: column; gap: 8px; color: var(--ink); text-decoration: none; }
 /* 제품 사진은 각지게: 둥근 사진 카드는 앱 템플릿 느낌이 강하다 */
@@ -339,9 +339,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 
 /* 모바일 */
 /* 회사소개 Clients: 기관명 목록 (가는 선) */
-.clients { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-6); }
-.clients li { display: flex; flex-direction: column; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.clients li:nth-child(-n+3) { padding-top: 0; }
+.clients { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px var(--space-6); }
+.clients li { display: flex; flex-direction: column; gap: 4px; }
 .clients b { font-size: 16px; line-height: 24px; letter-spacing: -.02em; }
 .clients span { font-size: 13px; line-height: 20px; }
 /* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 (3칸일 때는 그대로) */
@@ -375,7 +374,6 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .process { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
   .clients { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
-  .clients li:nth-child(3) { padding-top: 16px; }
   .visit div { grid-template-columns: 72px minmax(0, 1fr); }
   .page-h { grid-template-columns: minmax(0, 1fr); padding: 8px 0 32px; }
   .history li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
