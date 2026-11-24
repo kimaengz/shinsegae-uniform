@@ -72,7 +72,7 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 a.su-btn { text-decoration: none; }
 
 /* 헤더 */
-.hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); }
+.hd { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--surface) 97%, transparent); -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); }
 /* 헤더의 견적문의는 메뉴가 아니라 행동 버튼 */
 .nav .nav-cta { height: 40px; padding: 0 24px; border-radius: var(--radius-btn); background: var(--brand); color: var(--surface); font-weight: 600; font-size: 15px; transition: background-color var(--dur-1) ease, transform var(--dur-1) var(--ease-out); }
 .nav .nav-cta::after { display: none; }
@@ -434,3 +434,10 @@ a.tel { color: inherit; text-underline-offset: 3px; }
 .cards-new .badge { display: none; }
 
 .q-sending { text-align: center; }
+
+/* 개인정보처리방침 */
+.privacy { max-width: 760px; padding-bottom: var(--space-18); }
+.privacy-body { display: flex; flex-direction: column; gap: var(--space-8); }
+.privacy-body h2 { font-size: 18px; line-height: 28px; margin-bottom: 8px; }
+.privacy-body p { line-height: 28px; }
+.privacy-date { font-size: 14px; }
