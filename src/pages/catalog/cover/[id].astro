@@ -44,7 +44,7 @@ const hasPhone = /\d/.test(site.phone);
     {list.length > 0 && <ul class="cover-list">{list.map((p) => <li><span class="num">{p.code}</span><span>{p.name}</span></li>)}</ul>}
     <footer class="sheet-ft">
       <div>
-        <b>{site.companyName}</b> · 대표 {site.ceo}<br />
+        <b>{site.companyName}</b> · 대표 {site.ceo}{site.businessNumber && ` · 사업자등록번호 ${site.businessNumber}`}<br />
         {site.address}<br />
         {hasPhone && <>T {site.phone} · </>}{new URL(u(''), Astro.site).host}{u('')}
       </div>
