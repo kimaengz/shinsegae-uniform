@@ -91,7 +91,7 @@ const nav = [['new', '신제품'], ['products', '제품'], ['about', '회사소�
       <div>
         <b>견적 상담</b>
         <span>T <Phone /></span>
-        {site.email && <span>E {site.email}</span>}
+        {site.email && <span>E <a href={`mailto:${site.email}`}>{site.email}</a></span>}
         <a href={u('catalog/pdf/all.pdf')} download="신세계유니폼_제품카탈로그.pdf">제품 카탈로그 PDF</a>
       </div>
       <div>
