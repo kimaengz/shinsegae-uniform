@@ -13,7 +13,7 @@
     "logo": 5000,
     "name": 3000
   },
-  "quoteEndpoint": "",
-  "quoteMail": "1199ce281848923819d603b3700c2837",
+  "quoteEndpoint": "https://script.google.com/macros/s/AKfycbyHmFBdrGM6n1w-XSp213E5-l6DSlx2RqdmBk-b6gEk6Xb9Bl_znYZxdPZ4cT3x5FV-pw/exec",
+  "quoteMail": "",
   "replyDays": "[영업일 기준 1일]"
 }
