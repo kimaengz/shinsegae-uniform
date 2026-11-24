@@ -34,12 +34,16 @@ input[type="date"].su-input::-webkit-calendar-picker-indicator { opacity: .6; }
 .su-error { font-size: 14px; line-height: 20px; color: var(--danger); }
 
 /* Chip */
-.su-chip { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 40px; padding: 0 16px; border: 1.5px solid transparent; border-radius: var(--radius-md); font-size: 14px; cursor: pointer; background: var(--surface-muted); }
+.su-chip { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 40px; padding: 0 16px; border: 0; border-radius: var(--radius-md); font-size: 14px; cursor: pointer; background: var(--surface-muted); -webkit-tap-highlight-color: transparent; user-select: none; transition: background-color .15s, color .15s, transform .1s ease-out; }
+/* 토스식: 테두리 없이 바탕색 · 체크로 선택 표시, 누르는 순간 살짝 눌림 */
+.su-chip:active { transform: scale(.97); }
+@media (hover: hover) { .su-chip:hover:not(:has(input:checked)):not(.is-on) { background: color-mix(in srgb, var(--surface-muted) 100%, var(--ink) 4%); } }
 .su-chip input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid var(--line-strong); border-radius: 6px; background: var(--surface) center / 14px no-repeat; cursor: pointer; transition: background-color .15s, border-color .15s; }
 .su-chip input[type="checkbox"]:checked { background-color: var(--brand); border-color: var(--brand); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
 .su-chip input[type="checkbox"]:focus-visible { outline: none; }
-.su-chip.is-on, .su-chip:has(input:checked) { background: var(--brand-soft); border-color: var(--brand-text); color: var(--ink); font-weight: 600; }
-.su-chip:focus-within { outline: 2px solid var(--focus); outline-offset: 2px; }
+.su-chip.is-on, .su-chip:has(input:checked) { background: var(--brand-soft); color: var(--brand-text); font-weight: 600; }
+/* 포커스 링은 키보드로 옮겨 왔을 때만 (마우스 · 터치 클릭에는 안 보임) */
+.su-chip:has(:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* SwatchDots */
 .su-dots { display: flex; flex-wrap: wrap; gap: var(--space-2); }
