@@ -14,7 +14,7 @@ import csv, io, json, os, re, shutil, sys, unicodedata
 from PIL import Image, ImageOps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.environ.get('COLOR_SRC', os.path.expanduser('~/Desktop/신세계 컬러 폴더_1,2'))
+SRC = os.environ.get('COLOR_SRC', os.path.expanduser('~/Desktop/신세계 컬러별 폴더'))
 OUT = os.path.join(ROOT, 'public', 'images', 'products')
 CSV = os.path.join(ROOT, 'data', 'products.csv')
 MANIFEST = os.path.join(ROOT, 'data', 'color-images.json')
@@ -27,8 +27,19 @@ COLORS = {
     '핑크': ('pink', '#EBC8CF'), '연핑크': ('pink', '#EBC8CF'), '베이지': ('beige', '#DCCFB8'),
     '라이트 그린': ('light-green', '#CFDCCF'),
 }
-# 폴더에서 이름이 바뀐 제품: 폴더 제품명 → 코드
-RENAMED = {'V넥 스크럽 (투톤 배색)': 'A04', '요크 셔링 튜닉 임부복': 'B04', '투버튼 칠부소매 재킷': 'C03'}
+# 사이트에 보이는 색 이름 (컬러 엑셀 기준: 핑크 계열은 '연핑크')
+LABEL = {'핑크': '연핑크'}
+# 폴더 제품명 → 코드. 제품명은 업체 수정본(products.csv)을 유지하고 폴더 이름으로 덮어쓰지 않는다
+FOLDER_CODES = {
+    '스크럽 상하의 세트': 'A01', 'V넥 스크럽': 'A02', 'V넥 3색 배색 스크럽': 'A03', 'V넥 스크럽 (투톤 파이핑)': 'A04',
+    'V넥 스크럽 (투톤 배색)': 'A04', '비대칭 여밈 튜닉': 'B01', '라운드넥 배색 튜닉': 'B02', '어깨단추 튜닉': 'B03',
+    '요크 셔링 튜닉': 'B04', '요크 셔링 튜닉 임부복': 'B04', '노카라 원버튼 재킷': 'C01', '파이핑 테일러드 재킷': 'C02',
+    '원버튼 재킷': 'C03', '투버튼 칠부소매 재킷': 'C03', '랩 여밈 재킷': 'C04', '롱 가운': 'D01', '테일러드 재킷': 'D02',
+    '배색 라펠 재킷': 'D03', '2버튼 가운': 'D04', '랩형 로브': 'E01', '자카드 랩 로브': 'E02', '패턴 환자복': 'E03',
+    '검진복 세트': 'E04', 'V넥 단추 가디건': 'F01', '노카라 오픈 니트': 'F02', 'V넥 배색 가디건': 'F04',
+    # 같은 옷이라 F02에 합침 (2026-11-25). 같은 색이 겹치면 F02 폴더 사진을 쓴다
+    '배색 테이프 노카라 오픈 니트': 'F02',
+}
 
 nfc = lambda s: unicodedata.normalize('NFC', s)
 num = lambda f: int(m.group(1)) if (m := re.search(r'_(\d+)\.\w+$', f)) else 0
@@ -56,8 +67,8 @@ def main():
             pdir = os.path.join(cdir, prod)
             if not os.path.isdir(pdir):
                 continue
-            name = nfc(prod)
-            r = by_name.get(name) or by_code.get(RENAMED.get(name, ''))
+            name = re.sub(r'\s*\(완\)\s*$', '', nfc(prod)).strip()
+            r = by_code.get(FOLDER_CODES.get(name, '')) or by_name.get(name)
             if not r:
                 print(f'건너뜀: products.csv에서 찾지 못한 제품 "{name}"')
                 continue
@@ -69,11 +80,17 @@ def main():
                 if not os.path.isdir(cpath):
                     continue
                 cname = re.sub(r'\s*\(완\)\s*$', '', nfc(col)).strip()
+                imgs = [nfc(f) for f in os.listdir(cpath) if re.search(r'\.(png|jpe?g|webp)$', f, re.I) and not f.startswith('.')]
+                # 폴더 이름과 사진 파일 이름의 색이 다른 색이면(예: '핑크' 폴더 안 '라이트 블루_1.png') 파일 이름을 따른다
+                pre = {re.sub(r'_\d+\.\w+$', '', f).replace('라이트블루', '라이트 블루') for f in imgs}
+                if len(pre) == 1 and (p0 := pre.pop()) in COLORS and cname in COLORS and COLORS[p0][0] != COLORS[cname][0]:
+                    print(f'  {code} {name}: "{cname}" 폴더 사진이 "{p0}"라서 {p0}(으)로 넣음')
+                    cname = p0
                 if cname not in COLORS:
                     sys.exit(f'{code} {name}: 모르는 색상 "{cname}" → COLORS 표에 추가하세요 (아무 파일도 바꾸지 않았습니다)')
                 files = sorted((os.path.join(cpath, f) for f in os.listdir(cpath)
                                 if re.search(r'\.(png|jpe?g|webp)$', f, re.I) and not f.startswith('.')), key=num)
-                found.append((cname, *COLORS[cname], files))
+                found.append((LABEL.get(cname, cname), *COLORS[cname], files))
             if not found:
                 print(f'건너뜀: {code} {name}: 색상 폴더가 없습니다')
                 continue
@@ -87,11 +104,15 @@ def main():
             found.sort(key=lambda c: (c[1] != cur_default, not c[3]))
             if found[0][1] != cur_default:
                 found.sort(key=lambda c: not c[3])
+            prev = next((x for x in plan if x[2] == code), None)
+            if prev:  # 같은 제품으로 합치는 폴더: 없는 색만 더한다
+                have = {c[1] for c in prev[3]}
+                prev[3].extend(c for c in found if c[1] not in have)
+                continue
             plan.append((r, name, code, found))
 
     # 2단계: 반영
     for r, name, code, found in plan:
-        r['name'] = name
         r['colors'] = '|'.join(f'{n}:{s}:{h}' for n, s, h, _ in found)
         # 사진: 색 폴더마다 통째로 교체, 목록에서 빠진 색의 사진 폴더는 지운다
         pout = os.path.join(OUT, code)
