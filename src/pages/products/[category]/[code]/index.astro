@@ -98,10 +98,17 @@ p.sizes.forEach((s: string) => {
 
         <div class="blk">
           <div class="blk-h">
-            <h2>참고 단가 <span class="su-caption">1벌</span></h2>
+            <h2>참고 단가 <span class="su-caption">1벌 · VAT 별도</span></h2>
             <button type="button" class="su-btn su-btn-ghost su-btn-sm link-btn" data-size-open>사이즈 안내</button>
           </div>
-          {p.isPublic ? (
+          {p.isPublic && !p.tiered ? (
+            <div class="su-tiers">
+              <table><caption class="su-sr">참고 단가</caption><tbody>
+                <tr><th scope="row">1벌 단가</th><td>{won(p.prices[0])}</td></tr>
+              </tbody></table>
+              <p class="su-hint">자수를 넣으면 예상 금액에 자수 추가금이 더해집니다. 부가세 별도이며, 확정 단가는 수량 · 옵션에 맞춰 견적서로 안내합니다.</p>
+            </div>
+          ) : p.isPublic ? (
             <div class="su-tiers">
               <table><caption class="su-sr">수량 구간별 참고 단가</caption><tbody>
                 {tiers.map(([label, price], i) => <tr data-tier={i}><th scope="row">{label}<span class="su-tiers-now" hidden>현재 수량</span></th><td>{won(price)}</td></tr>)}

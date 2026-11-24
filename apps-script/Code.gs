@@ -61,14 +61,13 @@ function doPost(e) {
       `접수번호: ${q.id}`, `기관: ${q.org}`, `담당자: ${q.name}`, `연락처: ${q.tel}`, `이메일: ${q.email || '-'}`, `희망 납기: ${q.due || '-'}`, '',
       items.length ? '[품목]\n' + items.join('\n') : `[일반 문의] 관심: ${(q.interest || []).join(', ') || '-'} / 예상 수량: ${q.expectedQty || '-'}`,
       totalQty ? `총 ${totalQty}벌 · 예상 금액(참고) ${estimate.toLocaleString('ko-KR')}원` : '', '',
-      `[요청사항]\n${q.message || '-'}`, '',
-      logoUrl ? `로고: ${logoUrl}` : ''
-    ].filter((l) => l !== null).join('\n');
+      `[요청사항]\n${q.message || '-'}`
+    ].join('\n');
 
     MailApp.sendEmail({
       to: STAFF_EMAIL,
       subject: `[견적 요청] ${q.org} · ${totalQty ? totalQty + '벌' : '일반 문의'}`,
-      body: summary + `\n\n시트: ${SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getUrl()}`,
+      body: summary + (logoUrl ? `\n\n로고 파일: ${logoUrl}` : '') + `\n\n시트: ${SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getUrl()}`,
       replyTo: q.email || STAFF_EMAIL
     });
     if (q.email) {

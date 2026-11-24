@@ -133,8 +133,11 @@ export function loadData() {
     if (!colors.length) err(F, L, '색상(colors)이 하나 이상 있어야 합니다.');
 
     const isPublic = r.price_public.toUpperCase() === 'Y';
-    const prices = [r.price_10, r.price_50, r.price_100].map((v) => (v === '' ? null : Number(v.replace(/,/g, ''))));
-    if (isPublic && prices.some((v) => v === null || !Number.isFinite(v) || v <= 0)) err(F, L, '단가 공개(Y)인데 price_10·price_50·price_100 중 숫자가 아닌 칸이 있습니다.');
+    // 단가: price_10만 있으면 수량 구간 없이 한 가지 단가(50·100벌 칸은 같은 값으로 채움)
+    const given = [r.price_10, r.price_50, r.price_100].map((v) => (v === '' ? null : Number(v.replace(/,/g, ''))));
+    const tiered = given[1] !== null || given[2] !== null;
+    const prices = tiered ? given : [given[0], given[0], given[0]];
+    if (isPublic && prices.some((v) => v === null || !Number.isFinite(v) || v <= 0)) err(F, L, '단가 공개(Y)인데 단가 칸이 비었거나 숫자가 아닙니다. (price_10만 쓰면 한 가지 단가, 구간별이면 price_50·price_100까지)');
     if (!['Y', 'N'].includes(r.price_public.toUpperCase())) err(F, L, 'price_public은 Y 또는 N만 쓸 수 있습니다.');
     if (!['Y', 'N'].includes(r.is_new.toUpperCase())) err(F, L, 'is_new는 Y 또는 N만 쓸 수 있습니다.');
 
@@ -175,7 +178,7 @@ export function loadData() {
 
     return {
       code, slug: code.toLowerCase(), category: r.category, name: r.name, type: r.type, summary: real(r.summary),
-      colors, sizes, sizeText, prices, isPublic: isPublic && site.showPrices !== false, embroidery,
+      colors, sizes, sizeText, prices, tiered, isPublic: isPublic && site.showPrices !== false, embroidery,
       isNew: r.is_new.toUpperCase() === 'Y', badge: (r.badge ?? '') || (r.is_new.toUpperCase() === 'Y' ? 'NEW' : ''), material: real(r.material), function: real(r.function), care: real(r.care),
       order: Number(r.order) || 999, thumb, gallery, cardImages,
       // 상세 정보: detail-N 이미지가 있으면 그것, 없으면 기본 색 사진을 썸네일 순서대로
