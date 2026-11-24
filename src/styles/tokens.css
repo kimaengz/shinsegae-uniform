@@ -1,5 +1,6 @@
 /* 신세계유니폼 디자인 시스템 토큰 (디자인 시스템 tokens.json에서 옮김) */
 :root, [data-theme="light"] {
+  /* 시안 2 · 신뢰 · 의료: 키컬러 와인(#840013) · 아이보리(#f7f2ec)는 그대로. 모양과 구성만 바꾼다 */
   --surface: #ffffff; --surface-raised: #ffffff; --ivory: #f7f2ec; --line: #e6e1dd; --line-strong: #8f8783;
   --ink: #2b2725; --ink-muted: #6b6461; --brand: #840013; --on-brand: #ffffff; --brand-text: #840013;
   --brand-soft: #f6e6e9; --brand-hover: #6c0010; --danger: #b42318; --focus: var(--brand-text);
@@ -15,8 +16,8 @@
   --shadow-pop: 0 8px 24px rgba(0,0,0,0.5);
 }
 :root {
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px;
-  --radius-sm: 8px; --radius-md: 12px; --radius-full: 9999px; /* 작은 칸 · 배지 / 입력칸 · 상자 / 버튼 */
-  --container-max: 1200px; --control-height: 52px; /* 모바일 기준 폭은 760px (미디어쿼리에 직접) */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-18: 72px; --space-10: 40px; --space-16: 64px; --gutter: 32px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-full: 9999px; --radius-btn: 8px; /* 시안 2: 둥근 알약 대신 반듯한 모서리 */
+  --container-max: 1200px; --control-height: 48px; /* 8배수 */ /* 모바일 기준 폭은 760px (미디어쿼리에 직접) */
   --font-sans: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
