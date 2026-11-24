@@ -13,11 +13,15 @@ export function getStaticPaths() {
 interface Props { p: any }
 const { p } = Astro.props;
 const { categories, products, sizeTables, sizeGuide, site } = data();
+
 const embPrice: Record<'logo' | 'name', number> = site.embroideryPrice ?? { logo: 0, name: 0 };
 const cat = categories.find((c) => c.id === p.category);
 const related = products.filter((x) => x.category === p.category && x.code !== p.code).slice(0, 4);
 const c0 = p.colors[0];
 const g0 = p.gallery[c0.slug];
+// 사이즈 안내: 이 제품에 있는 표만 (FREE 등 표가 없으면 전체)
+const ownCharts = sizeGuide.filter((c: any) => p.sizes.some((k: string) => k.startsWith(c.title + ' ')));
+const guide = ownCharts.length ? ownCharts : sizeGuide;
 const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 이상', p.prices[2]]];
 const sizeTable = sizeTables[p.code];
 // 상세 이미지: 크기를 미리 알려 줘서 불러오는 동안 화면이 밀리지 않게. 없으면 기본 사진 한 장
@@ -200,7 +204,7 @@ p.sizes.forEach((s: string) => {
         <h2 id="size-title">사이즈 안내</h2>
         <button type="button" class="icon-btn" aria-label="닫기" data-size-close><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button>
       </div>
-      {sizeGuide.map((c: any) => (
+      {guide.map((c: any) => (
         <div class="scroll-x">
           <table class="size-table">
             <caption>{c.title} 사이즈 (신체 치수, cm)</caption>
@@ -220,7 +224,7 @@ p.sizes.forEach((s: string) => {
       ))}
       <ul class="muted" style="margin:0;padding-left:18px;font-size:14px;display:flex;flex-direction:column;gap:6px">
         <li>몸을 잰 치수 기준입니다. 옷은 이 치수에 맞춰 여유분을 두고 만듭니다.</li>
-        {sizeGuide.map((c: any) => <li>{c.title}: {c.note}</li>)}
+        {guide.map((c: any) => <li>{c.title}: {c.note}</li>)}
         <li>사이즈 샘플이 필요하면 견적 요청서에 적어 주세요.</li>
       </ul>
     </div>
