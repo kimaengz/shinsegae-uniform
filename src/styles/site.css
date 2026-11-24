@@ -60,7 +60,7 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 .opt-actions { gap: 8px; }
 .su-btn svg { flex: none; }
 /* 제품 목록 머리: 카탈로그 받기 링크는 설명 아래 */
-.pdf-link { grid-column: 1 / -1; justify-self: start; gap: 8px; }
+.pdf-link { margin-top: 8px; gap: 8px; }
 .pdf-link::after { display: none; }
 .opt-cat { gap: 8px; }
 .opt-cat .badge { margin-top: 0; }
@@ -149,10 +149,10 @@ a.su-btn { text-decoration: none; }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 회사소개: 핵심 경쟁력 · 연혁 */
 /* 회사소개: 왼쪽에 제목, 오른쪽에 내용 (편집 디자인식 2단) */
-.about-intro { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 48px; padding: 24px 0 96px; }
-.about-statement { grid-column: 1 / -1; font-size: clamp(24px, 2.8vw, 36px); line-height: 1.3; font-weight: 700; letter-spacing: -.04em; max-width: 22em; }
+.about-intro { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px 48px; padding: 0 0 96px; }
+.about-statement { grid-column: 1 / -1; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.35; font-weight: 700; letter-spacing: -.04em; max-width: 22em; }
 .about-photo { grid-column: 1; grid-row: 2; }
-.about-body { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
+.about-body { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; justify-content: flex-start; gap: 24px; }
 .about-greeting { display: flex; flex-direction: column; gap: 16px; }
 .about-greeting p { font-size: 16px; line-height: 28px; color: var(--ink-muted); }
 .about-sign { font-size: 14px; color: var(--ink-muted); }
@@ -203,9 +203,9 @@ a.su-btn { text-decoration: none; }
 
 /* 페이지 머리 */
 /* 페이지 머리: 큰 제목은 왼쪽, 설명은 오른쪽 아래에 맞춤 */
-.page-h { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 26em); align-items: end; gap: 12px 48px; padding: 16px 0 40px; }
+.page-h { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px 0 40px; }
 .page-h h1 { font-size: 48px; line-height: 56px; letter-spacing: -.04em; }
-.page-h p { color: var(--ink-muted); margin: 0; padding-bottom: 8px; }
+.page-h p { color: var(--ink-muted); margin: 0; font-size: 17px; line-height: 28px; max-width: 40em; }
 .tabs { display: flex; gap: var(--space-4); overflow-x: auto; margin-bottom: var(--space-8); }
 .tabs a { white-space: nowrap; padding: 12px 8px; color: var(--ink-muted); text-decoration: none; border-bottom: 2px solid transparent; font-weight: 500; }
 .tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 700; }
@@ -291,7 +291,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 
 /* 견적함 */
 .q-wrap { padding-bottom: 72px; }
-.q-head { align-items: baseline; gap: 12px; }
+.q-head { flex-direction: row; align-items: baseline; gap: 12px; }
 .q-main { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
 .q-set { border: 0; margin: 0; padding: 0; }
 .q-set legend { margin-bottom: 8px; }
@@ -368,7 +368,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
   .clients { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
   .visit div { grid-template-columns: 72px minmax(0, 1fr); }
-  .page-h { grid-template-columns: minmax(0, 1fr); padding: 8px 0 32px; }
+  .page-h { padding: 8px 0 32px; }
+  .page-h p { font-size: 15px; line-height: 24px; }
   .history li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .cta { padding: 48px 0; }
   .cta h2 { font-size: 24px; line-height: 32px; }
