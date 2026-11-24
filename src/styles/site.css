@@ -15,7 +15,6 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 .t-page { font-size: 36px; line-height: 48px; letter-spacing: -.03em; }
 /* 섹션 위 작은 머리말: 짧은 선 + 작은 글씨 */
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; line-height: 20px; font-weight: 600; letter-spacing: 0; color: var(--brand-text); }
-.eyebrow::before { content: ""; width: 20px; height: 1px; background: currentColor; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; } /* 포커스 링은 여기 한 곳에서 */
 .skip { position: absolute; left: -9999px; top: 8px; z-index: 50; background: var(--ink); color: var(--surface); padding: 8px 12px; border-radius: var(--radius-sm); }
 .skip:focus { left: 8px; }
@@ -43,9 +42,8 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 .sec-h-ed .link-more { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
 /* 분야 카드: 번호 · 이름 · 제품 수 */
 .cat-row { display: flex; align-items: baseline; gap: 8px; padding-top: 4px; }
-.cat-no { flex: none; width: 22px; font-size: 13px; font-weight: 600; color: var(--brand-text); }
 .cat-count { margin-left: auto; font-size: 14px; color: var(--ink-muted); }
-.cat-sum { font-size: 14px; padding-left: 32px; }
+.cat-sum { font-size: 14px; }
 /* 카드: 사진과 색상 점 사이 여백, 점끼리 간격, 선택 링이 왼쪽 끝에서 잘리지 않게 */
 .su-card .su-dots { margin-top: 8px; gap: 8px; padding-left: 4px; }
 /* 카드 사진 옆으로 넘기기 */
@@ -56,6 +54,8 @@ main h2 { font-size: 26px; line-height: 36px; letter-spacing: -.025em; }
 .card-pager { position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; gap: 4px; pointer-events: none; }
 .card-pager i { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); opacity: .2; transition: opacity .2s; }
 .card-pager i.on { opacity: .7; }
+/* 마우스 환경: 사진 넘김 점은 카드에 올렸을 때만 */
+@media (hover: hover) and (pointer: fine) { .card-pager { opacity: 0; transition: opacity .2s; } .su-card:hover .card-pager { opacity: 1; } }
 .opt-top { justify-content: space-between; }
 .opt-actions { gap: 8px; }
 .su-btn svg { flex: none; }
@@ -231,7 +231,6 @@ a.su-btn { text-decoration: none; }
 .gal-arrow.prev { left: 12px; } .gal-arrow.next { right: 12px; }
 .gal-main:hover .gal-arrow:not(:disabled), .gal-arrow:focus-visible { opacity: 1; }
 .gal-arrow:disabled { pointer-events: none; }
-.gal-count { position: absolute; right: 12px; bottom: 12px; padding: 4px 8px; border-radius: 999px; background: rgba(43,39,37,.78); color: #fff; font-size: 12px; line-height: 20px; }
 @media (hover: none) { .gal-arrow { display: none; } }
 .opt { display: flex; flex-direction: column; gap: 32px; }
 .opt-head { display: flex; flex-direction: column; gap: 8px; }
@@ -377,7 +376,6 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .sec-h-ed { gap: 8px 16px; padding-top: 16px; margin-bottom: 24px; }
   .sec-h-ed h2 { font-size: 26px; line-height: 36px; }
   .cat-row { gap: 8px; }
-  .cat-sum { padding-left: 32px; }
   .page-h h1 { font-size: 34px; line-height: 44px; }
   .t-page { font-size: 28px; line-height: 36px; }
   .opt-head h1 { font-size: 24px; line-height: 32px; }
@@ -409,12 +407,11 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 a.tel { color: inherit; text-underline-offset: 3px; }
 
 /* 시안 2: 홈 납품 과정 */
-.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: st; border-top: 2px solid var(--ink); }
-.steps li { counter-increment: st; padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 8px; position: relative; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: st; }
+.steps li { counter-increment: st; padding: 0 24px 0 0; display: flex; flex-direction: column; gap: 8px; position: relative; }
 .steps li::before { content: counter(st, decimal-leading-zero); font-size: 13px; font-weight: 700; color: var(--brand-text); font-variant-numeric: tabular-nums; }
 .steps b { font-size: 17px; letter-spacing: -.02em; }
 .steps span { font-size: 14px; color: var(--ink-muted); line-height: 1.55; }
-.sec-eyebrow { display: block; font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--brand-text); margin-bottom: 8px; }
 @media (max-width: 760px) {
   .steps { grid-template-columns: 1fr; border-top: 0; }
   .steps li { padding: 16px 0; border-top: 1px solid var(--line); flex-direction: row; flex-wrap: wrap; column-gap: 12px; }

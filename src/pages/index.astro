@@ -42,7 +42,7 @@ const org = {
     <section class="sec">
       <div class="wrap">
         <div class="sec-h sec-h-ed">
-          <h2><span class="sec-eyebrow">NEW</span>신제품</h2>
+          <h2>신제품</h2>
           <p>새로 디자인한 {news.length}종입니다.</p>
           <a class="link-more" href={u('new/')}>신제품 전체 보기</a>
         </div>
@@ -54,7 +54,7 @@ const org = {
   <section class="sec sec-tight">
     <div class="wrap">
       <div class="sec-h sec-h-ed">
-        <h2><span class="sec-eyebrow">CATEGORY</span>현장별 유니폼</h2>
+        <h2>현장별 유니폼</h2>
         <p>수술실부터 외래, 상담 데스크까지 일하는 자리에 맞춰 나눴습니다.</p>
         <a class="link-more" href={u('products/')}>전체 제품 보기</a>
       </div>
@@ -62,7 +62,7 @@ const org = {
         {categories.map((c, i) => (
           <a class="cat-card" href={u(`products/${c.id}/`)}>
             <Garment hex="#F2F2EE" src={c.image} ratio="43" />
-            <span class="cat-row"><span class="cat-no num">{String(i + 1).padStart(2, '0')}</span><b>{c.name}</b>{countOf(c.id) > 0 && <span class="cat-count num">{countOf(c.id)}종</span>}</span>
+            <span class="cat-row"><b>{c.name}</b>{countOf(c.id) > 0 && <span class="cat-count num">{countOf(c.id)}종</span>}</span>
             <span class="muted cat-sum">{c.summary}</span>
           </a>
         ))}
@@ -73,7 +73,7 @@ const org = {
   <section class="sec sec-tight">
     <div class="wrap">
       <div class="sec-h sec-h-ed">
-        <h2><span class="sec-eyebrow">PROCESS</span>단체 납품 과정</h2>
+        <h2>단체 납품 과정</h2>
         <p>견적부터 생산, 납품까지 직접 진행합니다.</p>
       </div>
       <ol class="steps">

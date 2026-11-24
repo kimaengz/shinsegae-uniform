@@ -69,7 +69,6 @@ p.sizes.forEach((s: string) => {
             </div>
             <button type="button" class="gal-arrow prev" data-gal-step="-1" aria-label="이전 사진" disabled><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
             <button type="button" class="gal-arrow next" data-gal-step="1" aria-label="다음 사진"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
-            <span class="gal-count num" data-gal-count>1 / {g0.length}</span>
           </div>
         </div>
       </div>
@@ -85,7 +84,7 @@ p.sizes.forEach((s: string) => {
         </div>
 
         <div class="su-select" data-color-select>
-          <div class="su-select-label">색상 - <b data-color-name>{c0.name}</b></div>
+          <div class="su-select-label">색상</div>
           <button type="button" class="su-select-btn" aria-haspopup="listbox" aria-expanded="false" data-color-btn>
             <span class="su-thumb" style={`--sw:${c0.hex}`} data-color-thumb></span><span class="su-grow" data-color-name>{c0.name}</span><span class="su-caret" aria-hidden="true"></span>
           </button>
@@ -251,7 +250,6 @@ p.sizes.forEach((s: string) => {
       const n = track.children.length;
       $$('[data-view]').forEach((b, i) => b.setAttribute('aria-pressed', String(i === view)));
       $$('[data-gal-step]').forEach((b) => ((b as HTMLButtonElement).disabled = b.dataset.galStep === '-1' ? view === 0 : view === n - 1));
-      $('[data-gal-count]').textContent = `${view + 1} / ${n}`;
     }
     function goTo(i: number, smooth = true) {
       view = Math.max(0, Math.min(track.children.length - 1, i));
