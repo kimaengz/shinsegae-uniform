@@ -43,6 +43,12 @@ const open = async (url) => {
 const shoot = async (route, file) => {
   await open(`${origin}/${route}`);
   await page.evaluate(() => Promise.all([document.fonts.ready, window.__ready]));
+  // A4 한 장(.sheet)은 넘치는 부분을 숨기므로, 내용이 아래 여백을 넘으면 잘린 채 PDF가 된다 → 빌드를 멈춘다
+  const over = await page.evaluate(() => [...document.querySelectorAll('.sheet')].map((s) => {
+    const box = s.getBoundingClientRect(); const pad = parseFloat(getComputedStyle(s).paddingBottom);
+    return Math.round(Math.max(...[...s.children].map((c) => c.getBoundingClientRect().bottom)) - (box.bottom - pad));
+  }));
+  if (over.some((v) => v > 1)) throw new Error(`${file}: A4 페이지 아래로 내용이 넘칩니다 (${over.join(', ')}px)`);
   await page.pdf({ path: path.join(OUT, file), preferCSSPageSize: true, printBackground: true });
 };
 

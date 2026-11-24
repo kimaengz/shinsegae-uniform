@@ -18,19 +18,17 @@ img { display: block; max-width: 100%; }
 .p-title h1 { font-size: 22pt; line-height: 1.25; letter-spacing: -.035em; margin-top: 1.5mm; }
 .p-title p { color: var(--ink-muted); margin-top: 1.5mm; }
 
-.p-photos { display: grid; grid-template-columns: 2fr 1fr; gap: 3mm; height: 118mm; }
-.p-photos.one { grid-template-columns: 1fr; height: 158mm; }
-/* 한 장일 때는 자르지 않고 전신이 다 보이게 */
-.p-photos.one img { object-fit: contain; object-position: center; }
-/* 사진은 모두 2:3 세로. 칸도 2:3으로 맞춰 자르지 않는다 (높이 158mm 기준) */
-.p-photos.three { grid-template-columns: 105.33mm 51.67mm; height: 158mm; justify-content: center; }
-.p-photos.three .sub { grid-template-rows: repeat(2, 1fr); }
-.p-photos.two { grid-template-columns: repeat(2, 88.5mm); height: 132.75mm; justify-content: space-between; }
-.p-photos.two .sub { grid-template-rows: 1fr; }
-.p-photos .main, .p-photos .sub span { background: var(--img-bg); overflow: hidden; }
+.p-photos { display: flex; justify-content: center; gap: 3mm; flex: 0 1 158mm; min-height: 100mm; }
+/* 사진 칸 높이는 남는 공간에 맞춰 줄어든다(정보 · 푸터가 페이지 밖으로 밀리지 않게).
+   폭은 높이에서 2:3 비율로 정해서 얼굴이 잘리지 않는다 */
+.p-photos .main { height: 100%; aspect-ratio: 2 / 3; background: var(--img-bg); overflow: hidden; }
+.p-photos.one .main img { object-fit: contain; }
+.p-photos .sub { height: 100%; display: grid; gap: 3mm; min-height: 0; }
+.p-photos.three .sub { grid-template-rows: repeat(2, minmax(0, 1fr)); aspect-ratio: 51.67 / 158; }
+.p-photos.two { flex-basis: 132.75mm; }
+.p-photos.two .sub { grid-template-rows: minmax(0, 1fr); aspect-ratio: 2 / 3; }
+.p-photos .sub span { min-height: 0; background: var(--img-bg); overflow: hidden; }
 .p-photos img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.p-photos .sub { display: grid; grid-template-rows: repeat(3, 1fr); gap: 3mm; min-height: 0; }
-.p-photos .sub span { min-height: 0; }
 
 .p-info { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10mm; margin-top: 7mm; }
 .p-info dl > div { display: grid; grid-template-columns: 22mm 1fr; gap: 3mm; padding: 2.6mm 0; border-bottom: 1px solid var(--line); }
