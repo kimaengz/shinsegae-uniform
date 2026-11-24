@@ -156,7 +156,8 @@ a.trust-sub { color: var(--brand-text); }
 .about-statement { grid-column: 1 / -1; font-size: clamp(24px, 2.8vw, 36px); line-height: 1.3; font-weight: 700; letter-spacing: -.04em; max-width: 22em; }
 .about-photo { grid-column: 1; grid-row: 2; }
 .about-body { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; justify-content: flex-end; gap: 24px; }
-.about-body p.muted { font-size: 17px; line-height: 1.75; }
+.about-greeting { display: flex; flex-direction: column; gap: 16px; }
+.about-greeting p { font-size: 16px; line-height: 28px; color: var(--ink-muted); }
 .about-sign { font-size: 14px; color: var(--ink-muted); }
 .about-sign b { font-size: 18px; color: var(--ink); margin-left: 8px; letter-spacing: .02em; }
 .about-secs { display: flex; flex-direction: column; gap: 96px; padding-bottom: 24px; }
@@ -185,7 +186,7 @@ a.trust-sub { color: var(--brand-text); }
 .split .history { border-top: 0; }
 .split .history li:first-child { padding-top: 0; }
 .history { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-.history li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.history li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .history li > span:first-child { font-weight: 600; color: var(--brand-text); }
 .cat-card { display: flex; flex-direction: column; gap: 8px; color: var(--ink); text-decoration: none; }
 /* 제품 사진은 각지게: 둥근 사진 카드는 앱 템플릿 느낌이 강하다 */
@@ -377,7 +378,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .clients li:nth-child(3) { padding-top: 16px; }
   .visit div { grid-template-columns: 72px minmax(0, 1fr); }
   .page-h { grid-template-columns: minmax(0, 1fr); padding: 8px 0 32px; }
-  .history li { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
+  .history li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .cta { padding: 48px 0; }
   .cta h2 { font-size: 24px; line-height: 32px; }
   .cta-sec { margin-top: 56px; }
