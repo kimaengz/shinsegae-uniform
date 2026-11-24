@@ -356,7 +356,7 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .hero-photo { min-height: 0; aspect-ratio: 4 / 3; }
   .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
   .hero-title { font-size: 34px; line-height: 44px; }
-  .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 16px; margin-top: var(--space-2); padding-top: var(--space-4); }
+  .hero-stats { grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 0 12px; margin-top: var(--space-2); padding-top: var(--space-4); }
   .hero-stats dt { font-size: 16px; line-height: 24px; white-space: normal; }
   .hero-stats dd { font-size: 12px; line-height: 16px; }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
