@@ -352,11 +352,15 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .sec-tight { padding-top: 0; }
   .nav { display: none; }
   .m-only { display: inline-flex !important; }
-  .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
-  .hero-photo { min-height: 0; aspect-ratio: 4 / 3; }
-  .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
+  /* 모바일 순서: 소개 · 견적문의 → 사진 → 신뢰 지표 (.hero-copy를 풀어서 사진을 사이에 끼운다) */
+  .hero { display: flex; flex-direction: column; min-height: 0; }
+  .hero-copy { display: contents; }
+  .hero-copy > * { margin-inline: var(--space-4); }
+  .hero-copy > .eyebrow { margin-top: var(--space-8); }
+  .hero-title, .hero-copy .lead, .hero-actions { margin-top: var(--space-6); }
+  .hero-photo { order: 1; min-height: 0; aspect-ratio: 4 / 3; margin-top: var(--space-8); }
   .hero-title { font-size: 34px; line-height: 44px; }
-  .hero-stats { grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 0 12px; margin-top: var(--space-2); padding-top: var(--space-4); }
+  .hero-stats { order: 2; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 0 12px; margin-block: 0; padding-block: var(--space-6) var(--space-8); border-top: 0; }
   .hero-stats dt { font-size: 16px; line-height: 24px; white-space: normal; }
   .hero-stats dd { font-size: 12px; line-height: 16px; }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
