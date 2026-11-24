@@ -16,7 +16,7 @@ const { site, categories } = data();
 const cat = categories.find((c) => c.id === p.category);
 // 사진: 썸네일(대표 사진) 풀샷 + 옆에 세로 사진 2장(다른 색 앞면 먼저, 없으면 기본 색의 다른 사진)
 // 칸을 사진과 같은 2:3 세로로 잡아 얼굴이 잘리지 않게 한다. 넣을 사진이 없으면 대표 사진 한 장만.
-const photo = p.thumb || 'images/placeholder.png';
+const photo = p.thumb;
 const isPh = (src: string) => !src || src.includes('placeholder');
 const extras = [...new Set([
   ...p.colors.slice(1).map((c: any) => p.gallery[c.slug]?.[0]?.src),

@@ -25,7 +25,7 @@ const guide = ownCharts.length ? ownCharts : sizeGuide;
 const tiers = [['10~49벌', p.prices[0]], ['50~99벌', p.prices[1]], ['100벌 이상', p.prices[2]]];
 const sizeTable = sizeTables[p.code];
 // 상세 이미지: 크기를 미리 알려 줘서 불러오는 동안 화면이 밀리지 않게. 없으면 기본 사진 한 장
-const detailImgs = (p.details.length ? p.details : ['images/placeholder.png']).map((src: string) => ({ src, w: 720, ...imageSize(src) }));
+const detailImgs = p.details.map((src: string) => ({ src, w: 720, ...imageSize(src) }));
 const sizeParts = sizeTable ? Object.entries(sizeTable as Record<string, any[]>) : null;
 // 자수 종류: [종류, 제목, 안내, 처음에 켜 둘지]
 const embKinds: ['logo' | 'name', string, string, boolean][] = [
