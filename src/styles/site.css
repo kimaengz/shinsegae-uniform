@@ -135,19 +135,16 @@ a.su-btn { text-decoration: none; }
 .hero-copy { display: flex; flex-direction: column; justify-content: center; gap: var(--space-6); padding: var(--space-18) var(--space-12) var(--space-18) max(var(--space-8), calc((100cqw - var(--container-max)) / 2 + var(--space-8))); }
 .hero-title { font-size: clamp(36px, 3.9vw, 56px); line-height: 1.18; letter-spacing: -.04em; font-weight: 800; }
 .hero-copy .lead { color: var(--ink-muted); max-width: 26em; font-size: 17px; line-height: 1.65; }
+/* 신뢰 지표: 히어로 안 숫자 줄 (별도 띠 대신) */
+.hero-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 0 32px; margin: var(--space-2) 0 0; padding-top: var(--space-6); border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.hero-stats div { display: flex; flex-direction: column; gap: 4px; }
+.hero-stats dt { font-size: 20px; line-height: 28px; font-weight: 800; letter-spacing: -.03em; color: var(--ink); white-space: nowrap; }
+.hero-stats dd { margin: 0; font-size: 13px; line-height: 20px; color: var(--ink-muted); }
 .hero-photo { position: relative; background: var(--hero-bg); min-height: 600px; overflow: hidden; }
 /* 사진 배경이 아이보리와 같아서, 잘리지 않게 통째로 넣고 아래쪽에 붙인다 */
 .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
 .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-.trust-band { padding: var(--space-8) 0 0; background: var(--surface); }
-.trust-band .su-caption { color: var(--brand-text); font-weight: 700; }
 /* 신뢰 지표: 둥근 상자 대신 가는 선으로 나눈 한 줄 (연혁 · 표와 같은 언어) */
-.trust { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--space-6); }
-.trust-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.trust > div { padding: 4px 0 4px 24px; display: flex; flex-direction: column; gap: 8px; border-left: 1px solid var(--line); }
-.trust-sub { font-size: 14px; color: var(--ink-muted); }
-a.trust-sub { color: var(--brand-text); }
-.trust strong { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; font-weight: 800; letter-spacing: -.035em; }
 .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-8) var(--space-6); }
 .cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 회사소개: 핵심 경쟁력 · 연혁 */
@@ -345,7 +342,6 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 .clients span { font-size: 13px; line-height: 20px; }
 /* 태블릿 폭: 신뢰 지표 4칸이 좁아 글자가 접히므로 2칸씩 (3칸일 때는 그대로) */
 @media (min-width: 761px) and (max-width: 960px) {
-  .trust:not(.trust-3) { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 24px; }
 }
 @media (max-width: 760px) {
   :root { --gutter: 16px; }
@@ -358,11 +354,9 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .hero-photo { min-height: 0; aspect-ratio: 4 / 3; }
   .hero-copy { padding: var(--space-8) var(--space-4) 40px; }
   .hero-title { font-size: 34px; line-height: 44px; }
-  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
-  .trust > div { padding-top: 16px; }
-  .trust strong { font-size: 22px; line-height: 28px; }
-  .trust-3 > div:last-child { grid-column: 1 / -1; }
-  .trust-band { padding-top: var(--space-6); }
+  .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 16px; margin-top: var(--space-2); padding-top: var(--space-4); }
+  .hero-stats dt { font-size: 16px; line-height: 24px; white-space: normal; }
+  .hero-stats dd { font-size: 12px; line-height: 16px; }
   .cards, .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-3); }
   .strengths { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .about-intro { grid-template-columns: minmax(0, 1fr); padding-bottom: 56px; gap: 24px; }
@@ -414,7 +408,6 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
 
 a.tel { color: inherit; text-underline-offset: 3px; }
 
-.trust > div:first-child { padding-left: 0; border-left: 0; }
 /* 시안 2: 홈 납품 과정 */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: st; border-top: 2px solid var(--ink); }
 .steps li { counter-increment: st; padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 8px; position: relative; }
@@ -426,7 +419,6 @@ a.tel { color: inherit; text-underline-offset: 3px; }
   .steps { grid-template-columns: 1fr; border-top: 0; }
   .steps li { padding: 16px 0; border-top: 1px solid var(--line); flex-direction: row; flex-wrap: wrap; column-gap: 12px; }
   .steps li span { flex-basis: 100%; padding-left: 32px; }
-  .trust > div, .trust > div:first-child { border-left: 0; border-top: 1px solid var(--line); padding: 16px 0 0; }
   /* 사이즈 13칸: 휴대폰에선 ± 버튼 대신 숫자 칸 4열 (숫자 키패드로 바로 입력) */
   .qty-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .su-qty { flex-direction: column; align-items: stretch; gap: 4px; min-height: 0; padding: 8px 4px 4px; }

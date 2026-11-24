@@ -19,25 +19,22 @@ const org = {
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(org)} />
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow"><span>{site.founded}년부터 대구에서 직접 만듭니다</span></p>
+      <p class="eyebrow"><span>대구 메디컬 유니폼 제조사</span></p>
       <h1 class="hero-title">병원 현장을 위한<br />메디컬 유니폼</h1>
       <p class="lead">스크럽부터 가운, 환자복까지. 병원 로고 자수와 색상을 맞춰 단체로 납품합니다.</p>
       <div class="row hero-actions">
         <a class="su-btn su-btn-primary" href={u('quote/')}>견적문의</a>
         <a class="link-more link-lg" href={u('products/')}>제품 둘러보기</a>
       </div>
+      <dl class="hero-stats" aria-label="회사 신뢰 정보">
+        <div><dt class="num">{site.founded}</dt><dd>설립</dd></div>
+        <div><dt>100% 직접 제조</dt><dd>기획부터 검수까지</dd></div>
+        <div><dt>나라장터 등록</dt><dd>여성기업 인증</dd></div>
+      </dl>
     </div>
     <div class="hero-photo">
       <!-- 모델 착용 사진: public/images/hero.jpg|png|webp (가로형 4:3, 배경 #F8F2ED — .hero의 --hero-bg와 같게) -->
       <img src={u(siteImage('hero'))} alt="" fetchpriority="high" />
-    </div>
-  </section>
-
-  <section class="trust-band" aria-label="회사 신뢰 정보">
-    <div class="wrap trust trust-3">
-      <div><span class="su-caption">설립</span><strong class="num">{site.founded}</strong><span class="trust-sub">메디컬 유니폼 한 분야</span></div>
-      <div><span class="su-caption">생산</span><strong>100% 직접 제조</strong><span class="trust-sub">기획 · 디자인 · 생산 · 검수</span></div>
-      <div><span class="su-caption">공공 조달</span><strong>나라장터 등록</strong><span class="trust-sub">여성기업 · 직접생산확인</span></div>
     </div>
   </section>
 
