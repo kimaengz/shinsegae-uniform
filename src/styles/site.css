@@ -159,8 +159,8 @@ a.su-btn { text-decoration: none; }
 .about-greeting p { font-size: 16px; line-height: 28px; color: var(--ink-muted); }
 .about-sign { font-size: 14px; color: var(--ink-muted); }
 .about-sign b { font-size: 18px; color: var(--ink); margin-left: 8px; letter-spacing: .02em; }
-.about-secs { display: flex; flex-direction: column; gap: 96px; padding-bottom: 72px; }
-.split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px 48px; padding-top: 24px; border-top: 1px solid var(--line); }
+.about-secs { display: flex; flex-direction: column; gap: 80px; padding-bottom: 72px; }
+.split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px 48px; padding-top: 40px; border-top: 1px solid var(--line); }
 .split h2 { font-size: 26px; line-height: 36px; }
 .split-desc { margin-top: 8px; font-size: 15px; }
 .idx { font-size: 13px; font-weight: 600; color: var(--brand-text); }
@@ -363,8 +363,8 @@ dialog.modal::backdrop { background: rgba(26, 23, 23, .45); }
   .about-intro { grid-template-columns: minmax(0, 1fr); padding-bottom: 56px; gap: 24px; }
   .about-photo, .about-body { grid-column: 1; grid-row: auto; }
   .about-photo { margin-inline: calc(var(--space-4) * -1); }
-  .about-secs { gap: 56px; }
-  .split { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 16px; }
+  .about-secs { gap: 48px; }
+  .split { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-top: 24px; }
   .split h2 { font-size: 22px; line-height: 32px; }
   .process { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
