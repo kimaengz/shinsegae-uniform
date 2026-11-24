@@ -768,31 +768,6 @@
    ]
   ]
  },
- "F03": {
-  "color": "wine",
-  "files": [
-   [
-    "F03_front.png",
-    1794294675
-   ],
-   [
-    "F03_back.png",
-    1794241826
-   ],
-   [
-    "F03_side.png",
-    1794241885
-   ],
-   [
-    "F03_detail_neck.png",
-    1794144360
-   ],
-   [
-    "F03_detail_texture.png",
-    1794147387
-   ]
-  ]
- },
  "F04": {
   "color": "light-blue",
   "files": [

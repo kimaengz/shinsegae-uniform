@@ -98,7 +98,7 @@ p.sizes.forEach((s: string) => {
 
         <div class="blk">
           <div class="blk-h">
-            <h2>참고 단가 <span class="su-caption">1벌 · VAT 별도</span></h2>
+            <h2>참고 단가 {p.isPublic && <span class="su-caption">1벌 · VAT 별도</span>}</h2>
             <button type="button" class="su-btn su-btn-ghost su-btn-sm link-btn" data-size-open>사이즈 안내</button>
           </div>
           {p.isPublic && !p.tiered ? (
