@@ -432,3 +432,5 @@ a.tel { color: inherit; text-underline-offset: 3px; }
 .q-set .su-chip { width: 100%; }
 /* 신제품 묶음에서는 NEW 배지가 모두 같아 생략 */
 .cards-new .badge { display: none; }
+
+.q-sending { text-align: center; }

@@ -82,6 +82,7 @@ const client = {
           <span class="su-hint" data-s-note>확정 금액은 상담 후 견적서로 안내합니다.</span>
         </div>
         <button type="button" class="su-btn su-btn-primary su-btn-full" data-submit>견적 요청 보내기</button>
+        <p class="su-hint q-sending" data-sending role="status" hidden>메일로 보내는 중입니다. 최대 1분 정도 걸릴 수 있으니 창을 닫지 말고 기다려 주세요.</p>
         <button type="button" class="su-btn su-btn-secondary su-btn-full" data-pdf hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-pdf-label>담은 제품 소개서 PDF</span></button>
         <a class="panel-more" href={u('products/')}>제품 더 담기</a>
       </aside>
@@ -257,6 +258,7 @@ const client = {
       if (errs.length) { const first = document.getElementById(errs[0][0])!; first.focus(); first.scrollIntoView({ block: 'center' }); return; }
       if ((form.elements.namedItem('website') as HTMLInputElement).value) return; // 스팸 함정
       submit.disabled = true; submit.textContent = '보내는 중…';
+      const sending = $('[data-sending]'); if (Q.mail) sending.hidden = false;
       const now = new Date();
       const pad = (n: number) => String(n).padStart(2, '0');
       const id = `Q-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
@@ -306,7 +308,7 @@ const client = {
           sent = true;
         }
       } catch {
-        submit.disabled = false; submit.textContent = '견적 요청 보내기';
+        submit.disabled = false; submit.textContent = '견적 요청 보내기'; sending.hidden = true;
         alertBox.textContent = `견적을 보내지 못했습니다. 입력한 내용은 그대로 있습니다. 다시 시도하거나 ${Q.phone}로 전화해 주세요.`;
         alertBox.hidden = false; alertBox.scrollIntoView({ block: 'center' });
         return;
