@@ -70,14 +70,6 @@ function doPost(e) {
       body: summary + (logoUrl ? `\n\n로고 파일: ${logoUrl}` : '') + `\n\n시트: ${SpreadsheetApp.openById(props.getProperty('SHEET_ID')).getUrl()}`,
       replyTo: q.email || STAFF_EMAIL
     });
-    if (q.email) {
-      MailApp.sendEmail({
-        to: q.email,
-        subject: `[${COMPANY}] 견적 요청이 접수되었습니다 (${q.id})`,
-        body: `${q.name}님, 견적 요청을 받았습니다. 담당자가 확인 후 연락드리겠습니다.\n\n${summary}\n\n${COMPANY}`,
-        name: COMPANY
-      });
-    }
     return text('ok');
   } catch (err) {
     console.error(err);

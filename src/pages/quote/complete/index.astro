@@ -33,7 +33,7 @@ const { site } = data();
     try { q = JSON.parse(sessionStorage.getItem('su-last-quote') || 'null'); } catch { q = null; }
     if (q) {
       const meta = document.querySelector('[data-c-meta]')!;
-      meta.textContent = `접수 번호 ${q.id} · ${q.org}` + (q.email && q.sent ? ` · ${q.email}로 확인 메일을 보냈습니다.` : '');
+      meta.textContent = `접수 번호 ${q.id} · ${q.org}`;
       (document.querySelector('[data-c-test]') as HTMLElement).hidden = q.sent;
       if (q.items?.length) {
         (document.querySelector('[data-c-table]') as HTMLElement).hidden = false;
