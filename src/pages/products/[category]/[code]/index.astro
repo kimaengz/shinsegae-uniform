@@ -171,22 +171,21 @@ p.sizes.forEach((s: string) => {
       </div>
     </div>
 
-    <section class="sec" style="padding-bottom:0">
-      <div class="sec-h"><h2>제품 정보</h2></div>
-      <table class="spec"><tbody>
-        <tr><th scope="row">구성</th><td>{p.type}</td></tr>
-        <tr><th scope="row">사이즈</th><td>{p.sizeText}</td></tr>
-        {p.material && <tr><th scope="row">소재</th><td>{p.material}</td></tr>}
-        {p.function && <tr><th scope="row">기능</th><td>{p.function}</td></tr>}
-        {p.care && <tr><th scope="row">세탁</th><td>{p.care}</td></tr>}
-        <tr><th scope="row">맞춤</th><td>{p.embroidery.length ? `로고 자수 · 이름 자수 (${p.embroidery.join(', ')}) · ` : ''}색상 변경 상담</td></tr>
-      </tbody></table>
-    </section>
-
     <section class="detail-imgs" aria-labelledby="detail-title">
       <h2 id="detail-title">상세 정보</h2>
       <div class="stack">
         {detailImgs.map((d, i) => <img src={u(d.src)} alt={p.details.length ? `${p.name} 상세 이미지 ${i + 1}` : ''} loading="lazy" width={d.w} height={d.h} />)}
+      </div>
+      <div class="detail-spec">
+        <h2>제품 정보</h2>
+        <table class="spec"><tbody>
+          <tr><th scope="row">구성</th><td>{p.type}</td></tr>
+          <tr><th scope="row">사이즈</th><td>{p.sizeText}</td></tr>
+          {p.material && <tr><th scope="row">소재</th><td>{p.material}</td></tr>}
+          {p.function && <tr><th scope="row">기능</th><td>{p.function}</td></tr>}
+          {p.care && <tr><th scope="row">세탁</th><td>{p.care}</td></tr>}
+          <tr><th scope="row">맞춤</th><td>{p.embroidery.length ? `로고 자수 · 이름 자수 (${p.embroidery.join(', ')}) · ` : ''}색상 변경 상담</td></tr>
+        </tbody></table>
       </div>
     </section>
 
