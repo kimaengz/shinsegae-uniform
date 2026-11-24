@@ -14,7 +14,8 @@ export function getStaticPaths() {
 const { id } = Astro.params;
 const { site, categories, products } = data();
 const cat = categories.find((c) => c.id === id);
-const list = id === 'selection' ? [] : products.filter((p) => !cat || p.category === cat.id);
+const picked = id === 'selection' ? [] : products.filter((p) => !cat || p.category === cat.id);
+const list = [...picked.filter((p) => p.isNew), ...picked.filter((p) => !p.isNew)]; // 신제품 먼저 (PDF 순서와 같게)
 const title = id === 'all' ? '제품 카탈로그' : id === 'selection' ? '선택 제품 소개서' : `${cat.name} 카탈로그`;
 const lead = id === 'selection'
   ? '견적함에 담으신 제품의 소개서입니다. 단가는 수량 · 자수 · 옵션에 맞춰 견적서로 안내합니다.'
@@ -41,7 +42,7 @@ const hasPhone = /\d/.test(site.phone);
       <p>{lead}</p>
     </div>
     {photo && <span class="cover-img"><img src={u(photo)} alt="" /></span>}
-    {list.length > 0 && <ul class="cover-list">{list.map((p) => <li><span class="num">{p.code}</span><span>{p.name}</span></li>)}</ul>}
+    {list.length > 0 && <ul class="cover-list">{list.map((p) => <li><span class="num">{p.code}</span><span>{p.name}{p.isNew && <b class="new"> NEW</b>}</span></li>)}</ul>}
     <footer class="sheet-ft">
       <div>
         <b>{site.companyName}</b> · 대표 {site.ceo}{site.businessNumber && ` · 사업자등록번호 ${site.businessNumber}`}<br />

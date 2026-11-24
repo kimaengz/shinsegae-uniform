@@ -31,6 +31,8 @@ await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const origin = `http://127.0.0.1:${server.address().port}${BASE}`;
 
 const { products, categories } = data();
+// 카탈로그 순서: 신제품을 표지 바로 뒤에 (사이트 제품 목록과 같게)
+const newFirst = (list) => [...list.filter((p) => p.isNew), ...list.filter((p) => !p.isNew)];
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage();
@@ -81,8 +83,8 @@ const merge = async (file, parts) => {
   }
   fs.writeFileSync(path.join(OUT, file), await doc.save());
 };
-for (const c of categories) await merge(`category-${c.id}.pdf`, [`cover-${c.id}.pdf`, ...products.filter((p) => p.category === c.id).map((p) => `${p.code}.pdf`)]);
-await merge('all.pdf', ['cover-all.pdf', ...products.map((p) => `${p.code}.pdf`)]);
+for (const c of categories) await merge(`category-${c.id}.pdf`, [`cover-${c.id}.pdf`, ...newFirst(products.filter((p) => p.category === c.id)).map((p) => `${p.code}.pdf`)]);
+await merge('all.pdf', ['cover-all.pdf', ...newFirst(products).map((p) => `${p.code}.pdf`)]);
 
 // 소개서용 HTML은 PDF를 만들 때만 필요하다. 배포본에서는 지워 검색 · 직접 접속에 노출되지 않게
 fs.readdirSync(path.join(DIST, 'catalog')).filter((f) => f !== 'pdf').forEach((f) => fs.rmSync(path.join(DIST, 'catalog', f), { recursive: true }));

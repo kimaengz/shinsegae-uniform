@@ -44,7 +44,7 @@ const rowsRight: [string, string][] = [
   <section class="sheet">
     <header class="sheet-hd"><Logo /><span>제품 소개서 · {issued()}</span></header>
     <div class="p-title">
-      <span class="p-meta">{cat.name} · {p.code}</span>
+      <span class="p-meta">{p.isNew && 'NEW · '}{cat.name} · {p.code}</span>
       <h1>{p.name}</h1>
       {isReal(p.summary) && <p>{p.summary}</p>}
     </div>

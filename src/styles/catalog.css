@@ -57,4 +57,5 @@ img { display: block; max-width: 100%; }
 .cover-body p { color: var(--ink-muted); font-size: 11pt; max-width: 120mm; }
 .cover-list { margin-top: 10mm; columns: 2; column-gap: 10mm; font-size: 9.5pt; list-style: none; border-top: 1px solid var(--line); padding-top: 4mm; }
 .cover-list li { break-inside: avoid; padding: 1.2mm 0; display: flex; gap: 3mm; }
+.cover-list .new { color: var(--brand); font-size: 8pt; letter-spacing: .04em; }
 .cover-list .num { color: var(--brand); font-weight: 600; width: 9mm; flex: none; }
